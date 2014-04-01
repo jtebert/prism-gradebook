@@ -1,0 +1,62 @@
+PRISM
+
+FIELDS
+
+METHODS
+
+--------------------------------------------------------------------------------
+
+MyGradeBook
+
+FIELDS
+courseName : String
+students : ArrayList<Student>
+assignments : ArrayList<Assignment>
+
+METHODS
+public static MyGradeBook initialize()
+public static MyGradeBook initializeWithFile(String filename)
+public static MyGradeBook initializeWithString(
+            String startingString)
+public void processFile(String filename)
+public void processString(String additionalString)
+public boolean changeGrade(String assignmentName,
+            String username, double newGrade)
+public double average(String assignmentName)
+public double median(String assignmentName)
+public double min(String assignmentName)
+public double max(String assignmentName)
+public double currentGrade(String username)
+public HashMap<String, Double> currentGrades()
+public double assignmentGrade(String assignmentName,
+            String username)
+public String outputCurrentGrades()
+public String outputStudentGrades(String username)
+public String outputAssignmentGrades(String assignName)
+public String outputGradebook()
+
+--------------------------------------------------------------------------------
+
+Student
+
+FIELDS
+username : String
+firstName : String
+lastName : String
+advisor : String
+gradYear : Integer
+
+METHODS
+
+--------------------------------------------------------------------------------
+
+Assignment
+
+FIELDS
+name : String
+totalPoints : Double
+percentGrade : Double
+
+METHODS
+
+--------------------------------------------------------------------------------
