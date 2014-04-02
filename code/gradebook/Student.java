@@ -55,7 +55,14 @@ class Student {
      */
     Double assignmentGrade(String assignmentName) {
         // Find the assignment in the student's grades
+        Set<String> names = this.grades.keySet();
+        for (String name : names) {
+            if (name.equals(assignmentName)) {
+                return this.grades.get(name);
+            }
+        }
         // (error if no such assignment)
+        throw new NoSuchElementException();
     }
     
     /**
