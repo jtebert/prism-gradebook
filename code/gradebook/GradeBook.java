@@ -120,9 +120,32 @@ class MyGradeBook {
     public boolean changeGrade(String assignmentName,
             String username, double newGrade) {
         // Find the Student by username
+        int studentIndex = -1;
+        for (int i = 0; i < this.students.size(); i++) {
+            if (this.students.get(i).username == username) {
+                studentIndex = i;
+                break;
+            }
+        }
         // (error if no such student)
         // Find the assignment and set the grade
+        int assignmentIndex = -1;
+        for (int j = 0; j < this.assignments.size(); j++) {
+            if (this.assignments.get(j).name == assignmentName) {
+                assignmentIndex = j;
+                break;
+            }
+        }
         // (error if no such assignment)
+        if (studentIndex != -1 && assignmentIndex != -1) {
+            Student studentFound = this.students.get(studentIndex);
+            studentFound.grades.remove(assignmentName);
+            studentFound.grades.put(assignmentName, newGrade);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
