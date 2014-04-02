@@ -139,7 +139,6 @@ class MyGradeBook {
         // (error if no such assignment)
         if (studentIndex != -1 && assignmentIndex != -1) {
             Student studentFound = this.students.get(studentIndex);
-            studentFound.grades.remove(assignmentName);
             studentFound.grades.put(assignmentName, newGrade);
             return true;
         }
@@ -156,8 +155,15 @@ class MyGradeBook {
      * @return the average across all students for assignmentName
      */
     public double average(String assignmentName) {
-        // Get ArrayList of grades from assignmentGrades
-        // Get average of ArrayList
+        // For each student, sum the grade they received for the given assignment
+        double pointSum = 0;
+        double assignmentCount = 0;
+        for (Student s : this.students) {
+            pointSum = pointSum + s.assignmentGrade(assignmentName);
+            assignmentCount = assignmentCount + 1;
+        }
+        // Get average grade
+        return pointSum / assignmentCount;
     }
 
     /**
