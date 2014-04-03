@@ -175,7 +175,19 @@ class MyGradeBook {
      */
     public double median(String assignmentName) {
         // Get ArrayList of grades from assignmentGrades
+        ArrayList<Double> grades = new ArrayList<Double>();
+        for (Student s : this.students) {
+            grades.add(s.assignmentGrade(assignmentName));
+        }
+        Collections.sort(grades);
         // Find the median of ArrayList
+        int gradesCount = grades.size();
+        if (gradesCount % 2 == 0) {
+            return (grades.get((gradesCount - 1) / 2) + grades.get(gradesCount / 2)) / 2;
+        }
+        else {
+            return grades.get(gradesCount / 2);
+        }
     }
 
     /**
@@ -187,7 +199,23 @@ class MyGradeBook {
      */
     public double min(String assignmentName) {
         // Get ArrayList of grades from assignmentGrades
+        ArrayList<Double> grades = new ArrayList<Double>();
+        for (Student s : this.students) {
+            grades.add(s.assignmentGrade(assignmentName));
+        }
         // Find minimum of ArrayList
+        if (grades.size() == 0) {
+            return 0;
+        }
+        else {
+            double min = grades.get(0);
+            for (Double d : grades) {
+                if (d < min) {
+                    min = d;
+                }
+            }
+            return min;
+        }
     }
 
     /**
@@ -199,7 +227,23 @@ class MyGradeBook {
      */
     public double max(String assignmentName) {
         // Get ArrayList of grades from assignmentGrades
-        // Find the maximum of ArrayList
+        ArrayList<Double> grades = new ArrayList<Double>();
+        for (Student s : this.students) {
+            grades.add(s.assignmentGrade(assignmentName));
+        }
+        // Find maximum of ArrayList
+        if (grades.size() == 0) {
+            return 0;
+        }
+        else {
+            double max = grades.get(0);
+            for (Double d : grades) {
+                if (d > max) {
+                    max = d;
+                }
+            }
+            return max;
+        }
     }
 
     /**
@@ -240,6 +284,11 @@ class MyGradeBook {
      */
     public HashMap<String, Double> currentGrades() {
         // Use currentGrade for each Student, add to hashMap on each loop
+        HashMap<String, Double> result = new HashMap<String, Double>();
+        for (Student s : this.students) {
+            result.put(s.username, this.currentGrade(s.username));
+        }
+        return result;
     }
 
     /**
@@ -253,14 +302,20 @@ class MyGradeBook {
      */
     public double assignmentGrade(String assignmentName, String username) {
         // Find the Student in ArrayList
+        for (Student s : this.students) {
+            if (s.username.equals(username)) {
+                return s.assignmentGrade(assignmentName);
+            }
+        }
         // (error if no such student)
         // use student.assignmentGrade(assignmentName) to get grade
+        throw new NoSuchElementException();
     }
     
     /**
      * Get the grades of all students for an assignment
      */
-    HashMap<String, Double> assignmentGrades() {
+    HashMap<String, Double> assignmentGrades(String assignmentName) {
         // For each Student, find the Assignment and get the grade
         // (Create HashMap with username and grade)
         // (error if no such assignment)
