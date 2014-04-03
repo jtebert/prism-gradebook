@@ -304,11 +304,11 @@ class MyGradeBook {
         // Find the Student in ArrayList
         for (Student s : this.students) {
             if (s.username.equals(username)) {
+                // use student.assignmentGrade(assignmentName) to get grade
                 return s.assignmentGrade(assignmentName);
             }
         }
         // (error if no such student)
-        // use student.assignmentGrade(assignmentName) to get grade
         throw new NoSuchElementException();
     }
     
@@ -317,6 +317,11 @@ class MyGradeBook {
      */
     HashMap<String, Double> assignmentGrades(String assignmentName) {
         // For each Student, find the Assignment and get the grade
+        HashMap<String, Double> grades = new HashMap<String, Double>();
+        for (Student s : this.students) {
+            grades.put(s.username, s.assignmentGrade(assignmentName));
+        }
+        return grades;
         // (Create HashMap with username and grade)
         // (error if no such assignment)
     }
