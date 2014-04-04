@@ -71,6 +71,14 @@ class Student {
      */
     String outputGrades() {
         // Add student info to String
+        String output = this.username + "\t" + this.firstName + "\t" + this.lastName + "\t" +
+            this.advisor + "\t" + this.gradYear;
+        Set<String> assignments = this.grades.keySet();
+        Collections.sort(assignments);
         // Loop through grades and add scores to String
+        for (String s : assignments) {
+            output = "\t" + this.grades.get(s);
+        }
+        return output;
     }
 }
