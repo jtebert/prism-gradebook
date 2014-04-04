@@ -338,8 +338,20 @@ class MyGradeBook {
      */
     public String outputCurrentGrades() {
         // Add current grades heading and \n
+        String output = "CURRENT_GRADES\n";
         // Get grades with currentGrades()
+        HashMap<String, Double> grades = this.currentGrades();
         // Add line for each element in hashMap
+        Set<String> names = grades.keySet();
+        Iterator<String> nameIter = names.iterator();
+        while (namesIter.hasNext()) {
+            String student = namesIter.next();
+            output = output + student + "\t" + grades.get(student);
+            if (nameIter.hasNext()) {
+                output = output + "\n";
+            }
+        }
+        return output;
     }
 
     /**
@@ -354,8 +366,27 @@ class MyGradeBook {
      */
     public String outputStudentGrades(String username) {
         // Add header
+        Student targetStudent = null;
+        for (Student s : this.students) {
+            if (s.username.equals(username) {
+                targetStudent = s;
+                break;
+            }
+        }
+        if (targetStudent == null) {
+            throw new NoSuchElementException();
+        }
+        String output = "STUDENT_GRADES\n" + targetStudent.username + "\n" +
+            targetStudent.firstName + "\n" + targetStudent.lastName + "\n" +
+            targetStudent.advisor + "\n" + targetStudent.gradYear + "\n----\n";
         // Add info about assignments (with correct number of preceeding tabs)
+        HashMap<String, Double> targetGrades = targetStudent.grades;
+        Set<String> assignmentNames = targetGrades.keySet();
+        for (String name : assignmentNames) {
+            output = output + name + "\t" + targetGrades.get(name) + "\n";
+        }
         // Find student and add student.outputGrades() to String
+        output = output + "----\nCURRENT GRADE\t" + this.currentGrade(username);
     }
 
     /**
