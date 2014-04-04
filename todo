@@ -1,9 +1,74 @@
 TODO:
 
-Fix design to match requirements from class
+--------------------------------------------------------------------------------
 
-Create classes
+-> ui package <-
 
-Methods
+PRISM
+has access to stuff in Extension class (because same package)
 
-Tests
+Extension
+extends MyGradeBook
+
+----------------------------------
+
+-> gradebook package <-
+
+MyGradeBook
+has protected ArrayList methods
+
+--------------------------------------------------------------------------------
+
+DIVISION OF LABOR:
+
+- updated design/requirements document? (after/on Sunday)
+
+Matthew:
+-----------
+-black box testing
+public void addStudent [requires sorting]
+public void removeStudent(Student student)
+public void addAssignment(String assignmentName, Double totalPoints, Double percent)
+public void removeAssignment(assignment)
+
+Jimmy:
+-----------
+- UML
+- gradebook processing/output methods (+ whitebox tests)
+public boolean changeGrade(String assignmentName, String username, double newGrade)
+public double average(String assignmentName)
+public double median(String assignmentName)
+public double min(String assignmentName)
+public double max(String assignmentName)
+public double currentGrade(String username)
+public HashMap<String, Double> currentGrades()
+public double assignmentGrade(String assignmentName,
+            String username)
+public String outputCurrentGrades()
+public String outputStudentGrades(String username)
+public String outputAssignmentGrades(String assignName)
+public String outputGradebook()
+
+David:
+-----------
+- processing/initializing methods  (+ whitebox tests)
+  processString, processFile, initialize methods
+public static MyGradeBook initialize()
+public static MyGradeBook initializeWithFile(String filename)
+public static MyGradeBook initializeWithString(String startingString)
+public void processFile(String filename)
+public void processString(String additionalString)
+ - Look at the header & figure out what to do
+ - helper functions for processing each options (assignment, students, etc)
+
+Julia:
+-----------
+- UI
+- GradeBook ArrayList functions
+- readme
+
+
+
+
+
+

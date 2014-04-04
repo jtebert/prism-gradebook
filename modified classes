@@ -4,10 +4,13 @@ FIELDS
 gradeBook : GradeBook
 menu : ArrayList<String>
 
+options in the menu for outputing files
+
 METHODS
 void printMenu()
 void printList(ArrayList<String> toPrint)
 public static void main(String[] args)
+void outputFile(String outputString, String filename)
 
 --------------------------------------------------------------------------------
 
@@ -21,12 +24,12 @@ assignments : ArrayList<Assignment>
 METHODS
 public static MyGradeBook initialize()
 public static MyGradeBook initializeWithFile(String filename)
-public static MyGradeBook initializeWithString(
-            String startingString)
+public static MyGradeBook initializeWithString(String startingString)
 public void processFile(String filename)
 public void processString(String additionalString)
-public boolean changeGrade(String assignmentName,
-            String username, double newGrade)
+ - Look at the header & figure out what to do
+ - helper functions for processing each options (assignment, students, etc)
+public boolean changeGrade(String assignmentName, String username, double newGrade)
 public double average(String assignmentName)
 public double median(String assignmentName)
 public double min(String assignmentName)
@@ -39,6 +42,17 @@ public String outputCurrentGrades()
 public String outputStudentGrades(String username)
 public String outputAssignmentGrades(String assignName)
 public String outputGradebook()
+
+public void addStudent [requires sorting]
+public void removeStudent(Student student)
+public void addAssignment(String assignmentName, Double totalPoints, Double percent)
+public void removeAssignment(assignment)
+
+For UI:
+public ArrayList<String> listStudentNames()
+public ArrayList<String> listAssignmentNames()
+public ArrayList<String> listAssignmentScores()
+public ArrayList<String> listStudentGrades()
 
 --------------------------------------------------------------------------------
 
@@ -55,6 +69,7 @@ METHODS
 static Student newStudent(String username, String firstName,
             String lastName, String advisor, Integer gradYear)
 Double averageGrade()
+Double currentGrade(ArrayList<Assignment>)
 --------------------------------------------------------------------------------
 
 Assignment

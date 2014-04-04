@@ -12,8 +12,6 @@ import java.util.ArrayList;
  * @version 2014-04-11
  */
 class MyGradeBook {
-    /** Name of the course with information stored in the GradeBook */
-    String courseName;
     /** List of the students in the gradebook, SORTED ALPHABETICALLY */
     ArrayList<Student> students;
     /** List of the assignments in the gradebook */
@@ -35,9 +33,7 @@ class MyGradeBook {
      * @return an empty MyGradeBook
      */
     public static MyGradeBook initialize() {
-        // This doesn't work with the fact that every GradeBook for our
-        // design has to have a course name.
-        // Should this prompt them to enter a name?
+        // Start with empty GradeBook
     }
 
     /**
@@ -62,9 +58,9 @@ class MyGradeBook {
      *            formatted like initial.txt
      * @return a MyGradebook that contains the grade book from startingString
      */
-    public static MyGradeBook initializeWithString(
-            String startingString) {
-        // How does this differ from initializeWithFile?
+    public static MyGradeBook initializeWithString(String startingString) {
+        // Actually process the lines of the text file
+        // Sort the Students alphabetically
     }
 
     /**
@@ -179,6 +175,7 @@ class MyGradeBook {
         for (Student s : this.students) {
             grades.add(s.assignmentGrade(assignmentName));
         }
+        // Move sorting to adding student
         Collections.sort(grades);
         // Find the median of ArrayList
         int gradesCount = grades.size();
@@ -265,6 +262,9 @@ class MyGradeBook {
         // Find the Student in the ArrayList
         //     (error is no such student)
         // use student.currentGrade() to get grade
+        // multiply each grade by percent score
+        // Add all these
+        // Divide by total number of points for semester
     }
 
     /**
@@ -422,6 +422,7 @@ class MyGradeBook {
         HashMap<String, Double> grades = this.assignmentGrades(assignName);
         // Loop through HashMap to list username & grades
         Set<String> students = grades.keySet();
+        // Move sorting to addStudent
         Collections.sort(students);
         for (String s : students) {
             output = output + s + "\t" + grades.get(s) + "\n";
@@ -469,6 +470,7 @@ class MyGradeBook {
         for (Student s : this.students) {
             sortedStudents.add(s.username);
         }
+        // Move sorting to addStudent
         Collections.sort(sortedStudents);
         for (String s : sortedStudents) {
             output = output + "\n" + studentUsernames.get(s).outputGrades();
