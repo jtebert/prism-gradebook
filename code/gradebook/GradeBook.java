@@ -387,6 +387,7 @@ class MyGradeBook {
         }
         // Find student and add student.outputGrades() to String
         output = output + "----\nCURRENT GRADE\t" + this.currentGrade(username);
+        return output;
     }
 
     /**
@@ -403,11 +404,36 @@ class MyGradeBook {
      *         alphabetically.
      */
     public String outputAssignmentGrades(String assignName) {
+        Assignment targetAssignment = null;
+        for (Assignment a : this.assignments) {
+            if (a.name == assignName) {
+                targetAssignment = a;
+                break;
+            }
+        }
+        if (targetAssignment == null) {
+            throw new NoSuchElementException();
+        }
         // Add header to string
+        String output = "ASSIGNMENT_GRADES\n" + assignName + "\n" +
+            targetAssignment.totalPoints + "\n" + targetAssignment.percentGrade +
+            "\n----\n";
         // Get grades with assignmentGrades
+        HashMap<String, Double> grades = this.assignmentGrades(assignName);
         // Loop through HashMap to list username & grades
+        Set<String> students = grades.keySet();
+        Collections.sort(students);
+        for (String s : students) {
+            output = output + s + "\t" + grades.get(s) + "\n";
+        }
         // Add divider
+        output = output + "----\nSTATS\n";
         // Use other methods to calculate stats and add to end
+        output = output + "Average\t" this.average(assignName) +
+            "\nMedian\t" + this.median(assignName) + 
+            "\nMax\t" + this.max(assignName) + 
+            "\nMin\t" + this.min(assignName);
+        return output;
     }
 
     /**
@@ -421,7 +447,32 @@ class MyGradeBook {
      */
     public String outputGradebook() {
         // Add header
+        String output = "GRADEBOOK\n\t\t\t\t"
         // Add info about assignments (with correct number of preceeding tabs)
+        for (Assignment a : this.assignments) {
+            output = output + "\t" + a.name;
+        }
+        output = "\n\t\t\t\t";
+        for (Assignment a : this.assignments) {
+            output = output + "\t" + a.totalPoints;
+        }
+        output = "\n\t\t\t\t";
+        for (Assignment a : this.assignments) {
+            output = output + "\t" + a.percentGrade;
+        }
         // Loop through students and use student.outputGrades to add lines
+        HashMap<String, Student> studentUsernames = new HashMap<String, Student>();
+        for (Student s : this.students) {
+            studentUsernames.put(s.username, s);
+        }
+        ArrayList<String> sortedStudents = new ArrayList<String>();
+        for (Student s : this.students) {
+            sortedStudents.add(s.username);
+        }
+        Collections.sort(sortedStudents);
+        for (String s : sortedStudents) {
+            output = output + "\n" + studentUsernames.get(s).outputGrades();
+        }
+        return output;
     }
 }
