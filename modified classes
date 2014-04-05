@@ -49,8 +49,8 @@ public void addAssignment(String assignmentName, Double totalPoints, Double perc
 public void removeAssignment(assignment)
 
 For UI:
-public ArrayList<String> listStudentNames()
-public ArrayList<String> listAssignmentNames()
+public ArrayList<String> listStudents()
+public ArrayList<String> listAssignments()
 public ArrayList<String> listAssignmentScores()
 public ArrayList<String> listStudentGrades()
 

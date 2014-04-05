@@ -18,6 +18,10 @@ class Assignment {
     
     /**
      * Constructor for the Assignment class
+     * @param name Name of the assignment
+     * @param totalPoints Maximum points for the assignment
+     * @param percentGrade Percentage of the semester grade that the assignment
+     *     counts for
      */
     Assignment(String name, Double totalPoints, Double percentGrade) {
         this.name = name;
@@ -27,10 +31,21 @@ class Assignment {
     
     /**
      * Factory method to construct a new Assignment
+     * @param name Name of the assignment
+     * @param totalPoints Maximum points for the assignment
+     * @param percentGrade Percentage of the semester grade that the assignment
+     *     counts for
      */
     static Assignment newAssignment(String name, Double totalPoints,
             Double percentGrade) {
         return new Assignment(name, totalPoints, percentGrade);
     }
     
+    /**
+     * Return a human-readable String describing the Assignment
+     * @return String of the Assignment
+     */
+    public String toString() {
+        return name + ", " totalPoints + ", " + percentGrade + "%";
+    }
 }

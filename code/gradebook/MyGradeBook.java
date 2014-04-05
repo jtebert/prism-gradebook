@@ -99,7 +99,44 @@ class MyGradeBook {
         // i.e., Does processFile get the String from the file and pass it to
         // this?
     }
-
+    
+    /**
+     * Add a Student to the Gradebook according to the given information
+     * Modifies the GradeBook's student field to add the Student, and sorts the 
+     * list of Students
+     * @param username Username of the Student
+     * @param firstName First name of the Student
+     * @param lastName Last name of the Student
+     * @param advisor Advisor/guidance counselor of the Student
+     * @param gradYear Student's expected year of graduation
+     */
+    public void addStudent(String username, String firstName, String lastName,
+            String advisor, Integer gradYear) {
+        Student newStudent = Student.newStudent(username, firstName,
+            lastName, advisor, gradYear);
+        students.add(newStudent);
+        Collections.sort(students);
+    }
+    
+    /**
+     * Add an assginment to the Gradebook according to the inputs
+     * Modifies the Gradebook's assignments field and adds to the student's
+     * list of grades (initializing with a score of 0)
+     * @param name Name of the assignment
+     * @param totalPoints Maximum points for the assignment
+     * @param percentGrade Percentage of the semester grade that the assignment
+     *     counts for
+     */
+    public void addAssignment(String name, Double totalPoints,
+            Double percentGrade) {
+        Assignment newAssignment = Assignment.newAssignment(name, totalPoints,
+            percentGrade);
+        assignments.add(newAssignment);
+        for (student : students) {
+            student.grades.put(newAssignment.name, 0);
+        }
+    }
+    
     /**
      * Changes the assignment (named assignmentName) grade for student (whose
      * username is equal to username) to newGrade
@@ -476,5 +513,30 @@ class MyGradeBook {
             output = output + "\n" + studentUsernames.get(s).outputGrades();
         }
         return output;
+    }
+    
+    /**
+     * Output a list of human-readable forms of the information about each
+     * Student.
+     * @return List of descriptions of all students
+     */
+    public ArrayList<String> listStudents() {
+        ArrayList<String> studentList = new ArrayList<String>(students.size());
+        for (student : students) {
+            studentList.add(student.toString());
+        }
+    }
+    
+    /**
+     * Output a list of human-readable forms of the information about each
+     * Assginment
+     * @return List of Strings of all Assignments
+     */
+    public ArrayList<String> listAssignments() {
+        ArrayList<String> assignmentList =
+            new ArrayList<String>(assignments.size());
+        for (assignment : assignments) {
+            assignmentList.add(assignment.toString());
+        }
     }
 }
