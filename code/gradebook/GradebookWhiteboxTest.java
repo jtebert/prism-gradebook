@@ -2,8 +2,6 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import gradebook.GradeBook;
-
 /**
  * WHITE BOX Tests for GradeBook and associated classes
  * @author David Akodes (akodes.d@husky.neu.edu)
@@ -12,7 +10,7 @@ import gradebook.GradeBook;
  * @author Matther Taylor(wiseguy@ccs.neu.edu)
  * @version 2014-04-11
  */
-public class GradeBookWhiteboxTest extends TestCase {
+public class GradebookWhiteboxTest extends TestCase {
     
     // Sample Gradebooks for testing
     

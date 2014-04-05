@@ -1,6 +1,10 @@
 package gradebook;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * GradeBook represents the assignments, students, and associated scores for a 
@@ -11,7 +15,7 @@ import java.util.ArrayList;
  * @author Matther Taylor(wiseguy@ccs.neu.edu)
  * @version 2014-04-11
  */
-class MyGradeBook {
+public class MyGradeBook {
     /** List of the students in the gradebook, SORTED ALPHABETICALLY */
     ArrayList<Student> students;
     /** List of the assignments in the gradebook */
@@ -20,9 +24,8 @@ class MyGradeBook {
     /**
      * Constructor for GradeBook
      */
-    GradeBook(String courseName, ArrayList<Student> students,
+    MyGradeBook(ArrayList<Student> students,
             ArrayList<Assignment> assignments) {
-        this.courseName = courseName;
         this.students = students;
         this.assignments = assignments;
     }
@@ -111,11 +114,13 @@ class MyGradeBook {
      * @param gradYear Student's expected year of graduation
      */
     public void addStudent(String username, String firstName, String lastName,
-            String advisor, Integer gradYear) {
+            String advisor, int gradYear) {
         Student newStudent = Student.newStudent(username, firstName,
             lastName, advisor, gradYear);
         students.add(newStudent);
         Collections.sort(students);
+        // Needs Comparator
+        // TODO : Write Comparator to sort Student alphabetically by username
     }
     
     /**
@@ -132,8 +137,10 @@ class MyGradeBook {
         Assignment newAssignment = Assignment.newAssignment(name, totalPoints,
             percentGrade);
         assignments.add(newAssignment);
-        for (student : students) {
-            student.grades.put(newAssignment.name, 0);
+        for (Student student : students) {
+            student.grades.put(newAssignment.name, new Double(0));
+            // TODO : Find some way to put this in the correct order?
+            // Do hashMaps have explicit order?
         }
     }
     
@@ -405,7 +412,7 @@ class MyGradeBook {
         // Add header
         Student targetStudent = null;
         for (Student s : this.students) {
-            if (s.username.equals(username) {
+            if (s.username.equals(username)) {
                 targetStudent = s;
                 break;
             }
@@ -467,7 +474,7 @@ class MyGradeBook {
         // Add divider
         output = output + "----\nSTATS\n";
         // Use other methods to calculate stats and add to end
-        output = output + "Average\t" this.average(assignName) +
+        output = output + "Average\t" + this.average(assignName) +
             "\nMedian\t" + this.median(assignName) + 
             "\nMax\t" + this.max(assignName) + 
             "\nMin\t" + this.min(assignName);
@@ -485,7 +492,7 @@ class MyGradeBook {
      */
     public String outputGradebook() {
         // Add header
-        String output = "GRADEBOOK\n\t\t\t\t"
+        String output = "GRADEBOOK\n\t\t\t\t";
         // Add info about assignments (with correct number of preceeding tabs)
         for (Assignment a : this.assignments) {
             output = output + "\t" + a.name;
@@ -522,7 +529,7 @@ class MyGradeBook {
      */
     public ArrayList<String> listStudents() {
         ArrayList<String> studentList = new ArrayList<String>(students.size());
-        for (student : students) {
+        for (Student student : students) {
             studentList.add(student.toString());
         }
     }
@@ -535,7 +542,7 @@ class MyGradeBook {
     public ArrayList<String> listAssignments() {
         ArrayList<String> assignmentList =
             new ArrayList<String>(assignments.size());
-        for (assignment : assignments) {
+        for (Assignment assignment : assignments) {
             assignmentList.add(assignment.toString());
         }
     }

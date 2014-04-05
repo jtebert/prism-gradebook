@@ -46,6 +46,6 @@ class Assignment {
      * @return String of the Assignment
      */
     public String toString() {
-        return name + ", " totalPoints + ", " + percentGrade + "%";
+        return name + ", " + totalPoints + ", " + percentGrade + "%";
     }
 }

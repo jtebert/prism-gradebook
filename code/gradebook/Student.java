@@ -1,6 +1,7 @@
 package gradebook;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 /**
  * Student represents an individual in a GradeBook, with identifying
@@ -21,7 +22,7 @@ class Student {
     /** Name of the Student's advisor/guidance counselor */
     String advisor;
     /** Student's anticipated graduation year */
-    Integer gradYear;
+    int gradYear;
     /** Student's grades for all assignments */
     HashMap<String, Double> grades;
     
@@ -35,7 +36,7 @@ class Student {
      * @param grades Student's grades so far (assignment name, score)
      */
     Student(String username, String firstName, String lastName, String advisor,
-            Integer gradYear, HashMap<String, Double> grades) {
+            int gradYear, HashMap<String, Double> grades) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -53,9 +54,9 @@ class Student {
      * @return an empty MyGradeBook
      */
     static Student newStudent(String username, String firstName,
-            String lastName, String advisor, Integer gradYear) {
+            String lastName, String advisor, int gradYear) {
         return new Student(username, firstName, lastName, advisor, gradYear,
-            new HashMap<String, Double>);
+            new HashMap<String, Double>());
     }
     
     /**
@@ -96,7 +97,7 @@ class Student {
      * @return String of the Student
      */
     public String toString() {
-        return firstName + " " + lastName + " (" + username "), " + gradYear +
+        return firstName + " " + lastName + " (" + username + "), " + gradYear +
             "\n\tAdvisor: " + advisor;
     }
 }

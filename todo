@@ -53,6 +53,9 @@ public String outputCurrentGrades()
 public String outputStudentGrades(String username)
 public String outputAssignmentGrades(String assignName)
 public String outputGradebook()
+-> Where you use Set in various places doesn't work - Set is just an interface.
+   I'm not sure what concrete subclass it makes the most sense to use, or if possible
+   to convert to ArrayList (JE)
 
 David:
 -----------
