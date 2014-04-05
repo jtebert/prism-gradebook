@@ -12,6 +12,8 @@ import gradebook.MyGradeBook;
 public class PRISM {
     /** GradeBook being handled by the UI */
     GradeBook gradebook;
+    /** Whether or not to keep running the PRISM program */
+    Boolean running;
     /** Items contained in the menu for user selection */
     menu ArrayList<String> = new ArrayList<String>();
     menu.add("Add student");
@@ -37,6 +39,7 @@ public class PRISM {
      */
     PRISM(GradeBook gradebook) {
         this.gradebook = gradebook;
+        this.running = true;
     }
     
     /**
@@ -51,31 +54,39 @@ public class PRISM {
         " /\  Welcome to the PRISM Gradebook System\n" +
         "/__\ Portfolio of Records for Instructors' Student Marks\n" +
         "----------------------------------------------------------");
-        
-        // Load file or start new Gradebook (depending on arguments)
-        // (loading and invalid/nonexistent file handled by initialize)
-        if (args.size() > 1) {
-            gradebook = MyGradeBook.initializeWithFile(args.get(0));
-            System.out.println("Loaded gradebook from " + args.get(0)+ "\n");
+        try {
+            // Load file or start new Gradebook (depending on arguments)
+            // (loading and invalid/nonexistent file handled by initialize)
+            if (args.size() > 1) {
+                gradebook = MyGradeBook.initializeWithFile(args.get(0));
+                System.out.println("Loaded gradebook from " + args.get(0)+ "\n");
+            }
+            else {
+                gradebook = MyGradeBook.initialize();
+                System.out.println("New gradebook created\n");
+            }
+            gradebook.runPRISM();
         }
-        else {
-            gradebook = MyGradeBook.initialize();
-            System.out.println("New gradebook created\n");
+        catch (Exception e) {
+            // TODO : Adjuct based on correct type of error
+            System.out.println("Error: file not found\n" + 
+                "PRISM quitting");
         }
-        
-        Boolean running = true;
+    }
+    
+    /**
+     * Run the PRISM progam until given command to quit
+     */
+    void runPRISM() {
         while(running) {
             // Print menu
             printMenu();
             
-            // request user input
+            // Request and handle user input
             int selection = getUserInput();
-            
-            // Call the correct function based on user input
-            
+            actOnInput();
         }
-        
-        System.out.println("Thank you for using PRISM")
+        System.out.println("Thank you for using PRISM");
     }
     
     /**
