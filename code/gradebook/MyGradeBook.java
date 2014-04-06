@@ -170,6 +170,32 @@ public class MyGradeBook {
     }
     
     /**
+     * Remove an assignment from the Gradebook
+     * Modifies the Gradebook's assignments field and remove from the 
+     * student's list of grades 
+     * @param assignment the assignment to be removed
+     */
+	 public void removeAssignment(Assignment assignment) {
+        if (assignments.remove(assignment) == null) {
+        throw new RuntimeException("No Such Assignment");
+        }
+        for (Student student : students) {
+            student.grades.remove(assignment.name)
+        }
+    }
+        
+    /**
+     * Remove a student from the Gradebook
+     * Modifies the Gradebook's students field
+     * @param student the student to be removed
+     */
+	 public void removeStudent(Student student) {
+        if (students.remove(student) == null) {
+            new RuntimeException("No Such Assignment");
+        }
+    }
+    
+    /**
      * Changes the assignment (named assignmentName) grade for student (whose
      * username is equal to username) to newGrade
      * 
