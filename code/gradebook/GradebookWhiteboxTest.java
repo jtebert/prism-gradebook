@@ -161,10 +161,10 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method outputGrades for the Student class
      */
     public void testOutputGradesStudent() {
-        assertEquals(student1.outputGrades(),
+        assertEquals(student1.outputGrades(assignmentList),
                 "abetaylor\tIsabella\tTaylor\tBaker\t2016"
                 + "\t8.0\t71.0\t82.0\t65.0\t20.0");
-        assertEquals(student2.outputGrades(),
+        assertEquals(student2.outputGrades(assignmentList),
                 "abethes\tElizabeth\tWhite\tNelson\t2014"
                 + "\t6.0\t90.0\t92.0\t88.0\t45.0");
     }
