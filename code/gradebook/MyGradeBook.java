@@ -304,11 +304,23 @@ public class MyGradeBook {
      */
     public double currentGrade(String username) {
         // Find the Student in the ArrayList
+        Student targetStudent = null;
+        for (Student s : this.students) {
+            if (s.username.equals(username)) {
+                targetStudent = s;
+                break;
+            }
+        }
         //     (error is no such student)
+        if (targetStudent == null) {
+            throw new NoSuchElementException();
+        }
         // use student.currentGrade() to get grade
+        Double grade = targetStudent.currentGrade();
         // multiply each grade by percent score
         // Add all these
         // Divide by total number of points for semester
+        return grade;
     }
 
     /**
@@ -386,10 +398,13 @@ public class MyGradeBook {
         // Get grades with currentGrades()
         HashMap<String, Double> grades = this.currentGrades();
         // Add line for each element in hashMap
-        Set<String> names = grades.keySet();
+        ArrayList<String> names = new ArrayList<String>();
+        for (String s : grades.keySet()) {
+            names.add(s);
+        }
         Iterator<String> nameIter = names.iterator();
-        while (namesIter.hasNext()) {
-            String student = namesIter.next();
+        while (nameIter.hasNext()) {
+            String student = nameIter.next();
             output = output + student + "\t" + grades.get(student);
             if (nameIter.hasNext()) {
                 output = output + "\n";
@@ -425,7 +440,10 @@ public class MyGradeBook {
             targetStudent.advisor + "\n" + targetStudent.gradYear + "\n----\n";
         // Add info about assignments (with correct number of preceeding tabs)
         HashMap<String, Double> targetGrades = targetStudent.grades;
-        Set<String> assignmentNames = targetGrades.keySet();
+        ArrayList<String> assignmentNames = new ArrayList<String>();
+        for (String s : targetGrades.keySet()) {
+            assignmentNames.add(s);
+        }
         for (String name : assignmentNames) {
             output = output + name + "\t" + targetGrades.get(name) + "\n";
         }
@@ -465,7 +483,10 @@ public class MyGradeBook {
         // Get grades with assignmentGrades
         HashMap<String, Double> grades = this.assignmentGrades(assignName);
         // Loop through HashMap to list username & grades
-        Set<String> students = grades.keySet();
+        ArrayList<String> students = new ArrayList<String>();
+        for (String s : grades.keySet()) {
+            students.add(s);
+        }
         // Move sorting to addStudent
         Collections.sort(students);
         for (String s : students) {
@@ -532,6 +553,7 @@ public class MyGradeBook {
         for (Student student : students) {
             studentList.add(student.toString());
         }
+        return studentList;
     }
     
     /**
@@ -545,5 +567,6 @@ public class MyGradeBook {
         for (Assignment assignment : assignments) {
             assignmentList.add(assignment.toString());
         }
+        return assignmentList;
     }
 }
