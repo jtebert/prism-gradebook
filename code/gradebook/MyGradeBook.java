@@ -499,15 +499,9 @@ public class MyGradeBook {
         // Get grades with assignmentGrades
         HashMap<String, Double> grades = this.assignmentGrades(assignName);
         // Loop through HashMap to list username & grades
-        ArrayList<String> outStudents = new ArrayList<String>();
-        for (String s : grades.keySet()) {
-            outStudents.add(s);
-        }
-        // Move sorting to addStudent
-        // TODO : Can this go away now that we're sorting when they're added
-        Collections.sort(outStudents);
-        for (String s : outStudents) {
-            output = output + s + "\t" + grades.get(s) + "\n";
+        for (Student s : this.students) {
+            output = output + s.username + "\t" +
+                grades.get(s.username) + "\n";
         }
         // Add divider
         output = output + "----\nSTATS\n";
@@ -531,7 +525,7 @@ public class MyGradeBook {
     public String outputGradebook() {
         // Add header
         String output = "GRADEBOOK\n\t\t\t\t";
-        // Add info about assignments (with correct number of preceeding tabs)
+        // Add info about assignments (with correct number of preceding tabs)
         for (Assignment a : this.assignments) {
             output = output + "\t" + a.name;
         }
@@ -544,20 +538,8 @@ public class MyGradeBook {
             output = output + "\t" + a.percentGrade;
         }
         // Loop through students and use student.outputGrades to add lines
-        HashMap<String, Student> studentUsernames =
-            new HashMap<String, Student>();
         for (Student s : this.students) {
-            studentUsernames.put(s.username, s);
-        }
-        ArrayList<String> sortedStudents = new ArrayList<String>();
-        for (Student s : this.students) {
-            sortedStudents.add(s.username);
-        }
-        // Move sorting to addStudent
-        // TODO : Can this go away now that we're sorting when adding?
-        Collections.sort(sortedStudents);
-        for (String s : sortedStudents) {
-            output = output + "\n" + studentUsernames.get(s).outputGrades();
+            output = output + "\n" + s.outputGrades();
         }
         return output;
     }
