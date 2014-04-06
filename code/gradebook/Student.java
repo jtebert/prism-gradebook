@@ -2,6 +2,7 @@ package gradebook;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 /**
  * Student represents an individual in a GradeBook, with identifying
@@ -66,7 +67,10 @@ class Student {
      */
     Double assignmentGrade(String assignmentName) {
         // Find the assignment in the student's grades
-        Set<String> names = this.grades.keySet();
+        ArrayList<String> names = new ArrayList<String>();
+        for (String s : this.grades.keySet()) {
+            names.add(s);
+        }
         for (String name : names) {
             if (name.equals(assignmentName)) {
                 return this.grades.get(name);
@@ -77,6 +81,32 @@ class Student {
     }
     
     /**
+     * Calculates the current grade for the given student
+     * 
+     * @param assignments
+     *            ArrayList containing all assignments for the semester
+     * @return the current grade for student with username. The current grade is
+     *         calculated based on the current assignment grades, assignment
+     *         total points, assignment percent of semester. The current grade
+     *         for a student is the sum of the relative assignment grades
+     *         divided by the current percent of semester time 100. Since all
+     *         grades may not currently be entered, we have to divide by the
+     *         current percent. The relative assignment grade is the student's
+     *         assignment grade divide by total point value for the assignment
+     *         times the percent of semester.
+     */
+    Double currentGrade(ArrayList<Assignment> assignments) {
+        Double scoreSum = new Double(0);
+        Double percentSum = new Double(0);
+        for (Assignment a : assignments) {
+            scoreSum = scoreSum +  ((this.grades.get(a.name) / a.totalPoints) 
+                    * a.percentGrade);
+            percentSum = percentSum + a.percentGrade;
+        }
+        return (scoreSum / percentSum) * 100;
+    }
+    
+    /**
      * Return a String of the student's grades for all assignments, separated by
      * tabs.
      */
@@ -84,7 +114,10 @@ class Student {
         // Add student info to String
         String output = this.username + "\t" + this.firstName + "\t" + this.lastName + "\t" +
             this.advisor + "\t" + this.gradYear;
-        Set<String> assignments = this.grades.keySet();
+        ArrayList<String> assignments = new ArrayList<String>();
+        for (String name : this.grades.keySet()) {
+            assignments.add(name);
+        }
         // Loop through grades and add scores to String
         for (String s : assignments) {
             output = "\t" + this.grades.get(s);
