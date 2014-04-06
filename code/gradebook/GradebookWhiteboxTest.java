@@ -16,7 +16,8 @@ import org.junit.Before;
  */
 public class GradebookWhiteboxTest extends TestCase {
 
-    // Sample Gradebooks for testing
+    /** instance of username comparator */
+    private ByUsername comp;
     /** grades for student1 */
     private HashMap<String, Double> grades1;
     /** grades for student2 */
@@ -60,6 +61,7 @@ public class GradebookWhiteboxTest extends TestCase {
      */
     @Before
     public void setUp() {
+        comp = new ByUsername();
         grades1 = new HashMap<String, Double>();
         grades1.put("assignment1", new Double(8));
         grades1.put("assignment2", new Double(71));
@@ -185,5 +187,14 @@ public class GradebookWhiteboxTest extends TestCase {
                 + "2016\n\tAdvisor: Baker");
         assertEquals(student2.toString(), "Elizabeth White (abethes), "
                 + "2014\n\tAdvisor: Nelson");
+    }
+    
+    /**
+     * test the method compare for the ByUsername class
+     */
+    public void testCompareByUsername() {
+        assertTrue(comp.compare(student1, student2) < 0);
+        assertTrue(comp.compare(student1, student1) == 0);
+        assertTrue(comp.compare(student2, student1) > 0);
     }
 }
