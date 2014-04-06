@@ -180,7 +180,7 @@ public class MyGradeBook {
         throw new NoSuchElementException("No Such Assignment");
         }
         for (Student student : students) {
-            student.grades.remove(assignment.name)
+            student.grades.remove(assignment.name);
         }
     }
         
