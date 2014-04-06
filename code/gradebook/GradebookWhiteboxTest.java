@@ -139,6 +139,13 @@ public class GradebookWhiteboxTest extends TestCase {
         assertEquals(student3.assignmentGrade("assignment3"), new Double(122));
         assertEquals(student4.assignmentGrade("assignment4"), new Double(57));
         assertEquals(student5.assignmentGrade("assignment5"), new Double(26));
+        try {
+            student1.assignmentGrade("assignment0");
+            assertTrue(false);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
     }
     
     /**
