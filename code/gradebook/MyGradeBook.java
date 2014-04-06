@@ -539,7 +539,7 @@ public class MyGradeBook {
         }
         // Loop through students and use student.outputGrades to add lines
         for (Student s : this.students) {
-            output = output + "\n" + s.outputGrades();
+            output = output + "\n" + s.outputGrades(this.assignments);
         }
         return output;
     }
