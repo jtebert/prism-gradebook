@@ -30,9 +30,13 @@ Matthew:
 -----------
 -black box testing
 public void addStudent [requires sorting]
+            Exception if Student Already Exists (Same Username)
 public void removeStudent(Student student)
+            Exception if Student does not exist (UI can catch this exception and return a Does not exist message?)
 public void addAssignment(String assignmentName, Double totalPoints, Double percent)
+            Exception if Assignment already exists
 public void removeAssignment(assignment)
+            Exception if assignment doesn't exist
 
 Jimmy:
 -----------
