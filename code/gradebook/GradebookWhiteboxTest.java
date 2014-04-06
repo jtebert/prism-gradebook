@@ -197,4 +197,44 @@ public class GradebookWhiteboxTest extends TestCase {
         assertTrue(comp.compare(student1, student1) == 0);
         assertTrue(comp.compare(student2, student1) > 0);
     }
+    
+    /**
+     * test the method assignmentFound for the MyGradeBook class
+     */
+    public void testAssignmentFoundMyGradeBook() {
+        try {
+            gradebook.assignmentFound("assignment1");
+            assertTrue(true);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(false);
+        }
+        try {
+            gradebook.assignmentFound("assignment0");
+            assertTrue(false);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * test the method studentFound for the MyGradeBook class
+     */
+    public void testStudentFoundMyGradeBook() {
+        try {
+            gradebook.studentFound("abetaylor");
+            assertTrue(true);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(false);
+        }
+        try {
+            gradebook.studentFound("abelincoln");
+            assertTrue(false);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
+    }
 }
