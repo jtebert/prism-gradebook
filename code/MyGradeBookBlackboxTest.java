@@ -4,6 +4,6 @@ import org.junit.Test;
 
 import gradebook.MyGradeBook;
 
-public class GradebookBlackboxTest extends TestCase {
+public class MyGradeBookBlackboxTest extends TestCase {
     
 }
