@@ -28,10 +28,8 @@ public class PRISM {
         menu = new ArrayList<String>(17);
         menu.add("Add student");
         menu.add("Add students from file");
-        menu.add("Remove a student");
         menu.add("Add assignment");
         menu.add("Add assignments from file");
-        menu.add("Remove assignment");
         menu.add("Add or change a grade");
         menu.add("Add student grades from file");
         menu.add("Add assignment grades from file");
@@ -43,6 +41,7 @@ public class PRISM {
         menu.add("Output student's grades");
         menu.add("Output course grades");
         menu.add("Compare gradebooks");
+        menu.add("Quit PRISM");
     }
     
     /**
@@ -57,7 +56,8 @@ public class PRISM {
         " /\\  Welcome to the PRISM Gradebook System\n" +
         "/__\\ Portfolio of Records for Instructors' Student Marks\n" +
         "----------------------------------------------------------");
-        try {
+        // TODO : Add back in try/catch once everything is working
+        //try {
             // Load file or start new Gradebook (depending on arguments)
             // (loading and invalid/nonexistent file handled by initialize)
             MyGradeBook newGradebook;
@@ -71,12 +71,12 @@ public class PRISM {
             }
             PRISM prism = new PRISM(newGradebook);
             prism.runPRISM();
-        }
+        /*}
         catch (Exception e) {
             // TODO : Adjuct based on correct type of error
             System.out.println("Error: file not found\n" + 
                 "PRISM quitting");
-        }
+        }*/
     }
     
     /**
@@ -90,6 +90,7 @@ public class PRISM {
             // Request and handle user input
             int selection = getUserInput();
             actOnInput(selection);
+            System.out.println();
         }
         System.out.println("Thank you for using PRISM");
     }
@@ -108,7 +109,7 @@ public class PRISM {
      */
     void printMenu() {
         ArrayList<String> menuWithNumbers = new ArrayList<String>(menu.size());
-        for (int i; i < menu.size(); i++) {
+        for (int i=0; i < menu.size(); i++) {
             menuWithNumbers.add(i + ": " + menu.get(i));
         }
         printList(menuWithNumbers);
@@ -126,8 +127,9 @@ public class PRISM {
         while (true) {
             // Read integer from console
             int selection = in.nextInt();
-            if (selection <= menu.size()) {
+            if (selection < menu.size()) {
                 in.close();
+                System.out.println("Successful input");
                 return selection;
             }
             else {
@@ -148,13 +150,14 @@ public class PRISM {
         switch (selection) {
             case 0: // Add student
                 System.out.println("Enter the username of the student to add:");
-                username = in.nextLine();
+                username = in.next();
+                in.close();
                 System.out.println("Enter the student's first name:");
-                String firstName = in.nextLine();
+                String firstName = in.next();
                 System.out.println("Enter the student's last name:");
-                String lastName = in.nextLine();
+                String lastName = in.next();
                 System.out.println("Enter the student's advisor:");
-                String advisor = in.nextLine();
+                String advisor = in.next();
                 System.out.println("Enter the student's graduation year:");
                 int gradYear = in.nextInt();
                 gradebook.addStudent(username, firstName, lastName,
@@ -163,9 +166,10 @@ public class PRISM {
             case 1: // Add students from file
                 System.out.println("Enter the name of the file from which to" +
                     " add students:");
-                filename = in.nextLine();
+                filename = in.next();
                 try {
-                    gradebook.addStudents(filename);
+                    // TODO : add back when method implemented
+                    // gradebook.addStudents(filename);
                     System.out.println("Students added to gradebook");
                 }
                 catch (Exception e) {
@@ -175,7 +179,7 @@ public class PRISM {
                 }
             case 2: // Add assignment
                 System.out.println("Enter the assignment to add:");
-                assignmentName = in.nextLine();
+                assignmentName = in.next();
                 System.out.println(
                     "Enter the total points for the assignment:");
                 // TODO : I don't know if this is valid.  Need some way to check
@@ -190,9 +194,10 @@ public class PRISM {
             case 3: // Add assignments from file
                 System.out.println("Enter the name of the file from which to" +
                     " add assignments:");
-                filename = in.nextLine();
+                filename = in.next();
                 try {
-                    gradebook.addAssignments(filename);
+                    // TODO : add back when method implemented
+                    // gradebook.addAssignments(filename);
                     System.out.println("Assignments added to gradebook");
                 }
                 catch (Exception e) {
@@ -203,10 +208,10 @@ public class PRISM {
             case 4: // Add/change grade
                 System.out.println("Enter the username of the student whose" +
                     " grade to set:");
-                String studentUsername = in.nextLine();
+                String studentUsername = in.next();
                 System.out.println("Enter the assignment to to set the grade " +
                     "for:");
-                assignmentName = in.nextLine();
+                assignmentName = in.next();
                 System.out.println("Enter the new score:");
                 // TODO : Same thing with error catching
                 Double newScore = in.nextDouble();
@@ -222,9 +227,10 @@ public class PRISM {
             case 5: // Add student grades from file
                 System.out.println("Enter the name of the file from which to" +
                     " add student's grades:");
-                filename = in.nextLine();
+                filename = in.next();
                 try {
-                    gradebook.addStudentGrades(filename);
+                    // TODO : add back when method implemented
+                    // gradebook.addStudentGrades(filename);
                     System.out.println("Grades added to gradebook");
                 }
                 catch (Exception e) {
@@ -235,9 +241,10 @@ public class PRISM {
             case 6: // Add assignment grades from file
                 System.out.println("Enter the name of the file from which to" +
                     " add student's grades:");
-                filename = in.nextLine();
+                filename = in.next();
                 try {
-                    gradebook.addAssignmentGrades(filename);
+                    // TODO : add back when method implemented
+                    // gradebook.addAssignmentGrades(filename);
                     System.out.println("Grades added to gradebook");
                 }
                 catch (Exception e) {
@@ -248,7 +255,7 @@ public class PRISM {
             case 7: // View assignment statistics"
                 System.out.println("Enter the name of the assignment for " +
                 "which to see statistics:");
-                assignmentName = in.nextLine();
+                assignmentName = in.next();
                 try {
                     double averageGrade = gradebook.average(assignmentName);
                     double medianGrade = gradebook.median(assignmentName);
@@ -266,7 +273,7 @@ public class PRISM {
             case 8: // View student's course grade"
                 System.out.println("Enter the username of the student whose " +
                     "course grade to view:");
-                username = in.nextLine();
+                username = in.next();
                 try {
                     double currentGrade = gradebook.currentGrade(username);
                     System.out.println("Current grade: " + currentGrade);
@@ -278,10 +285,10 @@ public class PRISM {
             case 9: // View student's assignment grade
                 System.out.println("Enter the username of the student whose " +
                     "grade to view:");
-                username = in.nextLine();
+                username = in.next();
                 System.out.println("Enter the name of the assignment " +
                     "to view the grade of:");
-                assignmentName = in.nextLine();
+                assignmentName = in.next();
                 try {
                     double assignmentGrade = gradebook.assignmentGrade(
                         assignmentName, username);
@@ -302,7 +309,7 @@ public class PRISM {
             case 14: // Compare gradebooks
                 System.out.println("Enter the filename of the Gradebook to " +
                     "check if the same as this gradebook:");
-                filename = in.nextLine();
+                filename = in.next();
                 try {
                     MyGradeBook otherGradeBook =
                         MyGradeBook.initializeWithFile(filename);
@@ -319,7 +326,10 @@ public class PRISM {
                     System.out.println("Error: student/assignment combination" +
                         " does not exist");
                 }
+            case 15: // Quit PRISM
+                running = false;
             default: // throw exception?
+                System.out.println("ERROR: Past end of the menu. You should never see this.");
         }
         in.close();
     }

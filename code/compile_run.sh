@@ -26,7 +26,7 @@ fi
 find -name "*.java" > sources.txt
 javac -cp $CLASSPATH @sources.txt #-Xlint:unchecked
 
-if [ -e MyGradeBook.class ]
+if [ -e gradebook/MyGradeBook.class ]
     then
         echo "\n---- Compiling successful. ----\n"
 

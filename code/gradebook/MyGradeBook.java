@@ -37,6 +37,8 @@ public class MyGradeBook {
      */
     public static MyGradeBook initialize() {
         // Start with empty GradeBook
+        return new MyGradeBook(new ArrayList<Student>(),
+            new ArrayList<Assignment>());
     }
 
     /**
@@ -50,6 +52,9 @@ public class MyGradeBook {
      */
     public static MyGradeBook initializeWithFile(String filename) {
         // Calls processFile (which adds to the gradebook)
+        // TODO : This is a filler until actually implemented
+        return new MyGradeBook(new ArrayList<Student>(),
+            new ArrayList<Assignment>());
     }
 
     /**
@@ -64,6 +69,9 @@ public class MyGradeBook {
     public static MyGradeBook initializeWithString(String startingString) {
         // Actually process the lines of the text file
         // Sort the Students alphabetically
+        // TODO : This is a filler until actually implemented
+        return new MyGradeBook(new ArrayList<Student>(),
+            new ArrayList<Assignment>());
     }
 
     /**
@@ -319,7 +327,7 @@ public class MyGradeBook {
             throw new NoSuchElementException();
         }
         // use student.currentGrade() to get grade
-        Double grade = targetStudent.currentGrade();
+        Double grade = targetStudent.currentGrade(assignments);
         // multiply each grade by percent score
         // Add all these
         // Divide by total number of points for semester
