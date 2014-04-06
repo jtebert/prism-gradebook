@@ -127,7 +127,7 @@ public class MyGradeBook {
             String advisor, int gradYear) {
         for (Student s : this.students) {
             if (s.username.equals(username)) {
-                throw new RuntimeException("A student with the given "
+                throw new IllegalArgumentException("A student with the given "
                     + "username already exists");
             }
         }
@@ -155,7 +155,7 @@ public class MyGradeBook {
             Double percentGrade) {
         for (Assignment a : this.assignments) {
             if (a.name.equals(name)) {
-                throw new RuntimeException("An assignment with the given name"
+                throw new IllegalArgumentException("An assignment with the given name"
                     + "already exists");
             }
         }
@@ -177,7 +177,7 @@ public class MyGradeBook {
      */
     public void removeAssignment(Assignment assignment) {
         if (assignments.remove(assignment) == null) {
-        throw new RuntimeException("No Such Assignment");
+        throw new NoSuchElementException("No Such Assignment");
         }
         for (Student student : students) {
             student.grades.remove(assignment.name)
@@ -191,7 +191,7 @@ public class MyGradeBook {
      */
     public void removeStudent(Student student) {
         if (students.remove(student) == null) {
-            new RuntimeException("No Such Assignment");
+            new NoSuchElementException("No Such Assignment");
         }
     }
     
