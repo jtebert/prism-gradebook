@@ -35,6 +35,7 @@ class Assignment {
      * @param totalPoints Maximum points for the assignment
      * @param percentGrade Percentage of the semester grade that the assignment
      *     counts for
+     * @return new Assignment with the given specifications
      */
     static Assignment newAssignment(String name, Double totalPoints,
             Double percentGrade) {

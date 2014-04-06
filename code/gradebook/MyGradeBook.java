@@ -23,6 +23,8 @@ public class MyGradeBook {
     
     /**
      * Constructor for GradeBook
+     * @param students List of all the students in the gradebook
+     * @param assignments List of all the assignment in the gradebook
      */
     MyGradeBook(ArrayList<Student> students,
             ArrayList<Assignment> assignments) {
@@ -206,7 +208,7 @@ public class MyGradeBook {
      * @return the average across all students for assignmentName
      */
     public double average(String assignmentName) {
-        // For each student, sum the grade they received for the given assignment
+        // For each student sum the grade they received for the given assignment
         double pointSum = 0;
         double assignmentCount = 0;
         for (Student s : this.students) {
@@ -235,7 +237,8 @@ public class MyGradeBook {
         // Find the median of ArrayList
         int gradesCount = grades.size();
         if (gradesCount % 2 == 0) {
-            return (grades.get((gradesCount - 1) / 2) + grades.get(gradesCount / 2)) / 2;
+            return (grades.get((gradesCount - 1) / 2) +
+                grades.get(gradesCount / 2)) / 2;
         }
         else {
             return grades.get(gradesCount / 2);
@@ -381,6 +384,8 @@ public class MyGradeBook {
     
     /**
      * Get the grades of all students for an assignment
+     * @param assignmentName Name of the assignment to get grades for
+     * @return HashMap of student usernames and grades for the assignment
      */
     HashMap<String, Double> assignmentGrades(String assignmentName) {
         // For each Student, find the Assignment and get the grade
@@ -489,18 +494,19 @@ public class MyGradeBook {
         }
         // Add header to string
         String output = "ASSIGNMENT_GRADES\n" + assignName + "\n" +
-            targetAssignment.totalPoints + "\n" + targetAssignment.percentGrade +
-            "\n----\n";
+            targetAssignment.totalPoints + "\n" + 
+            targetAssignment.percentGrade + "\n----\n";
         // Get grades with assignmentGrades
         HashMap<String, Double> grades = this.assignmentGrades(assignName);
         // Loop through HashMap to list username & grades
-        ArrayList<String> students = new ArrayList<String>();
+        ArrayList<String> outStudents = new ArrayList<String>();
         for (String s : grades.keySet()) {
-            students.add(s);
+            outStudents.add(s);
         }
         // Move sorting to addStudent
-        Collections.sort(students);
-        for (String s : students) {
+        // TODO : Can this go away now that we're sorting when they're added
+        Collections.sort(outStudents);
+        for (String s : outStudents) {
             output = output + s + "\t" + grades.get(s) + "\n";
         }
         // Add divider
@@ -538,7 +544,8 @@ public class MyGradeBook {
             output = output + "\t" + a.percentGrade;
         }
         // Loop through students and use student.outputGrades to add lines
-        HashMap<String, Student> studentUsernames = new HashMap<String, Student>();
+        HashMap<String, Student> studentUsernames =
+            new HashMap<String, Student>();
         for (Student s : this.students) {
             studentUsernames.put(s.username, s);
         }
@@ -547,6 +554,7 @@ public class MyGradeBook {
             sortedStudents.add(s.username);
         }
         // Move sorting to addStudent
+        // TODO : Can this go away now that we're sorting when adding?
         Collections.sort(sortedStudents);
         for (String s : sortedStudents) {
             output = output + "\n" + studentUsernames.get(s).outputGrades();

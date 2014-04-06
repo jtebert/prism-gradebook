@@ -21,11 +21,12 @@ public class PRISM {
     
     /**
      * Constructor for PRISM class
+     * @param gradebook Gradebook that the UI will be handling
      */
     PRISM(MyGradeBook gradebook) {
         this.gradebook = gradebook;
         this.running = true;
-        menu = new ArrayList<String>(17);
+        menu = new ArrayList<String>(15);
         menu.add("Add student");
         menu.add("Add students from file");
         menu.add("Add assignment");
@@ -52,25 +53,25 @@ public class PRISM {
     public static void main(String[] args) {
        // Print welcome message
         System.out.println(
-        "----------------------------------------------------------\n" +
-        " /\\  Welcome to the PRISM Gradebook System\n" +
-        "/__\\ Portfolio of Records for Instructors' Student Marks\n" +
-        "----------------------------------------------------------");
+            "----------------------------------------------------------\n" +
+            " /\\  Welcome to the PRISM Gradebook System\n" +
+            "/__\\ Portfolio of Records for Instructors' Student Marks\n" +
+            "----------------------------------------------------------");
         // TODO : Add back in try/catch once everything is working
         //try {
-            // Load file or start new Gradebook (depending on arguments)
-            // (loading and invalid/nonexistent file handled by initialize)
-            MyGradeBook newGradebook;
-            if (args.length > 1) {
-                newGradebook = MyGradeBook.initializeWithFile(args[0]);
-                System.out.println("Loaded gradebook from " + args[0]+ "\n");
-            }
-            else {
-                newGradebook = MyGradeBook.initialize();
-                System.out.println("New gradebook created\n");
-            }
-            PRISM prism = new PRISM(newGradebook);
-            prism.runPRISM();
+        // Load file or start new Gradebook (depending on arguments)
+        // (loading and invalid/nonexistent file handled by initialize)
+        MyGradeBook newGradebook;
+        if (args.length > 1) {
+            newGradebook = MyGradeBook.initializeWithFile(args[0]);
+            System.out.println("Loaded gradebook from " + args[0]+ "\n");
+        }
+        else {
+            newGradebook = MyGradeBook.initialize();
+            System.out.println("New gradebook created\n");
+        }
+        PRISM prism = new PRISM(newGradebook);
+        prism.runPRISM();
         /*}
         catch (Exception e) {
             // TODO : Adjuct based on correct type of error
@@ -83,12 +84,12 @@ public class PRISM {
      * Run the PRISM progam until given command to quit
      */
     void runPRISM() {
-        while(running) {
+        while (running) {
             // Print menu
             printMenu();
             
             // Request and handle user input
-            int selection = getUserInput();
+            int selection = getMenuSelection();
             actOnInput(selection);
             System.out.println();
         }
@@ -97,6 +98,7 @@ public class PRISM {
     
     /**
      * Print all of the items in the list to lines on the console
+     * @param strings List of Strings to be printed
      */
     void printList(ArrayList<String> strings) {
         for (String string : strings) {
@@ -109,7 +111,7 @@ public class PRISM {
      */
     void printMenu() {
         ArrayList<String> menuWithNumbers = new ArrayList<String>(menu.size());
-        for (int i=0; i < menu.size(); i++) {
+        for (int i = 0; i < menu.size(); i++) {
             menuWithNumbers.add(i + ": " + menu.get(i));
         }
         printList(menuWithNumbers);
@@ -117,10 +119,11 @@ public class PRISM {
     
     /**
      * Request input from the user via the command line and return the
-     * selection. If selection is invalid, user will be asked again until they
-     * get it right.
+     * selection for the menu. If selection is invalid, user will be asked again
+     * until they get it right.
+     * @return integer value of the selection
      */
-    int getUserInput() {
+    int getMenuSelection() {
         System.out.println(
             "Enter a number to select an option from the menu:");
         Scanner in = new Scanner(System.in);
@@ -140,7 +143,8 @@ public class PRISM {
     }
     
     /**
-     *
+     * Perform the correct operation based on the menu item selected by the user
+     * @param selection Number of the menu item selected
      */
     void actOnInput(int selection) {
         Scanner in = new Scanner(System.in);
@@ -163,6 +167,7 @@ public class PRISM {
                 gradebook.addStudent(username, firstName, lastName,
                     advisor, gradYear);
                 System.out.println("Student added to gradebook");
+                break;
             case 1: // Add students from file
                 System.out.println("Enter the name of the file from which to" +
                     " add students:");
@@ -177,6 +182,7 @@ public class PRISM {
                     // or file not in right format. (Different type of error?)
                     System.out.println("Error: file not found");
                 }
+                break;
             case 2: // Add assignment
                 System.out.println("Enter the assignment to add:");
                 assignmentName = in.next();
@@ -191,6 +197,7 @@ public class PRISM {
                 gradebook.addAssignment(assignmentName, totalPoints,
                     percentGrade);
                 System.out.println("Assignment added to gradebook");
+                break;
             case 3: // Add assignments from file
                 System.out.println("Enter the name of the file from which to" +
                     " add assignments:");
@@ -205,6 +212,7 @@ public class PRISM {
                     // or file not in right format. (Different type of error?)
                     System.out.println("Error: file not found");
                 }
+                break;
             case 4: // Add/change grade
                 System.out.println("Enter the username of the student whose" +
                     " grade to set:");
@@ -224,6 +232,7 @@ public class PRISM {
                     System.out.println("Error: student/assignment combination" +
                         " does not exist");
                 }
+                break;
             case 5: // Add student grades from file
                 System.out.println("Enter the name of the file from which to" +
                     " add student's grades:");
@@ -238,6 +247,7 @@ public class PRISM {
                     // or file not in right format. (Different type of error?)
                     System.out.println("Error: file not found");
                 }
+                break;
             case 6: // Add assignment grades from file
                 System.out.println("Enter the name of the file from which to" +
                     " add student's grades:");
@@ -252,6 +262,7 @@ public class PRISM {
                     // or file not in right format. (Different type of error?)
                     System.out.println("Error: file not found");
                 }
+                break;
             case 7: // View assignment statistics"
                 System.out.println("Enter the name of the assignment for " +
                 "which to see statistics:");
@@ -270,6 +281,7 @@ public class PRISM {
                     // TODO : Adjust to catch the correct type of error
                     System.out.println("Error: assignment not found");
                 }
+                break;
             case 8: // View student's course grade"
                 System.out.println("Enter the username of the student whose " +
                     "course grade to view:");
@@ -282,6 +294,7 @@ public class PRISM {
                     // TODO : Adjust to catch the correct type of error
                     System.out.println("Error: student not found");
                 }
+                break;
             case 9: // View student's assignment grade
                 System.out.println("Enter the username of the student whose " +
                     "grade to view:");
@@ -298,14 +311,19 @@ public class PRISM {
                     System.out.println("Error: student/assignment combination" +
                         " does not exist");
                 }
+                break;
             case 10: // Output gradebook
                 // TODO
+                break;
             case 11: // Output assignments
                 // TODO
+                break;
             case 12: // Output student's grades
                 // TODO
+                break;
             case 13: // Output course grades
                 // TODO
+                break;
             case 14: // Compare gradebooks
                 System.out.println("Enter the filename of the Gradebook to " +
                     "check if the same as this gradebook:");
@@ -326,10 +344,13 @@ public class PRISM {
                     System.out.println("Error: student/assignment combination" +
                         " does not exist");
                 }
+                break;
             case 15: // Quit PRISM
                 running = false;
+                break;
             default: // throw exception?
                 System.out.println("ERROR: Past end of the menu. You should never see this.");
+                break;
         }
         in.close();
     }
