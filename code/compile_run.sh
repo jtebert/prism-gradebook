@@ -8,7 +8,7 @@ echo "\n"
 
 # Classes with tests to run
 TEST0="gradebook.GradebookWhiteboxTest"
-TEST1="GradebookBlackboxTest"
+TEST1="MyGradeBookBlackboxTest"
 TEST2="PRISM"
 
 # JUnit variable(s)

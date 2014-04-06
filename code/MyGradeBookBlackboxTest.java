@@ -25,7 +25,7 @@ public class MyGradeBookBlackboxTest extends TestCase {
     /**
      * Method to make Web-CAT happy
      */
-    void testMethods() {
+    public void testMethods() {
         assertTrue(true);
     }
 }

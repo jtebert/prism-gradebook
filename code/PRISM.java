@@ -52,23 +52,25 @@ public class PRISM {
      */
     public static void main(String[] args) {
        // Print welcome message
-        System.out.println(
-            "----------------------------------------------------------\n" +
-            " /\\  Welcome to the PRISM Gradebook System\n" +
-            "/__\\ Portfolio of Records for Instructors' Student Marks\n" +
-            "----------------------------------------------------------");
+        System.out.println("\n" +
+            "+-----------------------------------------------------------+\n" +
+            "|  /\\   WELCOME TO THE PRISM GRADEBOOK SYSTEM               |\n" +
+            "| /  \\                                                      |\n" +
+            "|/____\\ Portfolio of Records for Instructors' Student Marks |\n" +
+            "+-----------------------------------------------------------+");
         // TODO : Add back in try/catch once everything is working
         //try {
         // Load file or start new Gradebook (depending on arguments)
         // (loading and invalid/nonexistent file handled by initialize)
         MyGradeBook newGradebook;
+        System.out.println();
         if (args.length > 1) {
             newGradebook = MyGradeBook.initializeWithFile(args[0]);
             System.out.println("Loaded gradebook from " + args[0] + "\n");
         }
         else {
             newGradebook = MyGradeBook.initialize();
-            System.out.println("New gradebook created\n");
+            System.out.println("Empty gradebook created\n");
         }
         PRISM prism = new PRISM(newGradebook);
         prism.runPRISM();
@@ -84,16 +86,19 @@ public class PRISM {
      * Run the PRISM progam until given command to quit
      */
     void runPRISM() {
+        Scanner in = new Scanner(System.in);
         while (running) {
-            // Print menu
             printMenu();
             
             // Request and handle user input
             int selection = getMenuSelection();
             actOnInput(selection);
-            System.out.println();
+            if (running) {
+                System.out.println("\n[ Press enter to continue. ]\n");
+                in.nextLine();
+            }
         }
-        System.out.println("Thank you for using PRISM");
+        System.out.println("\nPRISM quitting...\nThank you for using PRISM");
     }
     
     /**
@@ -111,6 +116,10 @@ public class PRISM {
      */
     void printMenu() {
         ArrayList<String> menuWithNumbers = new ArrayList<String>(menu.size());
+        System.out.println(
+            "+--------+\n" +
+            "|  MENU  |\n" +
+            "+--------+");
         for (int i = 0; i < menu.size(); i++) {
             menuWithNumbers.add(i + ": " + menu.get(i));
         }
@@ -125,19 +134,24 @@ public class PRISM {
      */
     int getMenuSelection() {
         System.out.println(
-            "Enter a number to select an option from the menu:");
+            "\nEnter a number to select an option from the menu:");
         Scanner in = new Scanner(System.in);
         while (true) {
             // Read integer from console
-            int selection = in.nextInt();
-            if (selection < menu.size()) {
-                in.close();
-                System.out.println("Successful input");
-                return selection;
-            }
-            else {
-                System.out.println(
-                    "Invalid selection. Select a number from the menu:");
+            if (in.hasNextLine()) {
+                try {
+                    int selection = Integer.parseInt(in.next());
+                    if (selection < menu.size()) {
+                        return selection;
+                    }
+                    else {
+                        throw new NumberFormatException("Number not in menu");
+                    }
+                }
+                catch (NumberFormatException e) {
+                    System.out.println(
+                        "Invalid selection. Select a number from the menu:");
+                }
             }
         }
     }
@@ -160,7 +174,6 @@ public class PRISM {
         gradebook.addStudent(username, firstName, lastName,
             advisor, gradYear);
         System.out.println("Student added to gradebook");
-        in.close();
     }
     
     /**
@@ -181,7 +194,6 @@ public class PRISM {
             // or file not in right format. (Different type of error?)
             System.out.println("Error: file not found");
         }
-        in.close();
     }
     
     /**
@@ -189,7 +201,7 @@ public class PRISM {
      */
     void menuAddAssignment() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the assignment to add:");
+        System.out.println("Enter the name of the assignment to add:");
         String assignmentName = in.next();
         System.out.println(
             "Enter the total points for the assignment:");
@@ -201,7 +213,6 @@ public class PRISM {
         Double percentGrade = in.nextDouble();
         gradebook.addAssignment(assignmentName, totalPoints, percentGrade);
         System.out.println("Assignment added to gradebook");
-        in.close();
     }
     
     /**
@@ -222,7 +233,6 @@ public class PRISM {
             // or file not in right format. (Different type of error?)
             System.out.println("Error: file not found");
         }
-        in.close();
     }
     
     /**
@@ -233,8 +243,8 @@ public class PRISM {
         System.out.println("Enter the username of the student whose" +
             " grade to set:");
         String studentUsername = in.next();
-        System.out.println("Enter the assignment to to set the grade " +
-            "for:");
+        System.out.println("Enter the name of the assignment to to set the " +
+            "grade for:");
         String assignmentName = in.next();
         System.out.println("Enter the new score:");
         // TODO : Same thing with error catching
@@ -248,7 +258,6 @@ public class PRISM {
             System.out.println("Error: student/assignment combination" +
                 " does not exist");
         }
-        in.close();
     }
     
     /**
@@ -269,7 +278,6 @@ public class PRISM {
             // or file not in right format. (Different type of error?)
             System.out.println("Error: file not found");
         }
-        in.close();
     }
     
     /**
@@ -291,7 +299,6 @@ public class PRISM {
             // or file not in right format. (Different type of error?)
             System.out.println("Error: file not found");
         }
-        in.close();
     }
     
     /**
@@ -316,7 +323,6 @@ public class PRISM {
             // TODO : Adjust to catch the correct type of error
             System.out.println("Error: assignment not found");
         }
-        in.close();
     }
     
     /**
@@ -335,7 +341,6 @@ public class PRISM {
             // TODO : Adjust to catch the correct type of error
             System.out.println("Error: student not found");
         }
-        in.close();
     }
     
     /**
@@ -360,7 +365,6 @@ public class PRISM {
             System.out.println("Error: student/assignment combination" +
                 " does not exist");
         }
-        in.close();
     }
     
     /**
@@ -370,7 +374,6 @@ public class PRISM {
     void menuOutputGradeBook() {
         Scanner in = new Scanner(System.in);
         // TODO
-        in.close();
     }
     
     /**
@@ -379,7 +382,6 @@ public class PRISM {
     void menuOutputAssginments() {
         Scanner in = new Scanner(System.in);
         // TODO
-        in.close();
     }
     
     /**
@@ -388,7 +390,6 @@ public class PRISM {
     void menuOutputStudentGrades() {
         Scanner in = new Scanner(System.in);
         // TODO
-        in.close();
     }
     
     /**
@@ -397,7 +398,6 @@ public class PRISM {
     void menuOutputCourseGrades() {
         Scanner in = new Scanner(System.in);
         // TODO
-        in.close();
     }
     
     /**
@@ -424,7 +424,6 @@ public class PRISM {
             System.out.println("Error: student/assignment combination" +
                 " does not exist");
         }
-        in.close();
     }
     
     /**
