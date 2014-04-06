@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 /**
  * GradeBook represents the assignments, students, and associated scores for a 
- * coure.
+ * course.
  * @author David Akodes (akodes.d@husky.neu.edu)
  * @author Julia Ebert (jtebert@ccs.neu.edu)
  * @author Jimmy Ly (jly@ccs.neu.edu)
@@ -118,9 +118,12 @@ public class MyGradeBook {
         Student newStudent = Student.newStudent(username, firstName,
             lastName, advisor, gradYear);
         students.add(newStudent);
-        Collections.sort(students);
-        // Needs Comparator
-        // TODO : Write Comparator to sort Student alphabetically by username
+        Collections.sort(students, new ByUsername());
+        HashMap<String, Double> newGrades = new HashMap<String, Double>();
+        for (Assignment a : this.assignments) {
+            newGrades.put(a.name, new Double(0));
+        }
+        newStudent.grades = newGrades;
     }
     
     /**
