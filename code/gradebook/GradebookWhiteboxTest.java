@@ -237,4 +237,17 @@ public class GradebookWhiteboxTest extends TestCase {
             assertTrue(true);
         }
     }
+    
+    /**
+     * test the method assignmentGrades for the MyGradeBook class
+     */
+    public void testAssignmentGradesMyGradeBook() {
+        HashMap<String, Double> testMap = new HashMap<String, Double>();
+        testMap.put("abetaylor", new Double(8));
+        testMap.put("abethes", new Double(6));
+        testMap.put("acit", new Double(8));
+        testMap.put("ahrown", new Double(8));
+        testMap.put("amller", new Double(5));
+        assertEquals(gradebook.assignmentGrades("assignment1"), testMap);
+    }
 }
