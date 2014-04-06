@@ -134,6 +134,20 @@ public class GradebookWhiteboxTest extends TestCase {
     }
 
     /**
+     * test the method newStudent for the Student class
+     */
+    public void testNewStudentStudent() {
+        Student testStudent = Student.newStudent("enwilson", "Aiden",
+                "Wilson", "Nelson", 2014);
+        assertEquals(testStudent.username, "enwilson");
+        assertEquals(testStudent.firstName, "Aiden");
+        assertEquals(testStudent.lastName, "Wilson");
+        assertEquals(testStudent.advisor, "Nelson");
+        assertEquals(testStudent.gradYear, 2014);
+        assertEquals(testStudent.grades, new HashMap<String, Double>());
+    }
+
+    /**
      * test the method assignmentGrade for the Student class
      */
     public void testAssignmentGradeStudent() {
