@@ -43,6 +43,7 @@ class Student {
         this.lastName = lastName;
         this.advisor = advisor;
         this.gradYear = gradYear;
+        this.grades = grades;
     }
     
     /**
@@ -67,11 +68,7 @@ class Student {
      */
     Double assignmentGrade(String assignmentName) {
         // Find the assignment in the student's grades
-        ArrayList<String> names = new ArrayList<String>();
-        for (String s : this.grades.keySet()) {
-            names.add(s);
-        }
-        for (String name : names) {
+        for (String name : this.grades.keySet()) {
             if (name.equals(assignmentName)) {
                 return this.grades.get(name);
             }
@@ -119,8 +116,8 @@ class Student {
             assignments.add(name);
         }
         // Loop through grades and add scores to String
-        for (String s : assignments) {
-            output = "\t" + this.grades.get(s);
+        for (int i = assignments.size() - 1; i >= 0; i--) {
+            output = output + "\t" + this.grades.get(assignments.get(i));
         }
         return output;
     }
