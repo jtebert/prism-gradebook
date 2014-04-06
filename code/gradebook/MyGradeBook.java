@@ -176,7 +176,7 @@ public class MyGradeBook {
      * @param assignment the assignment to be removed
      */
     public void removeAssignment(Assignment assignment) {
-        if (assignments.remove(assignment) == null) {
+        if (assignments.remove(assignment)) {
         throw new NoSuchElementException("No Such Assignment");
         }
         for (Student student : students) {
@@ -190,7 +190,7 @@ public class MyGradeBook {
      * @param student the student to be removed
      */
     public void removeStudent(Student student) {
-        if (students.remove(student) == null) {
+        if (students.remove(student)) {
             new NoSuchElementException("No Such Assignment");
         }
     }
