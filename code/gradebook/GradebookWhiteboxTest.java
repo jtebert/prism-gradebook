@@ -204,6 +204,25 @@ public class GradebookWhiteboxTest extends TestCase {
     }
     
     /**
+     * test the method newAssignment for the Assignment class
+     */
+    public void testNewAssignmentAssignment() {
+        Assignment testAssignment = Assignment.newAssignment("assignment0", 
+                new Double(20), new Double(3));
+        assertEquals(testAssignment.name, "assignment0");
+        assertEquals(testAssignment.totalPoints, new Double(20));
+        assertEquals(testAssignment.percentGrade, new Double(3));
+    }
+    
+    /**
+     * test the method toString for the Assignment class
+     */
+    public void testToStringAssignment() {
+        assertEquals(assignment1.toString(), "assignment1, 10.0, 1.0%");
+        assertEquals(assignment2.toString(), "assignment2, 100.0, 5.0%");
+    }
+    
+    /**
      * test the method compare for the ByUsername class
      */
     public void testCompareByUsername() {
