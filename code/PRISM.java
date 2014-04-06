@@ -143,209 +143,340 @@ public class PRISM {
     }
     
     /**
+     * Add a student to the Gradebook based on the user input
+     */
+    void menuAddStudent() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the username of the student to add:");
+        String username = in.next();
+        System.out.println("Enter the student's first name:");
+        String firstName = in.next();
+        System.out.println("Enter the student's last name:");
+        String lastName = in.next();
+        System.out.println("Enter the student's advisor:");
+        String advisor = in.next();
+        System.out.println("Enter the student's graduation year:");
+        int gradYear = in.nextInt();
+        gradebook.addStudent(username, firstName, lastName,
+            advisor, gradYear);
+        System.out.println("Student added to gradebook");
+        in.close();
+    }
+    
+    /**
+     * Add students from a file based on user input
+     */
+    void menuAddStudents() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the name of the file from which to" +
+            " add students:");
+        String filename = in.next();
+        try {
+            // TODO : add back when method implemented
+            // gradebook.addStudents(filename);
+            System.out.println("Students added to gradebook");
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            // or file not in right format. (Different type of error?)
+            System.out.println("Error: file not found");
+        }
+        in.close();
+    }
+    
+    /**
+     * Add an assignment to the gradebook based on user input
+     */
+    void menuAddAssignment() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the assignment to add:");
+        String assignmentName = in.next();
+        System.out.println(
+            "Enter the total points for the assignment:");
+        // TODO : I don't know if this is valid.  Need some way to check
+        // for invalid inputs here and for percent
+        Double totalPoints = in.nextDouble();
+        System.out.println("Enter the percent of the semester grade " +
+            "that the assignment counts for:");
+        Double percentGrade = in.nextDouble();
+        gradebook.addAssignment(assignmentName, totalPoints, percentGrade);
+        System.out.println("Assignment added to gradebook");
+        in.close();
+    }
+    
+    /**
+     * Add assignments from a file based on user input
+     */
+    void menuAddAssignments() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the name of the file from which to" +
+            " add assignments:");
+        String filename = in.next();
+        try {
+            // TODO : add back when method implemented
+            // gradebook.addAssignments(filename);
+            System.out.println("Assignments added to gradebook");
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            // or file not in right format. (Different type of error?)
+            System.out.println("Error: file not found");
+        }
+        in.close();
+    }
+    
+    /**
+     * Add or change a grade based on user input
+     */
+    void menuAddGrade() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the username of the student whose" +
+            " grade to set:");
+        String studentUsername = in.next();
+        System.out.println("Enter the assignment to to set the grade " +
+            "for:");
+        String assignmentName = in.next();
+        System.out.println("Enter the new score:");
+        // TODO : Same thing with error catching
+        Double newScore = in.nextDouble();
+        boolean success = gradebook.changeGrade(assignmentName,
+            studentUsername, newScore);
+        if (success) {
+            System.out.println("Grade changed");
+        }
+        else {
+            System.out.println("Error: student/assignment combination" +
+                " does not exist");
+        }
+        in.close();
+    }
+    
+    /**
+     * Add grades for a student from a file based on user input
+     */
+    void menuAddStudentGrades() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the name of the file from which to" +
+            " add student's grades:");
+        String filename = in.next();
+        try {
+            // TODO : add back when method implemented
+            // gradebook.addStudentGrades(filename);
+            System.out.println("Grades added to gradebook");
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            // or file not in right format. (Different type of error?)
+            System.out.println("Error: file not found");
+        }
+        in.close();
+    }
+    
+    /**
+     * Add grades for an assignment for multiple students from a file based on
+     * user input
+     */
+    void menuAddAssignmentGrades() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the name of the file from which to" +
+            " add student's grades:");
+        String filename = in.next();
+        try {
+            // TODO : add back when method implemented
+            // gradebook.addAssignmentGrades(filename);
+            System.out.println("Grades added to gradebook");
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            // or file not in right format. (Different type of error?)
+            System.out.println("Error: file not found");
+        }
+        in.close();
+    }
+    
+    /**
+     * View statistics for an assignment based on user input
+     */
+    void menuAssignmentStats() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the name of the assignment for " +
+            "which to see statistics:");
+        String assignmentName = in.next();
+        try {
+            double averageGrade = gradebook.average(assignmentName);
+            double medianGrade = gradebook.median(assignmentName);
+            double maxGrade = gradebook.max(assignmentName);
+            double minGrade = gradebook.min(assignmentName);
+            System.out.println("Average: " + averageGrade +
+                "\nMedian: " + medianGrade + 
+                "\nMax: " + maxGrade + 
+                "\nMin: " + minGrade);
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            System.out.println("Error: assignment not found");
+        }
+        in.close();
+    }
+    
+    /**
+     * View a student's grades for the course based on user input
+     */
+    void menuStudentCourseGrade() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the username of the student whose " +
+            "course grade to view:");
+        String username = in.next();
+        try {
+            double currentGrade = gradebook.currentGrade(username);
+            System.out.println("Current grade: " + currentGrade);
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            System.out.println("Error: student not found");
+        }
+        in.close();
+    }
+    
+    /**
+     * View a student's grade for a particular assignment, based on user input
+     */
+    void menuStudentAssignmentGrade() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the username of the student whose " +
+            "grade to view:");
+        String username = in.next();
+        System.out.println("Enter the name of the assignment " +
+            "to view the grade of:");
+        String assignmentName = in.next();
+        try {
+            double assignmentGrade = gradebook.assignmentGrade(
+                assignmentName, username);
+            System.out.println(assignmentName + " grade for " + 
+                username + ": " + assignmentGrade);
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            System.out.println("Error: student/assignment combination" +
+                " does not exist");
+        }
+        in.close();
+    }
+    
+    /**
+     * Output a file of all assignments, students, and grades based on user
+     * input
+     */
+    void menuOutputGradeBook() {
+        Scanner in = new Scanner(System.in);
+        // TODO
+        in.close();
+    }
+    
+    /**
+     * Output a file of all assignments based on user input
+     */
+    void menuOutputAssginments() {
+        Scanner in = new Scanner(System.in);
+        // TODO
+        in.close();
+    }
+    
+    /**
+     * Output a file of a student's grades based on user input
+     */
+    void menuOutputStudentGrades() {
+        Scanner in = new Scanner(System.in);
+        // TODO
+        in.close();
+    }
+    
+    /**
+     * Output a file of course grades for all students based on user input
+     */
+    void menuOutputCourseGrades() {
+        Scanner in = new Scanner(System.in);
+        // TODO
+        in.close();
+    }
+    
+    /**
+     * Check whether 2 gradebooks are the same, based on user input
+     */
+    void menuCompareGradeBooks() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the filename of the Gradebook to " +
+            "check if the same as this gradebook:");
+        String filename = in.next();
+        try {
+            MyGradeBook otherGradeBook =
+                MyGradeBook.initializeWithFile(filename);
+            boolean equality = gradebook.equals(otherGradeBook);
+            if (equality) {
+                System.out.println("Gradebooks are the same");
+            }
+            else {
+                System.out.println("Gradebooks are not the same");
+            }
+        }
+        catch (Exception e) {
+            // TODO : Adjust to catch the correct type of error
+            System.out.println("Error: student/assignment combination" +
+                " does not exist");
+        }
+        in.close();
+    }
+    
+    /**
      * Perform the correct operation based on the menu item selected by the user
      * @param selection Number of the menu item selected
      */
     void actOnInput(int selection) {
-        Scanner in = new Scanner(System.in);
-        String assignmentName;
-        String filename;
-        String username;
         switch (selection) {
             case 0: // Add student
-                System.out.println("Enter the username of the student to add:");
-                username = in.next();
-                in.close();
-                System.out.println("Enter the student's first name:");
-                String firstName = in.next();
-                System.out.println("Enter the student's last name:");
-                String lastName = in.next();
-                System.out.println("Enter the student's advisor:");
-                String advisor = in.next();
-                System.out.println("Enter the student's graduation year:");
-                int gradYear = in.nextInt();
-                gradebook.addStudent(username, firstName, lastName,
-                    advisor, gradYear);
-                System.out.println("Student added to gradebook");
+                menuAddStudent();
                 break;
             case 1: // Add students from file
-                System.out.println("Enter the name of the file from which to" +
-                    " add students:");
-                filename = in.next();
-                try {
-                    // TODO : add back when method implemented
-                    // gradebook.addStudents(filename);
-                    System.out.println("Students added to gradebook");
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    // or file not in right format. (Different type of error?)
-                    System.out.println("Error: file not found");
-                }
+                menuAddStudents();
                 break;
             case 2: // Add assignment
-                System.out.println("Enter the assignment to add:");
-                assignmentName = in.next();
-                System.out.println(
-                    "Enter the total points for the assignment:");
-                // TODO : I don't know if this is valid.  Need some way to check
-                // for invalid inputs here and for percent
-                Double totalPoints = in.nextDouble();
-                System.out.println("Enter the percent of the semester grade " +
-                    "that the assignment counts for:");
-                Double percentGrade = in.nextDouble();
-                gradebook.addAssignment(assignmentName, totalPoints,
-                    percentGrade);
-                System.out.println("Assignment added to gradebook");
+                menuAddAssignment();
                 break;
             case 3: // Add assignments from file
-                System.out.println("Enter the name of the file from which to" +
-                    " add assignments:");
-                filename = in.next();
-                try {
-                    // TODO : add back when method implemented
-                    // gradebook.addAssignments(filename);
-                    System.out.println("Assignments added to gradebook");
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    // or file not in right format. (Different type of error?)
-                    System.out.println("Error: file not found");
-                }
+                menuAddAssignments();
                 break;
             case 4: // Add/change grade
-                System.out.println("Enter the username of the student whose" +
-                    " grade to set:");
-                String studentUsername = in.next();
-                System.out.println("Enter the assignment to to set the grade " +
-                    "for:");
-                assignmentName = in.next();
-                System.out.println("Enter the new score:");
-                // TODO : Same thing with error catching
-                Double newScore = in.nextDouble();
-                boolean success = gradebook.changeGrade(assignmentName,
-                    studentUsername, newScore);
-                if (success) {
-                    System.out.println("Grade changed");
-                }
-                else {
-                    System.out.println("Error: student/assignment combination" +
-                        " does not exist");
-                }
+                menuAddGrade();
                 break;
             case 5: // Add student grades from file
-                System.out.println("Enter the name of the file from which to" +
-                    " add student's grades:");
-                filename = in.next();
-                try {
-                    // TODO : add back when method implemented
-                    // gradebook.addStudentGrades(filename);
-                    System.out.println("Grades added to gradebook");
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    // or file not in right format. (Different type of error?)
-                    System.out.println("Error: file not found");
-                }
+                menuAddStudentGrades();
                 break;
             case 6: // Add assignment grades from file
-                System.out.println("Enter the name of the file from which to" +
-                    " add student's grades:");
-                filename = in.next();
-                try {
-                    // TODO : add back when method implemented
-                    // gradebook.addAssignmentGrades(filename);
-                    System.out.println("Grades added to gradebook");
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    // or file not in right format. (Different type of error?)
-                    System.out.println("Error: file not found");
-                }
+                menuAddAssignmentGrades();
                 break;
-            case 7: // View assignment statistics"
-                System.out.println("Enter the name of the assignment for " +
-                    "which to see statistics:");
-                assignmentName = in.next();
-                try {
-                    double averageGrade = gradebook.average(assignmentName);
-                    double medianGrade = gradebook.median(assignmentName);
-                    double maxGrade = gradebook.max(assignmentName);
-                    double minGrade = gradebook.min(assignmentName);
-                    System.out.println("Average: " + averageGrade +
-                        "\nMedian: " + medianGrade + 
-                        "\nMax: " + maxGrade + 
-                        "\nMin: " + minGrade);
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    System.out.println("Error: assignment not found");
-                }
+            case 7: // View assignment statistics
+                menuAssignmentStats();
                 break;
-            case 8: // View student's course grade"
-                System.out.println("Enter the username of the student whose " +
-                    "course grade to view:");
-                username = in.next();
-                try {
-                    double currentGrade = gradebook.currentGrade(username);
-                    System.out.println("Current grade: " + currentGrade);
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    System.out.println("Error: student not found");
-                }
+            case 8: // View student's course grade
+                menuStudentCourseGrade();
                 break;
             case 9: // View student's assignment grade
-                System.out.println("Enter the username of the student whose " +
-                    "grade to view:");
-                username = in.next();
-                System.out.println("Enter the name of the assignment " +
-                    "to view the grade of:");
-                assignmentName = in.next();
-                try {
-                    double assignmentGrade = gradebook.assignmentGrade(
-                        assignmentName, username);
-                    System.out.println(assignmentName + " grade for " + 
-                        username + ": " + assignmentGrade);
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    System.out.println("Error: student/assignment combination" +
-                        " does not exist");
-                }
+                menuStudentAssignmentGrade();
                 break;
             case 10: // Output gradebook
-                // TODO
+                menuOutputGradeBook();
                 break;
             case 11: // Output assignments
-                // TODO
+                menuOutputAssginments();
                 break;
             case 12: // Output student's grades
-                // TODO
+                menuOutputStudentGrades();
                 break;
             case 13: // Output course grades
-                // TODO
+                menuOutputCourseGrades();
                 break;
             case 14: // Compare gradebooks
-                System.out.println("Enter the filename of the Gradebook to " +
-                    "check if the same as this gradebook:");
-                filename = in.next();
-                try {
-                    MyGradeBook otherGradeBook =
-                        MyGradeBook.initializeWithFile(filename);
-                    boolean equality = gradebook.equals(otherGradeBook);
-                    if (equality) {
-                        System.out.println("Gradebooks are the same");
-                    }
-                    else {
-                        System.out.println("Gradebooks are not the same");
-                    }
-                }
-                catch (Exception e) {
-                    // TODO : Adjust to catch the correct type of error
-                    System.out.println("Error: student/assignment combination" +
-                        " does not exist");
-                }
+                menuCompareGradeBooks();
                 break;
             case 15: // Quit PRISM
                 running = false;
@@ -355,7 +486,6 @@ public class PRISM {
                     "You should never see this.");
                 break;
         }
-        in.close();
     }
     
 }
