@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import junit.framework.TestCase;
 import org.junit.Before;
-import org.junit.Test;
 
 /**
  * WHITE BOX Tests for GradeBook and associated classes
@@ -15,9 +14,6 @@ import org.junit.Test;
  * @version 2014-04-11
  */
 public class GradebookWhiteboxTest extends TestCase {
-
-    /** Constructor for GradebookWhiteboxTest */
-    public GradebookWhiteboxTest() { }
 
     // Sample Gradebooks for testing
     /** grades for student1 */
@@ -55,12 +51,14 @@ public class GradebookWhiteboxTest extends TestCase {
     /** instance of empty list of students */
     private ArrayList<Student> studentList = new ArrayList<Student>();
     /** instance of empty gradebook */
-    private MyGradeBook gradebook = new MyGradeBook(studentList, assignmentList);
+    private MyGradeBook gradebook =
+        new MyGradeBook(studentList, assignmentList);
 
     /**
      * Initialize the data for the tests
      */
-    void initData() {
+    @Before
+    public void setUp() {
         grades1 = new HashMap<String, Double>();
         grades1.put("assignment1", new Double(8));
         grades1.put("assignment2", new Double(71));
@@ -136,7 +134,6 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method assignmentGrade for the Student class
      */
     public void testAssignmentGradeStudent() {
-        initData();
         assertEquals(student1.assignmentGrade("assignment1"), new Double(8));
         assertEquals(student2.assignmentGrade("assignment2"), new Double(90));
         assertEquals(student3.assignmentGrade("assignment3"), new Double(122));
@@ -148,7 +145,6 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method currentGrade for the Student class
      */
     public void testCurrentGradeStudent() {
-        initData();
         assertEquals(student1.currentGrade(assignmentList), 
                 new Double(10220) / new Double(183));
         assertEquals(student2.currentGrade(assignmentList),
@@ -165,7 +161,6 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method outputGrades for the Student class
      */
     public void testOutputGradesStudent() {
-        initData();
         assertEquals(student1.outputGrades(),
                 "abetaylor\tIsabella\tTaylor\tBaker\t2016"
                 + "\t8.0\t71.0\t82.0\t65.0\t20.0");
@@ -178,7 +173,6 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method toString for the Student class
      */
     public void testToStringStudent() {
-        initData();
         assertEquals(student1.toString(), "Isabella Taylor (abetaylor), "
                 + "2016\n\tAdvisor: Baker");
         assertEquals(student2.toString(), "Elizabeth White (abethes), "

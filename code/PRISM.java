@@ -64,7 +64,7 @@ public class PRISM {
         MyGradeBook newGradebook;
         if (args.length > 1) {
             newGradebook = MyGradeBook.initializeWithFile(args[0]);
-            System.out.println("Loaded gradebook from " + args[0]+ "\n");
+            System.out.println("Loaded gradebook from " + args[0] + "\n");
         }
         else {
             newGradebook = MyGradeBook.initialize();
@@ -265,7 +265,7 @@ public class PRISM {
                 break;
             case 7: // View assignment statistics"
                 System.out.println("Enter the name of the assignment for " +
-                "which to see statistics:");
+                    "which to see statistics:");
                 assignmentName = in.next();
                 try {
                     double averageGrade = gradebook.average(assignmentName);
@@ -305,6 +305,8 @@ public class PRISM {
                 try {
                     double assignmentGrade = gradebook.assignmentGrade(
                         assignmentName, username);
+                    System.out.println(assignmentName + " grade for " + 
+                        username + ": " + assignmentGrade);
                 }
                 catch (Exception e) {
                     // TODO : Adjust to catch the correct type of error
@@ -349,7 +351,8 @@ public class PRISM {
                 running = false;
                 break;
             default: // throw exception?
-                System.out.println("ERROR: Past end of the menu. You should never see this.");
+                System.out.println("ERROR: Past end of the menu. " + 
+                    "You should never see this.");
                 break;
         }
         in.close();
