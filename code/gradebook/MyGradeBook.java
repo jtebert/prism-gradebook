@@ -175,7 +175,7 @@ public class MyGradeBook {
      * student's list of grades 
      * @param assignment the assignment to be removed
      */
-	 public void removeAssignment(Assignment assignment) {
+    public void removeAssignment(Assignment assignment) {
         if (assignments.remove(assignment) == null) {
         throw new RuntimeException("No Such Assignment");
         }
@@ -189,7 +189,7 @@ public class MyGradeBook {
      * Modifies the Gradebook's students field
      * @param student the student to be removed
      */
-	 public void removeStudent(Student student) {
+    public void removeStudent(Student student) {
         if (students.remove(student) == null) {
             new RuntimeException("No Such Assignment");
         }
