@@ -170,28 +170,44 @@ public class MyGradeBook {
     }
     
     /**
-     * Remove an assignment from the Gradebook
+     * Remove an assignment with the given name from the Gradebook
      * Modifies the Gradebook's assignments field and remove from the 
      * student's list of grades 
      * @param assignment the assignment to be removed
+     * @throws NoSuchElementException if assignment not found
      */
-    public void removeAssignment(Assignment assignment) {
-        if (assignments.remove(assignment)) {
-        throw new NoSuchElementException("No Such Assignment");
+    public void removeAssignment (String assignmentName)
+            throws NoSuchElementException {
+        int assignmentIndex = -1;
+        for (int i = 0; i < assignments.size(); i++) {
+            if (assignments.get(i).name.equals(assignmentName)) {
+                assignmentIndex = i;
+                break;
+            }
+        }
+        if (assignmentIndex >= 0) {
+            assignments.remove(assignmentIndex);
+        }
+        else {
+            throw new NoSuchElementException("Assignment not in list");
         }
         for (Student student : students) {
-            student.grades.remove(assignment.name);
+            student.grades.remove(assignmentName);
         }
     }
         
     /**
      * Remove a student from the Gradebook
      * Modifies the Gradebook's students field
-     * @param student the student to be removed
+     * @param username Username of the student to be removed
+     * @throws NoSuchElementException if student not found
      */
-    public void removeStudent(Student student) {
-        if (students.remove(student)) {
-            new NoSuchElementException("No Such Assignment");
+    public void removeStudent(String username) throws NoSuchElementException {
+        studentFound(username);
+        for (Student student : students) {
+            if (student.username.equals(username)) {
+                students.remove(student);
+            }
         }
     }
     
@@ -213,23 +229,22 @@ public class MyGradeBook {
         // Find the Student by username
         int studentIndex = -1;
         for (int i = 0; i < this.students.size(); i++) {
-            if (this.students.get(i).username == username) {
+            if (students.get(i).username.equals(username)) {
                 studentIndex = i;
                 break;
             }
         }
-        // (error if no such student)
         // Find the assignment and set the grade
         int assignmentIndex = -1;
         for (int j = 0; j < this.assignments.size(); j++) {
-            if (this.assignments.get(j).name == assignmentName) {
+            if (assignments.get(j).name.equals(assignmentName)) {
                 assignmentIndex = j;
                 break;
             }
         }
-        // (error if no such assignment)
+        // Return the appropriate boolean if modifications were successful
         if (studentIndex != -1 && assignmentIndex != -1) {
-            Student studentFound = this.students.get(studentIndex);
+            Student studentFound = students.get(studentIndex);
             studentFound.grades.put(assignmentName, newGrade);
             return true;
         }
