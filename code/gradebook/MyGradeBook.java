@@ -125,6 +125,12 @@ public class MyGradeBook {
      */
     public void addStudent(String username, String firstName, String lastName,
             String advisor, int gradYear) {
+        for (Student s : this.students) {
+            if (s.username.equals(username)) {
+                throw new IllegalArgumentException("A student with the given "
+                    + "username already exists");
+            }
+        }
         Student newStudent = Student.newStudent(username, firstName,
             lastName, advisor, gradYear);
         students.add(newStudent);
@@ -147,6 +153,12 @@ public class MyGradeBook {
      */
     public void addAssignment(String name, Double totalPoints,
             Double percentGrade) {
+        for (Assignment a : this.assignments) {
+            if (a.name.equals(name)) {
+                throw new IllegalArgumentException("An assignment with the given name"
+                    + "already exists");
+            }
+        }
         Assignment newAssignment = Assignment.newAssignment(name, totalPoints,
             percentGrade);
         assignments.add(newAssignment);
@@ -154,6 +166,32 @@ public class MyGradeBook {
             student.grades.put(newAssignment.name, new Double(0));
             // TODO : Find some way to put this in the correct order?
             // Do hashMaps have explicit order?
+        }
+    }
+    
+    /**
+     * Remove an assignment from the Gradebook
+     * Modifies the Gradebook's assignments field and remove from the 
+     * student's list of grades 
+     * @param assignment the assignment to be removed
+     */
+    public void removeAssignment(Assignment assignment) {
+        if (assignments.remove(assignment)) {
+        throw new NoSuchElementException("No Such Assignment");
+        }
+        for (Student student : students) {
+            student.grades.remove(assignment.name);
+        }
+    }
+        
+    /**
+     * Remove a student from the Gradebook
+     * Modifies the Gradebook's students field
+     * @param student the student to be removed
+     */
+    public void removeStudent(Student student) {
+        if (students.remove(student)) {
+            new NoSuchElementException("No Such Assignment");
         }
     }
     
@@ -199,6 +237,42 @@ public class MyGradeBook {
             return false;
         }
     }
+    
+    /**
+     * Check the list of assignments to see if the given assignment exists
+     * @param assignmentName the name of the assignment
+     * @throws NoSuchElementException if the assignment is not found
+     */
+    void assignmentFound(String assignmentName) {
+        boolean assignmentFound = false;
+        for (Assignment a : this.assignments) {
+            if (a.name.equals(assignmentName)) {
+                assignmentFound = true;
+                break;
+            }
+        }
+        if (!assignmentFound) {
+            throw new NoSuchElementException();
+        }
+    }
+    
+    /**
+     * Check the list of students to see if the given student exists
+     * @param studentUsername the username of the student
+     * @throws NoSuchElementException if the student is not found
+     */
+    void studentFound(String studentUsername) {
+        boolean studentFound = false;
+        for (Student s : this.students) {
+            if (s.username.equals(studentUsername)) {
+                studentFound = true;
+                break;
+            }
+        }
+        if (!studentFound) {
+            throw new NoSuchElementException();
+        }
+    }
 
     /**
      * Calculates the average across all students for a given assignment
@@ -208,6 +282,7 @@ public class MyGradeBook {
      * @return the average across all students for assignmentName
      */
     public double average(String assignmentName) {
+        this.assignmentFound(assignmentName);
         // For each student sum the grade they received for the given assignment
         double pointSum = 0;
         double assignmentCount = 0;
@@ -227,6 +302,7 @@ public class MyGradeBook {
      * @return the median across all students for assignmentName
      */
     public double median(String assignmentName) {
+        this.assignmentFound(assignmentName);
         // Get ArrayList of grades from assignmentGrades
         ArrayList<Double> grades = new ArrayList<Double>();
         for (Student s : this.students) {
@@ -253,6 +329,7 @@ public class MyGradeBook {
      * @return the min across all students for assignmentName
      */
     public double min(String assignmentName) {
+        this.assignmentFound(assignmentName);
         // Get ArrayList of grades from assignmentGrades
         ArrayList<Double> grades = new ArrayList<Double>();
         for (Student s : this.students) {
@@ -281,6 +358,7 @@ public class MyGradeBook {
      * @return the max across all students for assignmentName
      */
     public double max(String assignmentName) {
+        this.assignmentFound(assignmentName);
         // Get ArrayList of grades from assignmentGrades
         ArrayList<Double> grades = new ArrayList<Double>();
         for (Student s : this.students) {
@@ -317,24 +395,14 @@ public class MyGradeBook {
      *         times the percent of semester.
      */
     public double currentGrade(String username) {
+        this.studentFound(username);
         // Find the Student in the ArrayList
-        Student targetStudent = null;
         for (Student s : this.students) {
             if (s.username.equals(username)) {
-                targetStudent = s;
-                break;
+                return s.currentGrade(assignments);
             }
         }
-        //     (error is no such student)
-        if (targetStudent == null) {
-            throw new NoSuchElementException();
-        }
-        // use student.currentGrade() to get grade
-        Double grade = targetStudent.currentGrade(assignments);
-        // multiply each grade by percent score
-        // Add all these
-        // Divide by total number of points for semester
-        return grade;
+        throw new NoSuchElementException();
     }
 
     /**
@@ -371,6 +439,8 @@ public class MyGradeBook {
      * @return the grade earned by username for assignmentName
      */
     public double assignmentGrade(String assignmentName, String username) {
+        this.studentFound(username);
+        this.assignmentFound(assignmentName);
         // Find the Student in ArrayList
         for (Student s : this.students) {
             if (s.username.equals(username)) {
@@ -388,6 +458,7 @@ public class MyGradeBook {
      * @return HashMap of student usernames and grades for the assignment
      */
     HashMap<String, Double> assignmentGrades(String assignmentName) {
+        this.assignmentFound(assignmentName);
         // For each Student, find the Assignment and get the grade
         HashMap<String, Double> grades = new HashMap<String, Double>();
         for (Student s : this.students) {
@@ -499,15 +570,9 @@ public class MyGradeBook {
         // Get grades with assignmentGrades
         HashMap<String, Double> grades = this.assignmentGrades(assignName);
         // Loop through HashMap to list username & grades
-        ArrayList<String> outStudents = new ArrayList<String>();
-        for (String s : grades.keySet()) {
-            outStudents.add(s);
-        }
-        // Move sorting to addStudent
-        // TODO : Can this go away now that we're sorting when they're added
-        Collections.sort(outStudents);
-        for (String s : outStudents) {
-            output = output + s + "\t" + grades.get(s) + "\n";
+        for (Student s : this.students) {
+            output = output + s.username + "\t" +
+                grades.get(s.username) + "\n";
         }
         // Add divider
         output = output + "----\nSTATS\n";
@@ -531,7 +596,7 @@ public class MyGradeBook {
     public String outputGradebook() {
         // Add header
         String output = "GRADEBOOK\n\t\t\t\t";
-        // Add info about assignments (with correct number of preceeding tabs)
+        // Add info about assignments (with correct number of preceding tabs)
         for (Assignment a : this.assignments) {
             output = output + "\t" + a.name;
         }
@@ -544,20 +609,8 @@ public class MyGradeBook {
             output = output + "\t" + a.percentGrade;
         }
         // Loop through students and use student.outputGrades to add lines
-        HashMap<String, Student> studentUsernames =
-            new HashMap<String, Student>();
         for (Student s : this.students) {
-            studentUsernames.put(s.username, s);
-        }
-        ArrayList<String> sortedStudents = new ArrayList<String>();
-        for (Student s : this.students) {
-            sortedStudents.add(s.username);
-        }
-        // Move sorting to addStudent
-        // TODO : Can this go away now that we're sorting when adding?
-        Collections.sort(sortedStudents);
-        for (String s : sortedStudents) {
-            output = output + "\n" + studentUsernames.get(s).outputGrades();
+            output = output + "\n" + s.outputGrades(this.assignments);
         }
         return output;
     }
@@ -577,7 +630,7 @@ public class MyGradeBook {
     
     /**
      * Output a list of human-readable forms of the information about each
-     * Assginment
+     * Assignment
      * @return List of Strings of all Assignments
      */
     public ArrayList<String> listAssignments() {

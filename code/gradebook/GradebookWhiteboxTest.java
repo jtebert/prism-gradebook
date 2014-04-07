@@ -2,6 +2,7 @@ package gradebook;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import junit.framework.TestCase;
 import org.junit.Before;
 
@@ -15,7 +16,8 @@ import org.junit.Before;
  */
 public class GradebookWhiteboxTest extends TestCase {
 
-    // Sample Gradebooks for testing
+    /** instance of username comparator */
+    private ByUsername comp;
     /** grades for student1 */
     private HashMap<String, Double> grades1;
     /** grades for student2 */
@@ -59,6 +61,7 @@ public class GradebookWhiteboxTest extends TestCase {
      */
     @Before
     public void setUp() {
+        comp = new ByUsername();
         grades1 = new HashMap<String, Double>();
         grades1.put("assignment1", new Double(8));
         grades1.put("assignment2", new Double(71));
@@ -131,6 +134,20 @@ public class GradebookWhiteboxTest extends TestCase {
     }
 
     /**
+     * test the method newStudent for the Student class
+     */
+    public void testNewStudentStudent() {
+        Student testStudent = Student.newStudent("enwilson", "Aiden",
+                "Wilson", "Nelson", 2014);
+        assertEquals(testStudent.username, "enwilson");
+        assertEquals(testStudent.firstName, "Aiden");
+        assertEquals(testStudent.lastName, "Wilson");
+        assertEquals(testStudent.advisor, "Nelson");
+        assertEquals(testStudent.gradYear, 2014);
+        assertEquals(testStudent.grades, new HashMap<String, Double>());
+    }
+
+    /**
      * test the method assignmentGrade for the Student class
      */
     public void testAssignmentGradeStudent() {
@@ -139,6 +156,13 @@ public class GradebookWhiteboxTest extends TestCase {
         assertEquals(student3.assignmentGrade("assignment3"), new Double(122));
         assertEquals(student4.assignmentGrade("assignment4"), new Double(57));
         assertEquals(student5.assignmentGrade("assignment5"), new Double(26));
+        try {
+            student1.assignmentGrade("assignment0");
+            assertTrue(false);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
     }
     
     /**
@@ -161,10 +185,10 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method outputGrades for the Student class
      */
     public void testOutputGradesStudent() {
-        assertEquals(student1.outputGrades(),
+        assertEquals(student1.outputGrades(assignmentList),
                 "abetaylor\tIsabella\tTaylor\tBaker\t2016"
                 + "\t8.0\t71.0\t82.0\t65.0\t20.0");
-        assertEquals(student2.outputGrades(),
+        assertEquals(student2.outputGrades(assignmentList),
                 "abethes\tElizabeth\tWhite\tNelson\t2014"
                 + "\t6.0\t90.0\t92.0\t88.0\t45.0");
     }
@@ -177,5 +201,86 @@ public class GradebookWhiteboxTest extends TestCase {
                 + "2016\n\tAdvisor: Baker");
         assertEquals(student2.toString(), "Elizabeth White (abethes), "
                 + "2014\n\tAdvisor: Nelson");
+    }
+    
+    /**
+     * test the method newAssignment for the Assignment class
+     */
+    public void testNewAssignmentAssignment() {
+        Assignment testAssignment = Assignment.newAssignment("assignment0", 
+                new Double(20), new Double(3));
+        assertEquals(testAssignment.name, "assignment0");
+        assertEquals(testAssignment.totalPoints, new Double(20));
+        assertEquals(testAssignment.percentGrade, new Double(3));
+    }
+    
+    /**
+     * test the method toString for the Assignment class
+     */
+    public void testToStringAssignment() {
+        assertEquals(assignment1.toString(), "assignment1, 10.0, 1.0%");
+        assertEquals(assignment2.toString(), "assignment2, 100.0, 5.0%");
+    }
+    
+    /**
+     * test the method compare for the ByUsername class
+     */
+    public void testCompareByUsername() {
+        assertTrue(comp.compare(student1, student2) < 0);
+        assertTrue(comp.compare(student1, student1) == 0);
+        assertTrue(comp.compare(student2, student1) > 0);
+    }
+    
+    /**
+     * test the method assignmentFound for the MyGradeBook class
+     */
+    public void testAssignmentFoundMyGradeBook() {
+        try {
+            gradebook.assignmentFound("assignment1");
+            assertTrue(true);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(false);
+        }
+        try {
+            gradebook.assignmentFound("assignment0");
+            assertTrue(false);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * test the method studentFound for the MyGradeBook class
+     */
+    public void testStudentFoundMyGradeBook() {
+        try {
+            gradebook.studentFound("abetaylor");
+            assertTrue(true);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(false);
+        }
+        try {
+            gradebook.studentFound("abelincoln");
+            assertTrue(false);
+        }
+        catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
+    }
+    
+    /**
+     * test the method assignmentGrades for the MyGradeBook class
+     */
+    public void testAssignmentGradesMyGradeBook() {
+        HashMap<String, Double> testMap = new HashMap<String, Double>();
+        testMap.put("abetaylor", new Double(8));
+        testMap.put("abethes", new Double(6));
+        testMap.put("acit", new Double(8));
+        testMap.put("ahrown", new Double(8));
+        testMap.put("amller", new Double(5));
+        assertEquals(gradebook.assignmentGrades("assignment1"), testMap);
     }
 }

@@ -108,17 +108,12 @@ class Student {
      * tabs.
      * @return string of student's grades, tab separated
      */
-    String outputGrades() {
+    String outputGrades(ArrayList<Assignment> assignments) {
         // Add student info to String
         String output = this.username + "\t" + this.firstName + "\t" + 
             this.lastName + "\t" + this.advisor + "\t" + this.gradYear;
-        ArrayList<String> assignments = new ArrayList<String>();
-        for (String name : this.grades.keySet()) {
-            assignments.add(name);
-        }
-        // Loop through grades and add scores to String
-        for (int i = assignments.size() - 1; i >= 0; i--) {
-            output = output + "\t" + this.grades.get(assignments.get(i));
+        for (Assignment a : assignments) {
+            output = output + "\t" + this.grades.get(a.name);
         }
         return output;
     }
