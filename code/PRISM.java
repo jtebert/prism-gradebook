@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import gradebook.MyGradeBook;
-import java.io.*;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -29,14 +29,18 @@ public class PRISM {
         menu = new ArrayList<String>(15);
         menu.add("Add student");
         menu.add("Add students from file");
+        menu.add("Remove student");
         menu.add("Add assignment");
         menu.add("Add assignments from file");
+        menu.add("Remove assignment");
         menu.add("Add or change a grade");
         menu.add("Add student grades from file");
         menu.add("Add assignment grades from file");
         menu.add("View assignment statistics");
         menu.add("View student's course grade");
         menu.add("View student's assignment grade");
+        menu.add("View students");
+        menu.add("Viwe assignments");
         menu.add("Output gradebook");
         menu.add("Output assignments");
         menu.add("Output student's grades");
@@ -59,27 +63,36 @@ public class PRISM {
             "|/____\\ Portfolio of Records for Instructors' Student Marks |\n" +
             "+-----------------------------------------------------------+");
         // TODO : Add back in try/catch once everything is working
-        //try {
-        // Load file or start new Gradebook (depending on arguments)
-        // (loading and invalid/nonexistent file handled by initialize)
-        MyGradeBook newGradebook;
-        System.out.println();
-        if (args.length > 1) {
-            newGradebook = MyGradeBook.initializeWithFile(args[0]);
-            System.out.println("Loaded gradebook from " + args[0] + "\n");
+        try {
+            // Load file or start new Gradebook (depending on arguments)
+            // (loading and invalid/nonexistent file handled by initialize)
+            MyGradeBook newGradebook;
+            System.out.println();
+            if (args.length > 1) {
+                newGradebook = MyGradeBook.initializeWithFile(args[0]);
+                System.out.println("Loaded gradebook from " + args[0] + "\n");
+            }
+            else {
+                newGradebook = MyGradeBook.initialize();
+                System.out.println("Empty gradebook created\n");
+            }
+            PRISM prism = new PRISM(newGradebook);
+            prism.runPRISM();
         }
-        else {
-            newGradebook = MyGradeBook.initialize();
-            System.out.println("Empty gradebook created\n");
+        /*catch (FileNotFoundException e) {
+            System.out.println("Error: File not found\nPRISM quitting");
         }
-        PRISM prism = new PRISM(newGradebook);
-        prism.runPRISM();
-        /*}
-        catch (Exception e) {
-            // TODO : Adjuct based on correct type of error
-            System.out.println("Error: file not found\n" + 
+        catch (ArgumentOutOfRangeException e) {
+            System.out.println("Error: Invalid format\nPRISM quitting");
+        }
+        catch (UnauthorizedAccessException e) {
+            System.out.println("Error: Permission to access file denied\n" +
                 "PRISM quitting");
         }*/
+        catch (Exception e) {
+            System.out.println("Error: Unknown error encountered\n" + 
+                "PRISM quitting");
+        }
     }
     
     /**
@@ -98,7 +111,7 @@ public class PRISM {
                 in.nextLine();
             }
         }
-        System.out.println("\nPRISM quitting...\nThank you for using PRISM");
+        System.out.println("\nPRISM quitting...\nThank you for using PRISM\n");
     }
     
     /**
