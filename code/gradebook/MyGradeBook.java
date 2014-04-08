@@ -1,10 +1,13 @@
 package gradebook;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Scanner;
+import java.io.*;
 
 /**
  * GradeBook represents the assignments, students, and associated scores for a 
@@ -44,6 +47,28 @@ public class MyGradeBook {
     }
 
     /**
+     * Helper method to read a file into a string
+     * 
+     * @param filename
+     *            the filename of the file to read
+     * @return a string representation of the file's content
+     */
+    private static String stringFromFile(String filename)
+    throws FileNotFoundException, IOException {
+        File f = new File(filename);
+        // Check if the file exists
+        if ( !f.exists() ) {
+            throw new FileNotFoundException(filename);
+        }
+        // Check if the file is readable
+        if ( !f.canRead() ) {
+            throw new IOException(filename);
+        }
+
+        return (new Scanner(f)).useDelimiter("\\Z").next();
+    }
+
+    /**
      * Factory method to construct a MyGradebook that contains the grade book
      * from filename
      * 
@@ -53,10 +78,20 @@ public class MyGradeBook {
      * @return a MyGradebook that contains the grade book from filename
      */
     public static MyGradeBook initializeWithFile(String filename) {
-        // Calls processFile (which adds to the gradebook)
-        // TODO : This is a filler until actually implemented
-        return new MyGradeBook(new ArrayList<Student>(),
-            new ArrayList<Assignment>());
+        // Get the file string
+        String fileString = new String();
+        try {
+            fileString = MyGradeBook.stringFromFile(filename);
+        }
+        catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Return a new gradebook based on the string
+        return MyGradeBook.initializeWithString(fileString);
     }
 
     /**
@@ -69,11 +104,84 @@ public class MyGradeBook {
      * @return a MyGradebook that contains the grade book from startingString
      */
     public static MyGradeBook initializeWithString(String startingString) {
-        // Actually process the lines of the text file
-        // Sort the Students alphabetically
-        // TODO : This is a filler until actually implemented
-        return new MyGradeBook(new ArrayList<Student>(),
-            new ArrayList<Assignment>());
+        // MyGradeBook to return
+        MyGradeBook ret = MyGradeBook.initialize();
+
+        // Get an ArrayList of lines in the file
+        ArrayList<String> lines =
+            new ArrayList(Arrays.asList(startingString.split("\n")));
+
+        // The first line should just contain the string "GRADEBOOK"
+        if ( !lines.get(0).equals("GRADEBOOK") ) {
+            throw new UnsupportedOperationException(
+                "Gradebook initialization by non-gradebook String"
+            );
+        }
+
+        // The second line contains the assignment names
+        ArrayList<String> assignmentNames =
+            new ArrayList(Arrays.asList(lines.get(1).split("\t")));
+        // Remove any empty strings in the array
+        //  (due to the particular file formatting)
+        assignmentNames.removeAll(Arrays.asList(""));
+
+        // The third line contains the total points for each assignment
+        ArrayList<String> assignmentTotalPoints =
+            new ArrayList(Arrays.asList(lines.get(2).split("\t")));
+        // Remove any empty strings in the array
+        //  (due to the particular file formatting)
+        assignmentTotalPoints.removeAll(Arrays.asList(""));
+
+        // The fourth line contains the percent grade for each assignment
+        ArrayList<String> assignmentPercentGrade =
+            new ArrayList(Arrays.asList(lines.get(3).split("\t")));
+        // Remove any empty strings in the array
+        //  (due to the particular file formatting)
+        assignmentPercentGrade.removeAll(Arrays.asList(""));
+
+        // Add the assignments to the gradebook
+        int numAssignments = assignmentNames.size();
+        for(int i = 0; i < numAssignments; i++) {
+            ret.addAssignment(
+                assignmentNames.get(i),
+                new Double(assignmentTotalPoints.get(i)),
+                new Double(assignmentPercentGrade.get(i))
+            );
+        }
+
+        // Add the students and their grades
+        for(int lineNumber = 4; lineNumber < lines.size(); lineNumber++) {
+            // Parse the student information and add the student
+            //  to the gradebook
+            ArrayList<String> studentInfo =
+                new ArrayList(
+                    Arrays.asList(lines.get(lineNumber).split("\t"))
+                );
+            String studentUsername = studentInfo.get(0);
+            String studentFirstName = studentInfo.get(1);
+            String studentLastName = studentInfo.get(2);
+            String studentAdvisor = studentInfo.get(3);
+            String studentGradYear = studentInfo.get(4);
+            ret.addStudent(
+                studentUsername,
+                studentFirstName,
+                studentLastName,
+                studentAdvisor,
+                Integer.parseInt(studentGradYear)
+            );
+
+            // Add the student's assignment grades to the gradebook
+            // ID, Assignment Name, newGrade
+            for(int a = 0; a < numAssignments; a++) {
+                ret.changeGrade(
+                    studentUsername,
+                    assignmentNames.get(a),
+                    Double.parseDouble(studentInfo.get(a + 5))
+                );
+            }
+        }
+        
+        return ret;
     }
 
     /**
