@@ -24,7 +24,7 @@ fi
 
 # Compile the sources (+ Junit)
 find -name "*.java" > sources.txt
-javac -cp $CLASSPATH @sources.txt #-Xlint:unchecked
+javac -cp $CLASSPATH @sources.txt -Xlint:unchecked
 
 if [ -e gradebook/MyGradeBook.class ]
     then

@@ -106,6 +106,7 @@ class Student {
     /**
      * Return a String of the student's grades for all assignments, separated by
      * tabs.
+     * @param assignments is the list of Assignments (used to total score)
      * @return string of student's grades, tab separated
      */
     String outputGrades(ArrayList<Assignment> assignments) {

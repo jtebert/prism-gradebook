@@ -1,6 +1,6 @@
 import gradebook.MyGradeBook;
 
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Scanner;
 import java.util.NoSuchElementException;
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ public class PRISM {
     Boolean running;
     /** Items contained in the menu for user selection */
     ArrayList<String> menu;
+    /** Scanner used to get user input from console */
+    Scanner in = new Scanner(System.in);
     
     /**
      * Constructor for PRISM class
@@ -63,14 +65,13 @@ public class PRISM {
             "|  /\\   WELCOME TO THE PRISM GRADEBOOK SYSTEM               |\n" +
             "| /  \\                                                      |\n" +
             "|/____\\ Portfolio of Records for Instructors' Student Marks |\n" +
-            "+-----------------------------------------------------------+");
+            "+-----------------------------------------------------------+\n");
         // TODO : Add back in try/catch once everything is working
-        //try {
+        try {
             // Load file or start new Gradebook (depending on arguments)
             // (loading and invalid/nonexistent file handled by initialize)
             MyGradeBook newGradebook;
-            System.out.println();
-            if (args.length > 1) {
+            if (args.length >= 1) {
                 newGradebook = MyGradeBook.initializeWithFile(args[0]);
                 System.out.println("Loaded gradebook from " + args[0] + "\n");
             }
@@ -80,18 +81,17 @@ public class PRISM {
             }
             PRISM prism = new PRISM(newGradebook);
             prism.runPRISM();
-        //}
-        /*catch (FileNotFoundException e) {
-            System.out.println("Error: File not found\nPRISM quitting");
         }
-        catch (ArgumentOutOfRangeException e) {
-            System.out.println("Error: Invalid format\nPRISM quitting");
+        catch (FileNotFoundException e) {
+            System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
         }
-        catch (UnauthorizedAccessException e) {
-            System.out.println("Error: Permission to access file denied\n" +
-                "PRISM quitting");
+        catch (IOException e) {
+            System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
         }
-        catch (Exception e) {
+        catch (UnsupportedOperationException e) {
+            System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
+        }
+        /*catch (Exception e) {
             System.out.println("Error: Unknown error encountered\n" + 
                 "PRISM quitting");
         }*/
@@ -101,7 +101,6 @@ public class PRISM {
      * Run the PRISM progam until given command to quit
      */
     void runPRISM() {
-        Scanner in = new Scanner(System.in);
         while (running) {
             printMenu();
             
@@ -153,7 +152,6 @@ public class PRISM {
     int getMenuSelection() {
         System.out.println(
             "\nEnter a number to select an option from the menu:");
-        Scanner in = new Scanner(System.in);
         while (true) {
             // Read integer from console
             if (in.hasNextLine()) {
@@ -178,7 +176,6 @@ public class PRISM {
      * Add a student to the Gradebook based on the user input
      */
     void menuAddStudent() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the username of the student to add:");
         String username = in.nextLine();
         System.out.println("Enter the student's first name:");
@@ -192,12 +189,16 @@ public class PRISM {
             try {
                 int gradYear = Integer.parseInt(in.next());
                 gradebook.addStudent(username, firstName, lastName,
-                advisor, gradYear);
+                    advisor, gradYear);
                 System.out.println("Student added to gradebook");
             }
             catch (NumberFormatException e) {
                 System.out.println(
-                    "Error: invalid graduation year. Student not added.");
+                    "Error: Invalid graduation year. Student not added.");
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage()
+                    + ". Student not added.");
             }
         }
     }
@@ -206,7 +207,6 @@ public class PRISM {
      * Add students from a file based on user input
      */
     void menuAddStudents() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the file from which to" +
             " add students:");
         String filename = in.nextLine();
@@ -218,7 +218,7 @@ public class PRISM {
         catch (Exception e) {
             // TODO : Adjust to catch the correct type of error
             // or file not in right format. (Different type of error?)
-            System.out.println("Error: file not found");
+            System.out.println("Error: File not found");
         }
     }
     
@@ -226,7 +226,6 @@ public class PRISM {
      * Remove a student from the gradebookS based on user input
      */
     void menuRemoveStudent() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the username of the student to remove:");
         String username = in.nextLine();
         try {
@@ -234,7 +233,7 @@ public class PRISM {
             System.out.println("Student removed from gradebook");
         }
         catch (NoSuchElementException e) {
-            System.out.println("Error: student not in Gradebook");
+            System.out.println("Error: Student not in Gradebook");
         }
     }
     
@@ -242,7 +241,6 @@ public class PRISM {
      * Add an assignment to the gradebook based on user input
      */
     void menuAddAssignment() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the assignment to add:");
         String assignmentName = in.nextLine();
         System.out.println(
@@ -257,26 +255,24 @@ public class PRISM {
                     try {
                         double percentGrade = Double.parseDouble(in.next());
                         if (0 <= percentGrade && percentGrade <= 100) {
-                                gradebook.addAssignment(assignmentName,
-                                    totalPoints, percentGrade);
-                                System.out.println(
-                                    "Assignment added to gradebook");
-                            }
-                            else {
-                                throw new NumberFormatException(
-                                    "Invalid percent");
-                            }
+                            gradebook.addAssignment(assignmentName,
+                                totalPoints, percentGrade);
+                            System.out.println("Assignment added to gradebook");
+                        }
+                        else {
+                            throw new NumberFormatException("Invalid percent");
+                        }
                     }
                     catch (NumberFormatException e) {
                         System.out.println(
-                            "Error: percent must be 0-100. " + 
+                            "Error: Percent must be 0-100. " + 
                             "Assignment not added.");
                     }
                 }
             }
             catch (NumberFormatException e) {
                 System.out.println(
-                    "Error: not a valid point total. Assignment not added.");
+                    "Error: Not a valid point total. Assignment not added.");
             }
         }
     }
@@ -285,7 +281,6 @@ public class PRISM {
      * Add assignments from a file based on user input
      */
     void menuAddAssignments() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the file from which to" +
             " add assignments:");
         String filename = in.nextLine();
@@ -297,7 +292,7 @@ public class PRISM {
         catch (Exception e) {
             // TODO : Adjust to catch the correct type of error
             // or file not in right format. (Different type of error?)
-            System.out.println("Error: file not found");
+            System.out.println("Error: File not found");
         }
     }
     
@@ -305,7 +300,6 @@ public class PRISM {
      * Remove an assignment from the gradebookS based on user input
      */
     void menuRemoveAssignment() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the assignment to remove:");
         String assignment = in.nextLine();
         try {
@@ -314,9 +308,7 @@ public class PRISM {
             System.out.println("Assignments removed from gradebook");
         }
         catch (NoSuchElementException e) {
-            // TODO : Adjust to catch the correct type of error
-            // or file not in right format. (Different type of error?)
-            System.out.println("Error: assignment not in Gradebook");
+            System.out.println("Error: Assignment not in Gradebook");
         }
     }
     
@@ -324,7 +316,6 @@ public class PRISM {
      * Add or change a grade based on user input
      */
     void menuAddGrade() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the username of the student whose" +
             " grade to set:");
         String studentUsername = in.nextLine();
@@ -348,7 +339,7 @@ public class PRISM {
             }
             catch (NumberFormatException e) {
                 System.out.println(
-                    "Error: invalid graduation year. Student not added.");
+                    "Error: Invalid graduation year. Student not added.");
             }
         }
     }
@@ -357,7 +348,6 @@ public class PRISM {
      * Add grades for a student from a file based on user input
      */
     void menuAddStudentGrades() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
         String filename = in.nextLine();
@@ -369,7 +359,7 @@ public class PRISM {
         catch (Exception e) {
             // TODO : Adjust to catch the correct type of error
             // or file not in right format. (Different type of error?)
-            System.out.println("Error: file not found");
+            System.out.println("Error: File not found");
         }
     }
     
@@ -378,7 +368,6 @@ public class PRISM {
      * user input
      */
     void menuAddAssignmentGrades() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
         String filename = in.nextLine();
@@ -390,7 +379,7 @@ public class PRISM {
         catch (Exception e) {
             // TODO : Adjust to catch the correct type of error
             // or file not in right format. (Different type of error?)
-            System.out.println("Error: file not found");
+            System.out.println("Error: File not found");
         }
     }
     
@@ -398,7 +387,6 @@ public class PRISM {
      * View statistics for an assignment based on user input
      */
     void menuAssignmentStats() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the name of the assignment for " +
             "which to see statistics:");
         String assignmentName = in.nextLine();
@@ -412,9 +400,8 @@ public class PRISM {
                 "\nMax: " + maxGrade + 
                 "\nMin: " + minGrade);
         }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            System.out.println("Error: assignment not found");
+        catch (NoSuchElementException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
     
@@ -422,7 +409,6 @@ public class PRISM {
      * View a student's grades for the course based on user input
      */
     void menuStudentCourseGrade() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the username of the student whose " +
             "course grade to view:");
         String username = in.nextLine();
@@ -430,9 +416,8 @@ public class PRISM {
             double currentGrade = gradebook.currentGrade(username);
             System.out.println("Current grade: " + currentGrade);
         }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            System.out.println("Error: student not found");
+        catch (NoSuchElementException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
     
@@ -440,7 +425,6 @@ public class PRISM {
      * View a student's grade for a particular assignment, based on user input
      */
     void menuStudentAssignmentGrade() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the username of the student whose " +
             "grade to view:");
         String username = in.nextLine();
@@ -453,10 +437,9 @@ public class PRISM {
             System.out.println(assignmentName + " grade for " + 
                 username + ": " + assignmentGrade);
         }
-        catch (Exception e) {
+        catch (NoSuchElementException e) {
             // TODO : Adjust to catch the correct type of error
-            System.out.println("Error: student/assignment combination" +
-                " does not exist");
+            System.out.println("Error: " + e.getMessage());
         }
     }
     
@@ -465,7 +448,6 @@ public class PRISM {
      * input
      */
     void menuOutputGradeBook() {
-        Scanner in = new Scanner(System.in);
         // TODO
     }
     
@@ -473,7 +455,6 @@ public class PRISM {
      * Output a file of all assignments based on user input
      */
     void menuOutputAssginments() {
-        Scanner in = new Scanner(System.in);
         // TODO
     }
     
@@ -481,7 +462,6 @@ public class PRISM {
      * Output a file of a student's grades based on user input
      */
     void menuOutputStudentGrades() {
-        Scanner in = new Scanner(System.in);
         // TODO
     }
     
@@ -489,7 +469,6 @@ public class PRISM {
      * Output a file of course grades for all students based on user input
      */
     void menuOutputCourseGrades() {
-        Scanner in = new Scanner(System.in);
         // TODO
     }
     
@@ -497,7 +476,6 @@ public class PRISM {
      * Check whether 2 gradebooks are the same, based on user input
      */
     void menuCompareGradeBooks() {
-        Scanner in = new Scanner(System.in);
         System.out.println("Enter the filename of the Gradebook to " +
             "check if the same as this gradebook:");
         String filename = in.nextLine();
@@ -514,7 +492,7 @@ public class PRISM {
         }
         catch (Exception e) {
             // TODO : Adjust to catch the correct type of error
-            System.out.println("Error: student/assignment combination" +
+            System.out.println("Error: Student/assignment combination" +
                 " does not exist");
         }
     }
