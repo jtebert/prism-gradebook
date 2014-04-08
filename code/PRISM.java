@@ -82,14 +82,21 @@ public class PRISM {
             PRISM prism = new PRISM(newGradebook);
             prism.runPRISM();
         }
-        catch (FileNotFoundException e) {
-            System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
-        }
         catch (IOException e) {
+            // File not found
             System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
         }
         catch (UnsupportedOperationException e) {
+            // Invalid contents format
             System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
+        }
+        catch (NumberFormatException e) {
+            // contents of file invalid
+            System.out.println("Error: File contents invalid\nPRISM quitting");
+        }
+        catch (IndexOutOfBoundsException e) {
+            // Contents of file not correctly formatted
+            System.out.println("Error: File contents invalid\nPRISM quitting");
         }
         /*catch (Exception e) {
             System.out.println("Error: Unknown error encountered\n" + 
@@ -173,6 +180,33 @@ public class PRISM {
     }
     
     /**
+     * Output the given String to a file specified by console user input
+     * Also includes confirmation of whether or not to overwrite existing files.
+     * @param outputString String to save to the text file
+     */
+    void outputToFile(String outputString) {
+        String filename = in.nextLine();
+        File file = new File(filename);
+        if (file.exists()) {
+            System.out.println("File already exists. " +
+                "Do you want to overwrite it? (y/n)");
+            String confirm = in.nextLine();
+            if (confirm.toLowerCase().equals("y")) {
+                try {
+                    PrintStream output = new PrintStream(file);
+                    output.println(outputString);
+                }
+                catch (FileNotFoundException e) {
+                    System.out.println("Error: File could not be written");
+                }
+            }
+            else {
+                System.out.println("Output not saved to file.");
+            }
+        }
+    }
+    
+    /**
      * Add a student to the Gradebook based on the user input
      */
     void menuAddStudent() {
@@ -209,7 +243,7 @@ public class PRISM {
     void menuAddStudents() {
         System.out.println("Enter the name of the file from which to" +
             " add students:");
-        String filename = in.nextLine();
+        // String filename = in.nextLine();
         try {
             // TODO : add back when method implemented
             // gradebook.addStudents(filename);
@@ -283,7 +317,7 @@ public class PRISM {
     void menuAddAssignments() {
         System.out.println("Enter the name of the file from which to" +
             " add assignments:");
-        String filename = in.nextLine();
+        //String filename = in.nextLine();
         try {
             // TODO : add back when method implemented
             // gradebook.addAssignments(filename);
@@ -350,7 +384,7 @@ public class PRISM {
     void menuAddStudentGrades() {
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
-        String filename = in.nextLine();
+        //String filename = in.nextLine();
         try {
             // TODO : add back when method implemented
             // gradebook.addStudentGrades(filename);
@@ -370,7 +404,7 @@ public class PRISM {
     void menuAddAssignmentGrades() {
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
-        String filename = in.nextLine();
+        // String filename = in.nextLine();
         try {
             // TODO : add back when method implemented
             // gradebook.addAssignmentGrades(filename);
@@ -448,28 +482,57 @@ public class PRISM {
      * input
      */
     void menuOutputGradeBook() {
-        // TODO
+        String outputString = gradebook.outputGradebook();
+        System.out.println("Enter the name of the file for the gradebook " +
+            "output:");
+        outputToFile(outputString);
     }
     
     /**
-     * Output a file of all assignments based on user input
+     * Output a file of an assignment based on user input
      */
     void menuOutputAssginments() {
-        // TODO
+        System.out.println("Enter the name of the assignment to output " +
+            "grades for:");
+        String assignmentName = in.nextLine();
+        try {
+            String outputString =
+                gradebook.outputAssignmentGrades(assignmentName);
+            System.out.println("Enter the name of the file for the assignment" +
+                "grade output:");
+            outputToFile(outputString);
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
     
     /**
      * Output a file of a student's grades based on user input
      */
     void menuOutputStudentGrades() {
-        // TODO
+        System.out.println("Enter the username of the student to output " +
+            "grades for:");
+        String username = in.nextLine();
+        try {
+            String outputString = gradebook.outputStudentGrades(username);
+            System.out.println("Enter the name of the file for the student " +
+                "grade output:");
+            outputToFile(outputString);
+        }
+        catch (NoSuchElementException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
     
     /**
      * Output a file of course grades for all students based on user input
      */
     void menuOutputCourseGrades() {
-        // TODO
+        String outputString = gradebook.outputCurrentGrades();
+        System.out.println("Enter the name of the file for the course grade " +
+            "output:");
+        outputToFile(outputString);
     }
     
     /**
@@ -569,5 +632,4 @@ public class PRISM {
                 break;
         }
     }
-    
 }

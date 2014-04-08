@@ -78,9 +78,9 @@ public class MyGradeBook {
      * @return a MyGradebook that contains the grade book from filename
      */
     public static MyGradeBook initializeWithFile(String filename)
-        throws UnsupportedOperationException, IOException {
+        throws IOException, UnsupportedOperationException {
         // Get the file string
-        String fileString = new String();
+        String fileString = "";
         //try {
         fileString = MyGradeBook.stringFromFile(filename);
         /*}
@@ -107,7 +107,7 @@ public class MyGradeBook {
      * @return a MyGradebook that contains the grade book from startingString
      */
     public static MyGradeBook initializeWithString(String startingString)
-        throws UnsupportedOperationException {
+        throws UnsupportedOperationException, NumberFormatException {
         // MyGradeBook to return
         MyGradeBook ret = MyGradeBook.initialize();
 
@@ -156,7 +156,7 @@ public class MyGradeBook {
         }
 
         // Add the students and their grades
-        for(int lineNumber = 4; lineNumber < lines.size(); lineNumber++) {
+        for (int lineNumber = 4; lineNumber < lines.size(); lineNumber++) {
             // Parse the student information and add the student
             //  to the gradebook
             ArrayList<String> studentInfo =
@@ -290,7 +290,8 @@ public class MyGradeBook {
      * Modifies the list of students
      * @param fileLines the lines of the file
      */
-    private void processNewStudentsFileLines(ArrayList<String> fileLines) {
+    private void processNewStudentsFileLines(ArrayList<String> fileLines)
+        throws NumberFormatException {
         // Read in 6-line blocks, adding a student each time
         for (int i = 0; i < fileLines.size(); i += 6) {
             String studentUsername = fileLines.get(i + 1);
@@ -315,11 +316,11 @@ public class MyGradeBook {
      * @param fileLines the lines of the file
      */
     private void processNewGradesForAssignmentFileLines(
-            ArrayList<String> fileLines) {
+            ArrayList<String> fileLines) throws NumberFormatException {
         // Get the assignment name
         String assignmentName = fileLines.get(1);
         // Read in 2-line blocks, modifying a student's grade each time
-        for(int i = 2; i < fileLines.size(); i += 2) {
+        for (int i = 2; i < fileLines.size(); i += 2) {
             String studentUsername = fileLines.get(i + 0);
             String assignmentGrade = fileLines.get(i + 1);
             this.changeGrade(
@@ -337,7 +338,7 @@ public class MyGradeBook {
      * @param fileLines the lines of the file
      */
     private void processNewGradesForStudentFileLines(
-            ArrayList<String> fileLines) {
+            ArrayList<String> fileLines) throws NumberFormatException {
         // Get the student username
         String studentUsername = fileLines.get(1);
         // Read in 2-line blocks, modifying the student's grades each time
