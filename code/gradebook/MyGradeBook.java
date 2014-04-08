@@ -197,10 +197,20 @@ public class MyGradeBook {
      *            and gradesForStudent.txt.
      */
     public void processFile(String filename) {
-        // Create the file with scanner
-        // Check if the file exists
-        // Read in the contents of the file (making sure that it follows a valid
-        // format) and creating objects accordingly
+        // Get the file string
+        String fileString = new String();
+        try {
+            fileString = MyGradeBook.stringFromFile(filename);
+        }
+        catch(FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Update the gradebook based on the string
+        this.processString(fileString);
     }
 
     /**
@@ -216,14 +226,130 @@ public class MyGradeBook {
      *            gradesForStudent.txt.
      */
     public void processString(String additionalString) {
-        // Does this just process the data that's acquired from the file?
-        // i.e., Does processFile get the String from the file and pass it to
-        // this?
+        // Get an ArrayList of lines in the file
+        ArrayList<String> lines =
+            new ArrayList(Arrays.asList(additionalString.split("\n")));
+
+        // Find out which type of file it is
+        //  and call the appropriate helper method
+        String fileHeader = lines.get(0);
+        // A file having a format like addAssignments.txt
+        if ( fileHeader.equals("ASSIGNMENT") ) {
+            this.processNewAssignmentsFileLines(lines);
+        }
+        // A file having a format like addStudents.txt
+        else if ( fileHeader.equals("STUDENT") ) {
+            this.processNewStudentsFileLines(lines);
+        }
+        // A file having a format like gradesForAssignment1.txt
+        else if ( fileHeader.equals("GRADES_FOR_ASSIGNMENT") ) {
+            this.processNewGradesForAssignmentFileLines(lines);
+        }
+        // A file having a format like gradesForStudent.txt
+        else if ( fileHeader.equals("GRADES_FOR_STUDENT") ) {
+            this.processNewGradesForStudentFileLines(lines);
+        }
+        // The header did not match any known file format
+        else {
+            throw new UnsupportedOperationException(
+                "MyGradeBook cannot process file having header " + fileHeader
+            );
+        }
+    }
+
+    /**
+     * Helper method for processing lines from a file having a format
+     * like addAssignments.txt
+     * Modifies the list of assignments
+     * @param fileLines the lines of the file
+     */
+    private void processNewAssignmentsFileLines(ArrayList<String> fileLines) {
+        // Read in 4-line blocks, adding an assignment each time
+        for(int i = 0; i < fileLines.size(); i += 4) {
+            String assignmentName = fileLines.get(i + 1);
+            String assignmentTotalPoints = fileLines.get(i + 2);
+            String assignmentPercentGrade = fileLines.get(i + 3);
+            this.addAssignment(
+                assignmentName,
+                new Double(assignmentTotalPoints),
+                new Double(assignmentPercentGrade)
+            );
+        }
+    }
+
+    /**
+     * Helper method for processing lines from a file having a format
+     * like addStudents.txt
+     * Modifies the list of students
+     * @param fileLines the lines of the file
+     */
+    private void processNewStudentsFileLines(ArrayList<String> fileLines) {
+        // Read in 6-line blocks, adding a student each time
+        for(int i = 0; i < fileLines.size(); i += 6) {
+            String studentUsername = fileLines.get(i + 1);
+            String studentFirstName = fileLines.get(i + 2);
+            String studentLastName = fileLines.get(i + 3);
+            String studentAdvisor = fileLines.get(i + 4);
+            String studentGradYear = fileLines.get(i + 5);
+            this.addStudent(
+                studentUsername,
+                studentFirstName,
+                studentLastName,
+                studentAdvisor,
+                Integer.parseInt(studentGradYear)
+            );
+        }
+    }
+
+    /**
+     * Helper method for processing lines from a file having a format
+     * like gradesForAssignment1.txt
+     * Modifies the the grades fields of the gradebook's students
+     * @param fileLines the lines of the file
+     */
+    private void processNewGradesForAssignmentFileLines(
+        ArrayList<String> fileLines
+    ) {
+        // Get the assignment name
+        String assignmentName = fileLines.get(1);
+        // Read in 2-line blocks, modifying a student's grade each time
+        for(int i = 2; i < fileLines.size(); i += 2) {
+            String studentUsername = fileLines.get(i + 0);
+            String assignmentGrade = fileLines.get(i + 1);
+            this.changeGrade(
+                assignmentName,
+                studentUsername,
+                Double.parseDouble(assignmentGrade)
+            );
+        }
+    }
+
+    /**
+     * Helper method for processing lines from a file having a format
+     * like gradesForStudent.txt
+     * Modifies the the grades fields of the gradebook's students
+     * @param fileLines the lines of the file
+     */
+    private void processNewGradesForStudentFileLines(
+        ArrayList<String> fileLines
+    ) {
+        // Get the student username
+        String studentUsername = fileLines.get(1);
+        // Read in 2-line blocks, modifying the student's grades each time
+        for(int i = 2; i < fileLines.size(); i += 2) {
+            String assignmentName = fileLines.get(i + 0);
+            String assignmentGrade = fileLines.get(i + 1);
+            this.changeGrade(
+                assignmentName,
+                studentUsername,
+                Double.parseDouble(assignmentGrade)
+            );
+        }
     }
     
     /**
      * Add a Student to the Gradebook according to the given information
-     * Modifies the GradeBook's student field to add the Student, and sorts the 
+     * Modifies the GradeBook's student field to add the Student, and sorts the
      * list of Students
      * @param username Username of the Student
      * @param firstName First name of the Student
