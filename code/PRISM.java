@@ -1,8 +1,9 @@
-import java.util.ArrayList;
 import gradebook.MyGradeBook;
+
 import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 /**
  * PRISM is the console user interface for interacting with GradeBooks

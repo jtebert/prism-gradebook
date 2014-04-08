@@ -1,7 +1,6 @@
-import junit.framework.TestCase;
-
 import gradebook.MyGradeBook;
 
+import junit.framework.TestCase;
 
 /**
  * Black Box Tests For MyGradeBook
