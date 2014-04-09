@@ -738,8 +738,8 @@ public class MyGradeBook {
         HashMap<String, Double> grades = this.currentGrades();
         // Add line for each element in hashMap
         ArrayList<String> names = new ArrayList<String>();
-        for (String s : grades.keySet()) {
-            names.add(s);
+        for (Assignment a : assignments) {
+            names.add(a.name);
         }
         Iterator<String> nameIter = names.iterator();
         while (nameIter.hasNext()) {
@@ -778,8 +778,8 @@ public class MyGradeBook {
         // Add info about assignments (with correct number of preceeding tabs)
         HashMap<String, Double> targetGrades = targetStudent.grades;
         ArrayList<String> assignmentNames = new ArrayList<String>();
-        for (String s : targetGrades.keySet()) {
-            assignmentNames.add(s);
+        for (Assignment a : assignments) {
+            assignmentNames.add(a.name);
         }
         for (String name : assignmentNames) {
             output = output + name + "\t" + targetGrades.get(name) + "\n";
@@ -807,7 +807,7 @@ public class MyGradeBook {
         assignmentFound(assignName);
         Assignment targetAssignment = null;
         for (Assignment a : this.assignments) {
-            if (a.name == assignName) {
+            if (a.name.equal(assignName)) {
                 targetAssignment = a;
                 break;
             }
@@ -849,11 +849,11 @@ public class MyGradeBook {
         for (Assignment a : this.assignments) {
             output = output + "\t" + a.name;
         }
-        output = "\n\t\t\t\t";
+        output = output + "\n\t\t\t\t";
         for (Assignment a : this.assignments) {
             output = output + "\t" + a.totalPoints;
         }
-        output = "\n\t\t\t\t";
+        output = output + "\n\t\t\t\t";
         for (Assignment a : this.assignments) {
             output = output + "\t" + a.percentGrade;
         }
