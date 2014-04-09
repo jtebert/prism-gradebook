@@ -258,10 +258,9 @@ public class PRISM {
     private void menuAddStudents() {
         System.out.println("Enter the name of the file from which to" +
             " add students:");
-        // String filename = in.nextLine();
+        String filename = in.nextLine();
         try {
-            // TODO : add back when method implemented
-            // gradebook.addStudents(filename);
+            gradebook.processFile(filename);
             System.out.println("Students added to gradebook");
         }
         catch (Exception e) {
@@ -334,10 +333,9 @@ public class PRISM {
     private void menuAddAssignments() {
         System.out.println("Enter the name of the file from which to" +
             " add assignments:");
-        //String filename = in.nextLine();
+        String filename = in.nextLine();
         try {
-            // TODO : add back when method implemented
-            // gradebook.addAssignments(filename);
+            gradebook.processFile(filename);
             System.out.println("Assignments added to gradebook");
         }
         catch (Exception e) {
@@ -402,10 +400,9 @@ public class PRISM {
     private void menuAddStudentGrades() {
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
-        //String filename = in.nextLine();
+        String filename = in.nextLine();
         try {
-            // TODO : add back when method implemented
-            // gradebook.addStudentGrades(filename);
+            gradebook.processFile(filename);
             System.out.println("Grades added to gradebook");
         }
         catch (Exception e) {
@@ -422,10 +419,9 @@ public class PRISM {
     private void menuAddAssignmentGrades() {
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
-        // String filename = in.nextLine();
+        String filename = in.nextLine();
         try {
-            // TODO : add back when method implemented
-            // gradebook.addAssignmentGrades(filename);
+            gradebook.processFile(filename);
             System.out.println("Grades added to gradebook");
         }
         catch (Exception e) {
