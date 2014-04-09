@@ -107,7 +107,7 @@ public class PRISM {
     /**
      * Run the PRISM progam until given command to quit
      */
-    void runPRISM() {
+    private void runPRISM() {
         while (running) {
             printMenu();
             
@@ -126,7 +126,7 @@ public class PRISM {
      * Print all of the items in the list to lines on the console
      * @param strings List of Strings to be printed
      */
-    void printList(ArrayList<String> strings) {
+    private void printList(ArrayList<String> strings) {
         if (strings.size() == 0) {
             System.out.println("[List is empty]");
         }
@@ -138,7 +138,7 @@ public class PRISM {
     /**
      * Print the items in the menu with numbers
      */
-    void printMenu() {
+    private void printMenu() {
         ArrayList<String> menuWithNumbers = new ArrayList<String>(menu.size());
         System.out.println(
             "+--------+\n" +
@@ -156,7 +156,7 @@ public class PRISM {
      * until they get it right.
      * @return integer value of the selection
      */
-    int getMenuSelection() {
+    private int getMenuSelection() {
         System.out.println(
             "\nEnter a number to select an option from the menu:");
         while (true) {
@@ -164,6 +164,7 @@ public class PRISM {
             if (in.hasNextLine()) {
                 try {
                     int selection = Integer.parseInt(in.next());
+                    in.nextLine();
                     if (selection < menu.size()) {
                         return selection;
                     }
@@ -183,8 +184,24 @@ public class PRISM {
      * Output the given String to a file specified by console user input
      * Also includes confirmation of whether or not to overwrite existing files.
      * @param outputString String to save to the text file
+     * @param file Name of the file to save to
      */
-    void outputToFile(String outputString) {
+    private void outputToFile(String outputString, File file) {
+        try {
+            PrintStream output = new PrintStream(file);
+            output.println(outputString);
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Error: File could not be written");
+        }
+    }
+    
+    /**
+     * Ask for a file name, check if it exists, and call to actually save, if
+     * that's what the user wants
+     * @param String String to save to the text file
+     */
+    private void outputString(String outputString) {
         String filename = in.nextLine();
         File file = new File(filename);
         if (file.exists()) {
@@ -192,24 +209,21 @@ public class PRISM {
                 "Do you want to overwrite it? (y/n)");
             String confirm = in.nextLine();
             if (confirm.toLowerCase().equals("y")) {
-                try {
-                    PrintStream output = new PrintStream(file);
-                    output.println(outputString);
-                }
-                catch (FileNotFoundException e) {
-                    System.out.println("Error: File could not be written");
-                }
+                outputToFile(outputString, file);
             }
             else {
                 System.out.println("Output not saved to file.");
             }
+        }
+        else {
+            outputToFile(outputString, file);
         }
     }
     
     /**
      * Add a student to the Gradebook based on the user input
      */
-    void menuAddStudent() {
+    private void menuAddStudent() {
         System.out.println("Enter the username of the student to add:");
         String username = in.nextLine();
         System.out.println("Enter the student's first name:");
@@ -222,6 +236,7 @@ public class PRISM {
         if (in.hasNextLine()) {
             try {
                 int gradYear = Integer.parseInt(in.next());
+                in.nextLine();
                 gradebook.addStudent(username, firstName, lastName,
                     advisor, gradYear);
                 System.out.println("Student added to gradebook");
@@ -240,7 +255,7 @@ public class PRISM {
     /**
      * Add students from a file based on user input
      */
-    void menuAddStudents() {
+    private void menuAddStudents() {
         System.out.println("Enter the name of the file from which to" +
             " add students:");
         // String filename = in.nextLine();
@@ -259,7 +274,7 @@ public class PRISM {
     /**
      * Remove a student from the gradebookS based on user input
      */
-    void menuRemoveStudent() {
+    private void menuRemoveStudent() {
         System.out.println("Enter the username of the student to remove:");
         String username = in.nextLine();
         try {
@@ -274,7 +289,7 @@ public class PRISM {
     /**
      * Add an assignment to the gradebook based on user input
      */
-    void menuAddAssignment() {
+    private void menuAddAssignment() {
         System.out.println("Enter the name of the assignment to add:");
         String assignmentName = in.nextLine();
         System.out.println(
@@ -283,11 +298,13 @@ public class PRISM {
         if (in.hasNextLine()) {
             try {
                 double totalPoints = Double.parseDouble(in.next());
+                in.nextLine();
                 System.out.println("Enter the percent of the total grade " +
                     "this assignment counts for:");
                 if (in.hasNextLine()) {
                     try {
                         double percentGrade = Double.parseDouble(in.next());
+                        in.nextLine();
                         if (0 <= percentGrade && percentGrade <= 100) {
                             gradebook.addAssignment(assignmentName,
                                 totalPoints, percentGrade);
@@ -314,7 +331,7 @@ public class PRISM {
     /**
      * Add assignments from a file based on user input
      */
-    void menuAddAssignments() {
+    private void menuAddAssignments() {
         System.out.println("Enter the name of the file from which to" +
             " add assignments:");
         //String filename = in.nextLine();
@@ -333,7 +350,7 @@ public class PRISM {
     /**
      * Remove an assignment from the gradebookS based on user input
      */
-    void menuRemoveAssignment() {
+    private void menuRemoveAssignment() {
         System.out.println("Enter the name of the assignment to remove:");
         String assignment = in.nextLine();
         try {
@@ -349,7 +366,7 @@ public class PRISM {
     /**
      * Add or change a grade based on user input
      */
-    void menuAddGrade() {
+    private void menuAddGrade() {
         System.out.println("Enter the username of the student whose" +
             " grade to set:");
         String studentUsername = in.nextLine();
@@ -361,6 +378,7 @@ public class PRISM {
         if (in.hasNextLine()) {
             try {
                 double newScore = Double.parseDouble(in.next());
+                in.nextLine();
                 boolean success = gradebook.changeGrade(assignmentName,
                     studentUsername, newScore);
                 if (success) {
@@ -381,7 +399,7 @@ public class PRISM {
     /**
      * Add grades for a student from a file based on user input
      */
-    void menuAddStudentGrades() {
+    private void menuAddStudentGrades() {
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
         //String filename = in.nextLine();
@@ -401,7 +419,7 @@ public class PRISM {
      * Add grades for an assignment for multiple students from a file based on
      * user input
      */
-    void menuAddAssignmentGrades() {
+    private void menuAddAssignmentGrades() {
         System.out.println("Enter the name of the file from which to" +
             " add student's grades:");
         // String filename = in.nextLine();
@@ -420,7 +438,7 @@ public class PRISM {
     /**
      * View statistics for an assignment based on user input
      */
-    void menuAssignmentStats() {
+    private void menuAssignmentStats() {
         System.out.println("Enter the name of the assignment for " +
             "which to see statistics:");
         String assignmentName = in.nextLine();
@@ -442,7 +460,7 @@ public class PRISM {
     /**
      * View a student's grades for the course based on user input
      */
-    void menuStudentCourseGrade() {
+    private void menuStudentCourseGrade() {
         System.out.println("Enter the username of the student whose " +
             "course grade to view:");
         String username = in.nextLine();
@@ -458,7 +476,7 @@ public class PRISM {
     /**
      * View a student's grade for a particular assignment, based on user input
      */
-    void menuStudentAssignmentGrade() {
+    private void menuStudentAssignmentGrade() {
         System.out.println("Enter the username of the student whose " +
             "grade to view:");
         String username = in.nextLine();
@@ -481,17 +499,17 @@ public class PRISM {
      * Output a file of all assignments, students, and grades based on user
      * input
      */
-    void menuOutputGradeBook() {
+    private void menuOutputGradeBook() {
         String outputString = gradebook.outputGradebook();
         System.out.println("Enter the name of the file for the gradebook " +
             "output:");
-        outputToFile(outputString);
+        outputString(outputString);
     }
     
     /**
      * Output a file of an assignment based on user input
      */
-    void menuOutputAssginments() {
+    private void menuOutputAssginments() {
         System.out.println("Enter the name of the assignment to output " +
             "grades for:");
         String assignmentName = in.nextLine();
@@ -500,7 +518,7 @@ public class PRISM {
                 gradebook.outputAssignmentGrades(assignmentName);
             System.out.println("Enter the name of the file for the assignment" +
                 "grade output:");
-            outputToFile(outputString);
+            outputString(outputString);
         }
         catch (NoSuchElementException e) {
             System.out.println("Error: " + e.getMessage());
@@ -510,7 +528,7 @@ public class PRISM {
     /**
      * Output a file of a student's grades based on user input
      */
-    void menuOutputStudentGrades() {
+    private void menuOutputStudentGrades() {
         System.out.println("Enter the username of the student to output " +
             "grades for:");
         String username = in.nextLine();
@@ -518,7 +536,7 @@ public class PRISM {
             String outputString = gradebook.outputStudentGrades(username);
             System.out.println("Enter the name of the file for the student " +
                 "grade output:");
-            outputToFile(outputString);
+            outputString(outputString);
         }
         catch (NoSuchElementException e) {
             System.out.println("Error: " + e.getMessage());
@@ -528,17 +546,17 @@ public class PRISM {
     /**
      * Output a file of course grades for all students based on user input
      */
-    void menuOutputCourseGrades() {
+    private void menuOutputCourseGrades() {
         String outputString = gradebook.outputCurrentGrades();
         System.out.println("Enter the name of the file for the course grade " +
             "output:");
-        outputToFile(outputString);
+        outputString(outputString);
     }
     
     /**
      * Check whether 2 gradebooks are the same, based on user input
      */
-    void menuCompareGradeBooks() {
+    private void menuCompareGradeBooks() {
         System.out.println("Enter the filename of the Gradebook to " +
             "check if the same as this gradebook:");
         String filename = in.nextLine();
@@ -564,7 +582,7 @@ public class PRISM {
      * Perform the correct operation based on the menu item selected by the user
      * @param selection Number of the menu item selected
      */
-    void actOnInput(int selection) {
+    private void actOnInput(int selection) {
         switch (selection) {
             case 0: // Add student
                 menuAddStudent();
