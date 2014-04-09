@@ -82,10 +82,10 @@ public class PRISM {
             PRISM prism = new PRISM(newGradebook);
             prism.runPRISM();
         }
-        catch (IOException e) {
+        /*catch (IOException e) {
             // File not found
             System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
-        }
+        }*/
         catch (UnsupportedOperationException e) {
             // Invalid contents format
             System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
@@ -119,6 +119,16 @@ public class PRISM {
                 in.nextLine();
             }
         }
+        System.out.println("Would you like to save the gradebook before " + 
+            "quitting? (Y/N)");
+        String confirm = in.nextLine();
+        if (confirm.toLowerCase().equals("y")) {
+                menuOutputGradebook();
+            }
+            else {
+                System.out.println("Gradebook not saved");
+            }
+        menuOutputGradeBook();
         System.out.println("\nPRISM quitting...\nThank you for using PRISM\n");
     }
     
@@ -206,7 +216,7 @@ public class PRISM {
         File file = new File(filename);
         if (file.exists()) {
             System.out.println("File already exists. " +
-                "Do you want to overwrite it? (y/n)");
+                "Do you want to overwrite it? (Y/N)");
             String confirm = in.nextLine();
             if (confirm.toLowerCase().equals("y")) {
                 outputToFile(outputString, file);
@@ -645,5 +655,29 @@ public class PRISM {
                     "You should never see this.");
                 break;
         }
+    }
+    
+    /**
+     * Override equals method
+     * @param o object to campare to
+     * @return whether they're equal or not
+     */
+    public boolean equals(Object o) {
+        if (o instanceof PRISM) {
+            PRISM thatPRISM = (PRISM)o;
+            return gradebook.equals(thatPRISM.gradebook) &&
+                menu.equals(thatPRISM.menu);
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
+     * Override the hashCode method
+     * @return hashCode of the PRISM
+     */
+    public int hashCode() {
+        return gradebook.hashCode() * menu.hashCode();
     }
 }

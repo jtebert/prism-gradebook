@@ -53,8 +53,7 @@ public class MyGradeBook {
      *            the filename of the file to read
      * @return a string representation of the file's content
      */
-    private static String stringFromFile(String filename)
-        throws IOException {
+    private static String stringFromFile(String filename) {
         File f = new File(filename);
         // Check if the file exists
         if (!f.exists() ) {
@@ -77,8 +76,7 @@ public class MyGradeBook {
      *            book, which is formatted like initial.txt
      * @return a MyGradebook that contains the grade book from filename
      */
-    public static MyGradeBook initializeWithFile(String filename)
-        throws IOException, UnsupportedOperationException {
+    public static MyGradeBook initializeWithFile(String filename) {
         // Get the file string
         String fileString = "";
         //try {
@@ -106,8 +104,7 @@ public class MyGradeBook {
      *            formatted like initial.txt
      * @return a MyGradebook that contains the grade book from startingString
      */
-    public static MyGradeBook initializeWithString(String startingString)
-        throws UnsupportedOperationException, NumberFormatException {
+    public static MyGradeBook initializeWithString(String startingString) {
         // MyGradeBook to return
         MyGradeBook ret = MyGradeBook.initialize();
 
@@ -202,7 +199,7 @@ public class MyGradeBook {
      *            addAssignments.txt, addStudents.txt, gradesForAssignment1.txt,
      *            and gradesForStudent.txt.
      */
-    public void processFile(String filename) throws IOException {
+    public void processFile(String filename) {
         // Get the file string
         String fileString = "";
         //try {
@@ -232,8 +229,7 @@ public class MyGradeBook {
      *            addStudents.txt, gradesForAssignment1.txt, and
      *            gradesForStudent.txt.
      */
-    public void processString(String additionalString)
-        throws UnsupportedOperationException {
+    public void processString(String additionalString) {
         // Get an ArrayList of lines in the file
         ArrayList<String> lines =
             new ArrayList<String>(Arrays.asList(additionalString.split("\n")));
@@ -290,8 +286,7 @@ public class MyGradeBook {
      * Modifies the list of students
      * @param fileLines the lines of the file
      */
-    private void processNewStudentsFileLines(ArrayList<String> fileLines)
-        throws NumberFormatException {
+    private void processNewStudentsFileLines(ArrayList<String> fileLines) {
         // Read in 6-line blocks, adding a student each time
         for (int i = 0; i < fileLines.size(); i += 6) {
             String studentUsername = fileLines.get(i + 1);
@@ -316,7 +311,7 @@ public class MyGradeBook {
      * @param fileLines the lines of the file
      */
     private void processNewGradesForAssignmentFileLines(
-            ArrayList<String> fileLines) throws NumberFormatException {
+            ArrayList<String> fileLines) {
         // Get the assignment name
         String assignmentName = fileLines.get(1);
         // Read in 2-line blocks, modifying a student's grade each time
@@ -338,7 +333,7 @@ public class MyGradeBook {
      * @param fileLines the lines of the file
      */
     private void processNewGradesForStudentFileLines(
-            ArrayList<String> fileLines) throws NumberFormatException {
+            ArrayList<String> fileLines) {
         // Get the student username
         String studentUsername = fileLines.get(1);
         // Read in 2-line blocks, modifying the student's grades each time
@@ -364,7 +359,7 @@ public class MyGradeBook {
      * @param gradYear Student's expected year of graduation
      */
     public void addStudent(String username, String firstName, String lastName,
-            String advisor, int gradYear) throws IllegalArgumentException {
+            String advisor, int gradYear) {
         for (Student s : this.students) {
             if (s.username.equals(username)) {
                 throw new IllegalArgumentException("A student with the given "
@@ -392,7 +387,7 @@ public class MyGradeBook {
      *     counts for
      */
     public void addAssignment(String name, Double totalPoints,
-            Double percentGrade) throws IllegalArgumentException {
+            Double percentGrade) {
         for (Assignment a : this.assignments) {
             if (a.name.equals(name)) {
                 throw new IllegalArgumentException("An assignment with the " +
@@ -414,10 +409,8 @@ public class MyGradeBook {
      * Modifies the Gradebook's assignments field and remove from the 
      * student's list of grades 
      * @param assignmentName the assignment to be removed
-     * @throws NoSuchElementException if assignment not found
      */
-    public void removeAssignment(String assignmentName)
-        throws NoSuchElementException {
+    public void removeAssignment(String assignmentName) {
         assignmentFound(assignmentName);
         int assignmentIndex = -1;
         for (int i = 0; i < assignments.size(); i++) {
@@ -436,9 +429,8 @@ public class MyGradeBook {
      * Remove a student from the Gradebook
      * Modifies the Gradebook's students field
      * @param username Username of the student to be removed
-     * @throws NoSuchElementException if student not found
      */
-    public void removeStudent(String username) throws NoSuchElementException {
+    public void removeStudent(String username) {
         studentFound(username);
         for (Student student : students) {
             if (student.username.equals(username)) {
@@ -492,9 +484,8 @@ public class MyGradeBook {
     /**
      * Check the list of assignments to see if the given assignment exists
      * @param assignmentName the name of the assignment
-     * @throws NoSuchElementException if the assignment is not found
      */
-    void assignmentFound(String assignmentName) throws NoSuchElementException {
+    void assignmentFound(String assignmentName) {
         boolean assignmentFound = false;
         for (Assignment a : this.assignments) {
             if (a.name.equals(assignmentName)) {
@@ -510,9 +501,8 @@ public class MyGradeBook {
     /**
      * Check the list of students to see if the given student exists
      * @param studentUsername the username of the student
-     * @throws NoSuchElementException if the student is not found
      */
-    void studentFound(String studentUsername) throws NoSuchElementException {
+    void studentFound(String studentUsername) {
         boolean studentFound = false;
         for (Student s : this.students) {
             if (s.username.equals(studentUsername)) {
@@ -532,7 +522,7 @@ public class MyGradeBook {
      *            name of the assignment
      * @return the average across all students for assignmentName
      */
-    public double average(String assignmentName) throws NoSuchElementException {
+    public double average(String assignmentName) {
         this.assignmentFound(assignmentName);
         // For each student sum the grade they received for the given assignment
         double pointSum = 0;
@@ -552,7 +542,7 @@ public class MyGradeBook {
      *            name of the assignment
      * @return the median across all students for assignmentName
      */
-    public double median(String assignmentName) throws NoSuchElementException {
+    public double median(String assignmentName) {
         this.assignmentFound(assignmentName);
         // Get ArrayList of grades from assignmentGrades
         ArrayList<Double> grades = new ArrayList<Double>();
@@ -579,7 +569,7 @@ public class MyGradeBook {
      *            name of the assignment
      * @return the min across all students for assignmentName
      */
-    public double min(String assignmentName) throws NoSuchElementException {
+    public double min(String assignmentName) {
         this.assignmentFound(assignmentName);
         // Get ArrayList of grades from assignmentGrades
         ArrayList<Double> grades = new ArrayList<Double>();
@@ -608,7 +598,7 @@ public class MyGradeBook {
      *            name of the assignment
      * @return the max across all students for assignmentName
      */
-    public double max(String assignmentName) throws NoSuchElementException {
+    public double max(String assignmentName) {
         this.assignmentFound(assignmentName);
         // Get ArrayList of grades from assignmentGrades
         ArrayList<Double> grades = new ArrayList<Double>();
@@ -645,7 +635,7 @@ public class MyGradeBook {
      *         assignment grade divide by total point value for the assignment
      *         times the percent of semester.
      */
-    public double currentGrade(String username) throws NoSuchElementException {
+    public double currentGrade(String username) {
         this.studentFound(username);
         // Find the Student in the ArrayList
         for (Student s : this.students) {
@@ -689,8 +679,7 @@ public class MyGradeBook {
      *            username for the student
      * @return the grade earned by username for assignmentName
      */
-    public double assignmentGrade(String assignmentName, String username)
-        throws NoSuchElementException {
+    public double assignmentGrade(String assignmentName, String username) {
         this.studentFound(username);
         this.assignmentFound(assignmentName);
         // Find the Student in ArrayList
@@ -708,8 +697,7 @@ public class MyGradeBook {
      * @param assignmentName Name of the assignment to get grades for
      * @return HashMap of student usernames and grades for the assignment
      */
-    HashMap<String, Double> assignmentGrades(String assignmentName)
-        throws NoSuchElementException {
+    HashMap<String, Double> assignmentGrades(String assignmentName) {
         this.assignmentFound(assignmentName);
         // For each Student, find the Assignment and get the grade
         HashMap<String, Double> grades = new HashMap<String, Double>();
@@ -762,8 +750,7 @@ public class MyGradeBook {
      *         heading, student info, dividers, each assignment (assignment name
      *         followed by tab and assignment grade), and current grade.
      */
-    public String outputStudentGrades(String username)
-        throws NoSuchElementException {
+    public String outputStudentGrades(String username) {
         studentFound(username);
         Student targetStudent = null;
         for (Student s : this.students) {
@@ -802,8 +789,7 @@ public class MyGradeBook {
      *         grade), and assignment stats. The usernames will be listed
      *         alphabetically.
      */
-    public String outputAssignmentGrades(String assignName)
-        throws NoSuchElementException {
+    public String outputAssignmentGrades(String assignName) {
         assignmentFound(assignName);
         Assignment targetAssignment = null;
         for (Assignment a : this.assignments) {
