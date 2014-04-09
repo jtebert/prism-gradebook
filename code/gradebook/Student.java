@@ -127,4 +127,33 @@ class Student {
         return firstName + " " + lastName + " (" + username + "), " + gradYear +
             "\n\tAdvisor: " + advisor;
     }
+    
+    /**
+     * Override the equals method
+     * @param o Object to check if equal to the Assignment
+     * @return whether or not they are equal
+     */
+    public boolean equals(Object o) {
+        if (o instanceof Student) {
+            Student thatStudent = (Student)o;
+            return username.equals(thatStudent.username) &&
+                firstName.equals(thatStudent.firstName) &&
+                lastName.equals(thatStudent.lastName) &&
+                advisor.equals(thatStudent.advisor) &&
+                gradYear == thatStudent.gradYear &&
+                grades.equals(thatStudent.grades);
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
+     * Override the hashCode method
+     * @return hashCode of the Assignment
+     */
+    public int hashCode() {
+        return username.hashCode() * firstName.hashCode() * lastName.hashCode()
+            * advisor.hashCode() * gradYear ^ grades.hashCode();
+    }
 }

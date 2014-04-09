@@ -807,7 +807,7 @@ public class MyGradeBook {
         assignmentFound(assignName);
         Assignment targetAssignment = null;
         for (Assignment a : this.assignments) {
-            if (a.name.equal(assignName)) {
+            if (a.name.equals(assignName)) {
                 targetAssignment = a;
                 break;
             }
@@ -889,5 +889,31 @@ public class MyGradeBook {
             assignmentList.add(assignment.toString());
         }
         return assignmentList;
+    }
+    
+    /**
+     * Override the equals method for MyGradeBook
+     * Must have same students and assignments
+     * @param o Object to compare to the gradebook
+     * @return boolean of whether they are the same
+     */
+    //@SuppressWarnings("unchecked")
+    public boolean equals(Object o) {
+        if (o instanceof MyGradeBook) {
+            MyGradeBook thatGradeBook = (MyGradeBook)o;
+            return assignments.equals(thatGradeBook.assignments) &&
+                students.equals(thatGradeBook.students);
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
+     * Overwrite the hashCode method for MyGradeBook
+     * @return int hashCode of the MyGradeBook
+     */
+    public int hashCode() {
+        return assignments.hashCode() ^ students.hashCode();
     }
 }

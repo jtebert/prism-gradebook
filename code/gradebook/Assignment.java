@@ -49,4 +49,30 @@ class Assignment {
     public String toString() {
         return name + ", " + totalPoints + ", " + percentGrade + "%";
     }
+    
+    /**
+     * Override the equals method
+     * @param o Object to check if equal to the Assignment
+     * @return whether or not they are equal
+     */
+    public boolean equals(Object o) {
+        if (o instanceof Assignment) {
+            Assignment thatAssignment = (Assignment)o;
+            return name.equals(thatAssignment.name) &&
+                totalPoints.equals(thatAssignment.totalPoints) &&
+                percentGrade.equals(thatAssignment.percentGrade);
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
+     * Override the hashCode method
+     * @return hashCode of the Assignment
+     */
+    public int hashCode() {
+        return name.hashCode() * totalPoints.hashCode()
+            ^ percentGrade.hashCode();
+    }
 }
