@@ -734,22 +734,12 @@ public class MyGradeBook {
      *         alphabetically.
      */
     public String outputCurrentGrades() {
-        // Add current grades heading and \n
-        String output = "CURRENT_GRADES\n";
+        // Add current grades heading
+        String output = "CURRENT_GRADES";
         // Get grades with currentGrades()
-        HashMap<String, Double> grades = this.currentGrades();
-        // Add line for each element in hashMap
-        ArrayList<String> names = new ArrayList<String>();
-        for (Assignment a : assignments) {
-            names.add(a.name);
-        }
-        Iterator<String> nameIter = names.iterator();
-        while (nameIter.hasNext()) {
-            String student = nameIter.next();
-            output = output + student + "\t" + grades.get(student);
-            if (nameIter.hasNext()) {
-                output = output + "\n";
-            }
+        for (Student s : students) {
+            output = output + "\n" + s.username + "\t" + 
+                    s.currentGrade(assignments);
         }
         return output;
     }
