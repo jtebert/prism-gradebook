@@ -434,7 +434,7 @@ public class MyGradeBookBlackboxTest extends TestCase {
     /**
      * Test for Method outputCurrentGrades()
      */
-    /*public void testOutputCurrentGrades() {
+    public void testOutputCurrentGrades() {
 
         String test = "CURRENT_GRADES" + "\n" +
                 "as15\t" + mgb1.currentGrade("as15") + "\n" +
@@ -444,7 +444,7 @@ public class MyGradeBookBlackboxTest extends TestCase {
                 "lou.car\t" + mgb1.currentGrade("lou.car");
 
         assertEquals(mgb1.outputCurrentGrades(), test);
-    }*/
+    }
 
     /**
      * Test for Method outputStudentGrades(String)
