@@ -122,12 +122,12 @@ public class PRISM {
         System.out.println("Would you like to save the gradebook before " + 
             "quitting? (Y/N)");
         String confirm = in.nextLine();
-        if (confirm.toLowerCase().equals("y")) {
+        if (confirm.equalsIgnoreCase("y")) {
                 menuOutputGradeBook();
-            }
-            else {
-                System.out.println("Gradebook not saved");
-            }
+        }
+        else {
+            System.out.println("Gradebook not saved");
+        }
         menuOutputGradeBook();
         System.out.println("\nPRISM quitting...\nThank you for using PRISM\n");
     }
@@ -209,7 +209,7 @@ public class PRISM {
     /**
      * Ask for a file name, check if it exists, and call to actually save, if
      * that's what the user wants
-     * @param String String to save to the text file
+     * @param outputString String to save to the text file
      */
     private void outputString(String outputString) {
         String filename = in.nextLine();
@@ -218,7 +218,7 @@ public class PRISM {
             System.out.println("File already exists. " +
                 "Do you want to overwrite it? (Y/N)");
             String confirm = in.nextLine();
-            if (confirm.toLowerCase().equals("y")) {
+            if (confirm.equalsIgnoreCase("y")) {
                 outputToFile(outputString, file);
             }
             else {
