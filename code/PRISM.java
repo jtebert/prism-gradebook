@@ -251,7 +251,7 @@ public class PRISM {
             catch (NumberFormatException e) {
                 System.out.println(
                     "Error: Invalid graduation year. Student not added.");
-                    in.nextLine();
+                in.nextLine();
             }
             catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage()
@@ -284,31 +284,37 @@ public class PRISM {
         String assignmentName = in.nextLine();
         System.out.println(
             "Enter the total points for the assignment:");
-        // TODO : I don't know if this is valid.
         if (in.hasNextLine()) {
             try {
                 double totalPoints = Double.parseDouble(in.next());
                 in.nextLine();
-                System.out.println("Enter the percent of the total grade " +
-                    "this assignment counts for:");
-                if (in.hasNextLine()) {
-                    try {
-                        double percentGrade = Double.parseDouble(in.next());
-                        in.nextLine();
-                        if (0 <= percentGrade && percentGrade <= 100) {
-                            gradebook.addAssignment(assignmentName,
-                                totalPoints, percentGrade);
-                            System.out.println("Assignment added to grade book");
+                if (totalPoints >= 0) {
+                    System.out.println("Enter the percent of the total grade " +
+                        "this assignment counts for:");
+                    if (in.hasNextLine()) {
+                        try {
+                            double percentGrade = Double.parseDouble(in.next());
+                            in.nextLine();
+                            if (0 <= percentGrade && percentGrade <= 100) {
+                                gradebook.addAssignment(assignmentName,
+                                    totalPoints, percentGrade);
+                                System.out.println(
+                                    "Assignment added to grade book");
+                            }
+                            else {
+                                throw new NumberFormatException(
+                                    "Invalid percent");
+                            }
                         }
-                        else {
-                            throw new NumberFormatException("Invalid percent");
+                        catch (NumberFormatException e) {
+                            System.out.println(
+                                "Error: Percent must be 0-100. " + 
+                                "Assignment not added.");
                         }
                     }
-                    catch (NumberFormatException e) {
-                        System.out.println(
-                            "Error: Percent must be 0-100. " + 
-                            "Assignment not added.");
-                    }
+                }
+                else {
+                    throw new NumberFormatException("Invalid point total");
                 }
             }
             catch (NumberFormatException e) {
@@ -386,25 +392,6 @@ public class PRISM {
         catch (IllegalArgumentException e) {
             System.out.println("Error: File contents conflict with existing " +
                 "grade book contents");
-        }
-    }
-    
-    /**
-     * Add grades for an assignment for multiple students from a file based on
-     * user input
-     */
-    private void menuAddAssignmentGrades() {
-        System.out.println("Enter the location and name of the file from " +
-            "which to add student's grades:");
-        String filename = in.nextLine();
-        try {
-            gradebook.processFile(filename);
-            System.out.println("Grades added to grade book");
-        }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            // or file not in right format. (Different type of error?)
-            System.out.println("Error: File not found");
         }
     }
     
