@@ -152,8 +152,31 @@ public class MyGradeBookBlackboxTest extends TestCase {
      */
     public void testRemoveStudent() {
 
-        //TODO I Don't think there is a way to really test this in Black Box Style
-
+        MyGradeBook temp1 = MyGradeBook.initialize();
+        temp1.addStudent("as15",
+                "Astrid",
+                "Scarlett",
+                "Phyllis",
+                2015);
+        temp1.addStudent("cd14",
+                "Caseo",
+                "Dent",
+                "Norphyllis",
+                2014);
+        MyGradeBook temp2 = MyGradeBook.initialize();
+        temp2.addStudent("as15",
+                "Astrid",
+                "Scarlett",
+                "Phyllis",
+                2015);
+        temp2.addStudent("cd14",
+                "Caseo",
+                "Dent",
+                "Norphyllis",
+                2014);
+        assertTrue(temp1.equals(temp2));
+        temp1.removeStudent("cd14");
+        assertFalse(temp1.equals(temp2));
     }
 
     /**
@@ -184,9 +207,15 @@ public class MyGradeBookBlackboxTest extends TestCase {
      * Test for Method removeAssignment(Assignment)
      */
     public void testRemoveAssignment() {
-
-        //TODO I Don't think there is a way to really test this in Black Box Style
-
+        MyGradeBook temp1 = MyGradeBook.initialize();
+        temp1.addAssignment("Quiz 1", 30.0, 6.0);
+        temp1.addAssignment("Quiz 2", 20.0, 6.0);
+        MyGradeBook temp2 = MyGradeBook.initialize();
+        temp2.addAssignment("Quiz 1", 30.0, 6.0);
+        temp2.addAssignment("Quiz 2", 20.0, 6.0);
+        assertTrue(temp1.equals(temp2));
+        temp1.removeAssignment("Quiz 1");
+        assertFalse(temp1.equals(temp2));
     }
 
     /**
