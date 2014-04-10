@@ -74,7 +74,7 @@ public class MyGradeBook {
         try {
             ret = (new Scanner(f)).useDelimiter("\\Z").next();
         }
-        catch (Exception e) {
+        catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
 
