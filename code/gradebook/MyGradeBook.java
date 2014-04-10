@@ -191,8 +191,8 @@ public class MyGradeBook {
             // ID, Assignment Name, newGrade
             for (int a = 0; a < numAssignments; a++) {
                 ret.changeGrade(
-                    studentUsername,
                     assignmentNames.get(a),
+                    studentUsername,
                     Double.parseDouble(studentInfo.get(a + 5))
                 );
             }
