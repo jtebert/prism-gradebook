@@ -57,14 +57,28 @@ public class MyGradeBook {
         File f = new File(filename);
         // Check if the file exists
         if (!f.exists() ) {
-            throw new FileNotFoundException(filename + " not found");
+            // TODO: Find out if we can do better than returning
+            //  a null String
+            //throw new FileNotFoundException(filename + " not found");
+            return null;
         }
         // Check if the file is readable
         if ( !f.canRead() ) {
-            throw new IOException(filename + " cannot be read");
+            // TODO: Find out if we can do better than returning
+            //  a null String
+            //throw new IOException(filename + " cannot be read");
+            return null;
         }
 
-        return (new Scanner(f)).useDelimiter("\\Z").next();
+        String ret = "";
+        try {
+            ret = (new Scanner(f)).useDelimiter("\\Z").next();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return ret;
     }
 
     /**
