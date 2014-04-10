@@ -123,7 +123,7 @@ public class PRISM {
             "quitting? (Y/N)");
         String confirm = in.nextLine();
         if (confirm.toLowerCase().equals("y")) {
-                menuOutputGradebook();
+                menuOutputGradeBook();
             }
             else {
                 System.out.println("Gradebook not saved");
