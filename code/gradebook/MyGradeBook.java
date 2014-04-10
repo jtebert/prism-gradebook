@@ -446,11 +446,14 @@ public class MyGradeBook {
      */
     public void removeStudent(String username) {
         studentFound(username);
-        for (Student student : students) {
-            if (student.username.equals(username)) {
-                students.remove(student);
+        int studentIndex = -1;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).username.equals(username)) {
+                studentIndex = i;
+                break;
             }
         }
+        students.remove(students.get(studentIndex));
     }
     
     /**
