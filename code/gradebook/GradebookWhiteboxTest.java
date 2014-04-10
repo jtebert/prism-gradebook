@@ -219,8 +219,8 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method toString for the Assignment class
      */
     public void testToStringAssignment() {
-        assertEquals(assignment1.toString(), "assignment1, 10.0, 1.0%");
-        assertEquals(assignment2.toString(), "assignment2, 100.0, 5.0%");
+        assertEquals(assignment1.toString(), "assignment1: 10.0, 1.0%");
+        assertEquals(assignment2.toString(), "assignment2: 100.0, 5.0%");
     }
     
     /**

@@ -56,19 +56,19 @@ public class MyGradeBook {
     private static String stringFromFile(String filename) {
         File f = new File(filename);
         // Check if the file exists
-        if (!f.exists() ) {
+        if (!f.exists() || !f.canRead()) {
             // TODO: Find out if we can do better than returning
             //  a null String
             //throw new FileNotFoundException(filename + " not found");
-            return null;
+            return "";
         }
         // Check if the file is readable
-        if ( !f.canRead() ) {
+        /*if ( !f.canRead() ) {
             // TODO: Find out if we can do better than returning
             //  a null String
             //throw new IOException(filename + " cannot be read");
             return null;
-        }
+        }*/
 
         String ret = "";
         try {

@@ -32,31 +32,29 @@ public class PRISM {
         this.running = true;
         menu = new ArrayList<String>(15);
         menu.add("Add student"); // 0
-        menu.add("Add students from file"); // 1
-        menu.add("Remove student"); // 2
-        menu.add("Add assignment"); // 3
-        menu.add("Add assignments from file"); // 4
-        menu.add("Remove assignment"); // 5
-        menu.add("Add or change a grade"); // 6
-        menu.add("Add student grades from file"); // 7
-        menu.add("Add assignment grades from file"); // 8
-        menu.add("View assignment statistics"); // 9
-        menu.add("View student's course grade"); // 10
-        menu.add("View student's assignment grade"); // 11
-        menu.add("View students"); // 12
-        menu.add("View assignments"); // 13
-        menu.add("Output gradebook"); // 14
-        menu.add("Output assignments"); // 15
-        menu.add("Output student's grades"); // 16
-        menu.add("Output course grades"); // 17
-        menu.add("Compare gradebooks"); // 18
-        menu.add("Quit PRISM"); // 19
+        menu.add("Remove student"); // 1
+        menu.add("Add assignment"); // 2
+        menu.add("Remove assignment"); // 3
+        menu.add("Add or change a grade"); // 4
+        menu.add("Add from file (students, assignments, student grades, or " +
+            "assignment grades)"); // 5
+        menu.add("View assignment statistics"); // 6
+        menu.add("View student's course grade"); // 7
+        menu.add("View student's assignment grade"); // 8
+        menu.add("View students"); // 9
+        menu.add("View assignments"); // 10
+        menu.add("Output grade book"); // 11
+        menu.add("Output assignments"); // 12
+        menu.add("Output student's grades"); // 13
+        menu.add("Output course grades"); // 14
+        menu.add("Compare grade books"); // 15
+        menu.add("Quit PRISM"); // 16
     }
     
     /**
-     * Runs the console user interface for the PRISM gradebook.
-     * @param args Specifies starting file used to initialize the gradebook.
-     * if no file is specified, the program will start a new gradebook.
+     * Runs the console user interface for the PRISM grade book.
+     * @param args Specifies starting file used to initialize the grade book.
+     * if no file is specified, the program will start a new grade book.
      */
     public static void main(String[] args) {
        // Print welcome message
@@ -73,11 +71,11 @@ public class PRISM {
             MyGradeBook newGradebook;
             if (args.length >= 1) {
                 newGradebook = MyGradeBook.initializeWithFile(args[0]);
-                System.out.println("Loaded gradebook from " + args[0] + "\n");
+                System.out.println("Loaded grade book from " + args[0] + "\n");
             }
             else {
                 newGradebook = MyGradeBook.initialize();
-                System.out.println("Empty gradebook created\n");
+                System.out.println("Empty grade book created\n");
             }
             PRISM prism = new PRISM(newGradebook);
             prism.runPRISM();
@@ -119,16 +117,15 @@ public class PRISM {
                 in.nextLine();
             }
         }
-        System.out.println("Would you like to save the gradebook before " + 
+        System.out.println("Would you like to save the grade book before " + 
             "quitting? (Y/N)");
         String confirm = in.nextLine();
         if (confirm.equalsIgnoreCase("y")) {
-                menuOutputGradeBook();
+            menuOutputGradeBook();
         }
         else {
             System.out.println("Gradebook not saved");
         }
-        menuOutputGradeBook();
         System.out.println("\nPRISM quitting...\nThank you for using PRISM\n");
     }
     
@@ -249,54 +246,38 @@ public class PRISM {
                 in.nextLine();
                 gradebook.addStudent(username, firstName, lastName,
                     advisor, gradYear);
-                System.out.println("Student added to gradebook");
+                System.out.println("Student added to grade book");
             }
             catch (NumberFormatException e) {
                 System.out.println(
                     "Error: Invalid graduation year. Student not added.");
+                    in.nextLine();
             }
             catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage()
                     + ". Student not added.");
+                in.nextLine();
             }
         }
     }
     
     /**
-     * Add students from a file based on user input
-     */
-    private void menuAddStudents() {
-        System.out.println("Enter the name of the file from which to" +
-            " add students:");
-        String filename = in.nextLine();
-        try {
-            gradebook.processFile(filename);
-            System.out.println("Students added to gradebook");
-        }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            // or file not in right format. (Different type of error?)
-            System.out.println("Error: File not found");
-        }
-    }
-    
-    /**
-     * Remove a student from the gradebookS based on user input
+     * Remove a student from the grade book based on user input
      */
     private void menuRemoveStudent() {
         System.out.println("Enter the username of the student to remove:");
         String username = in.nextLine();
         try {
             gradebook.removeStudent(username);
-            System.out.println("Student removed from gradebook");
+            System.out.println("Student removed from grade book");
         }
         catch (NoSuchElementException e) {
-            System.out.println("Error: Student not in Gradebook");
+            System.out.println("Error: Student not in grade book");
         }
     }
     
     /**
-     * Add an assignment to the gradebook based on user input
+     * Add an assignment to the grade book based on user input
      */
     private void menuAddAssignment() {
         System.out.println("Enter the name of the assignment to add:");
@@ -317,7 +298,7 @@ public class PRISM {
                         if (0 <= percentGrade && percentGrade <= 100) {
                             gradebook.addAssignment(assignmentName,
                                 totalPoints, percentGrade);
-                            System.out.println("Assignment added to gradebook");
+                            System.out.println("Assignment added to grade book");
                         }
                         else {
                             throw new NumberFormatException("Invalid percent");
@@ -338,36 +319,17 @@ public class PRISM {
     }
     
     /**
-     * Add assignments from a file based on user input
-     */
-    private void menuAddAssignments() {
-        System.out.println("Enter the name of the file from which to" +
-            " add assignments:");
-        String filename = in.nextLine();
-        try {
-            gradebook.processFile(filename);
-            System.out.println("Assignments added to gradebook");
-        }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            // or file not in right format. (Different type of error?)
-            System.out.println("Error: File not found");
-        }
-    }
-    
-    /**
-     * Remove an assignment from the gradebookS based on user input
+     * Remove an assignment from the grade book based on user input
      */
     private void menuRemoveAssignment() {
         System.out.println("Enter the name of the assignment to remove:");
         String assignment = in.nextLine();
         try {
-            // TODO : add back when method implemented
             gradebook.removeAssignment(assignment);
-            System.out.println("Assignments removed from gradebook");
+            System.out.println("Assignments removed from grade book");
         }
         catch (NoSuchElementException e) {
-            System.out.println("Error: Assignment not in Gradebook");
+            System.out.println("Error: Assignment not in grade book");
         }
     }
     
@@ -403,22 +365,27 @@ public class PRISM {
             }
         }
     }
-    
+        
     /**
-     * Add grades for a student from a file based on user input
+     * Add students, assignments, student grades, or assignment grades to the
+     * grade book based on user input of file
+     * (type automatically detected and added appropriately)
      */
-    private void menuAddStudentGrades() {
-        System.out.println("Enter the name of the file from which to" +
-            " add student's grades:");
+    private void menuAddFromFile() {
+        System.out.println("Enter the location and name of the file from" +
+            " which to add contents:\n" +
+            "(the type of contents will be automatically detected)");
         String filename = in.nextLine();
         try {
             gradebook.processFile(filename);
-            System.out.println("Grades added to gradebook");
+            System.out.println("File contents added to grade book");
         }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            // or file not in right format. (Different type of error?)
-            System.out.println("Error: File not found");
+        catch (UnsupportedOperationException e) {
+            System.out.println("Error: Invalid or nonexistent file");
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("Error: File contents conflict with existing " +
+                "grade book contents");
         }
     }
     
@@ -427,12 +394,12 @@ public class PRISM {
      * user input
      */
     private void menuAddAssignmentGrades() {
-        System.out.println("Enter the name of the file from which to" +
-            " add student's grades:");
+        System.out.println("Enter the location and name of the file from " +
+            "which to add student's grades:");
         String filename = in.nextLine();
         try {
             gradebook.processFile(filename);
-            System.out.println("Grades added to gradebook");
+            System.out.println("Grades added to grade book");
         }
         catch (Exception e) {
             // TODO : Adjust to catch the correct type of error
@@ -507,8 +474,8 @@ public class PRISM {
      */
     private void menuOutputGradeBook() {
         String outputString = gradebook.outputGradebook();
-        System.out.println("Enter the name of the file for the gradebook " +
-            "output:");
+        System.out.println("Enter the location and name of the file for the " +
+            "grade book output:");
         outputString(outputString);
     }
     
@@ -522,8 +489,8 @@ public class PRISM {
         try {
             String outputString =
                 gradebook.outputAssignmentGrades(assignmentName);
-            System.out.println("Enter the name of the file for the assignment" +
-                "grade output:");
+            System.out.println("Enter the location and name of the file for " +
+                "the assignment grade output:");
             outputString(outputString);
         }
         catch (NoSuchElementException e) {
@@ -540,8 +507,8 @@ public class PRISM {
         String username = in.nextLine();
         try {
             String outputString = gradebook.outputStudentGrades(username);
-            System.out.println("Enter the name of the file for the student " +
-                "grade output:");
+            System.out.println("Enter the location and name of the file for " +
+                "the student grade output:");
             outputString(outputString);
         }
         catch (NoSuchElementException e) {
@@ -554,27 +521,27 @@ public class PRISM {
      */
     private void menuOutputCourseGrades() {
         String outputString = gradebook.outputCurrentGrades();
-        System.out.println("Enter the name of the file for the course grade " +
-            "output:");
+        System.out.println("Enter the location and name of the file for the " +
+            "course grade output:");
         outputString(outputString);
     }
     
     /**
-     * Check whether 2 gradebooks are the same, based on user input
+     * Check whether 2 grade books are the same, based on user input
      */
     private void menuCompareGradeBooks() {
         System.out.println("Enter the filename of the Gradebook to " +
-            "check if the same as this gradebook:");
+            "check if the same as this grade book:");
         String filename = in.nextLine();
         try {
             MyGradeBook otherGradeBook =
                 MyGradeBook.initializeWithFile(filename);
             boolean equality = gradebook.equals(otherGradeBook);
             if (equality) {
-                System.out.println("Gradebooks are the same");
+                System.out.println("Grade books are the same");
             }
             else {
-                System.out.println("Gradebooks are not the same");
+                System.out.println("Grade books are not the same");
             }
         }
         catch (Exception e) {
@@ -593,61 +560,52 @@ public class PRISM {
             case 0: // Add student
                 menuAddStudent();
                 break;
-            case 1: // Add students from file
-                menuAddStudents();
-                break;
-            case 2: // Remove student
+            case 1: // Remove student
                 menuRemoveStudent();
                 break;
-            case 3: // Add assignment
+            case 2: // Add assignment
                 menuAddAssignment();
                 break;
-            case 4: // Add assignments from file
-                menuAddAssignments();
-                break;
-            case 5: // Remove assignment
+            case 3: // Remove assignment
                 menuRemoveAssignment();
                 break;
-            case 6: // Add/change grade
+            case 4: // Add/change grade
                 menuAddGrade();
                 break;
-            case 7: // Add student grades from file
-                menuAddStudentGrades();
+            case 5: // Add from file
+                menuAddFromFile();
                 break;
-            case 8: // Add assignment grades from file
-                menuAddAssignmentGrades();
-                break;
-            case 9: // View assignment statistics
+            case 6: // View assignment statistics
                 menuAssignmentStats();
                 break;
-            case 10: // View student's course grade
+            case 7: // View student's course grade
                 menuStudentCourseGrade();
                 break;
-            case 11: // View student's assignment grade
+            case 8: // View student's assignment grade
                 menuStudentAssignmentGrade();
                 break;
-            case 12: // View students
+            case 9: // View students
                 printList(gradebook.listStudents());
                 break;
-            case 13: // View assignments
+            case 10: // View assignments
                 printList(gradebook.listAssignments());
                 break;
-            case 14: // Output gradebook
+            case 11: // Output gradebook
                 menuOutputGradeBook();
                 break;
-            case 15: // Output assignments
+            case 12: // Output assignments
                 menuOutputAssginments();
                 break;
-            case 16: // Output student's grades
+            case 13: // Output student's grades
                 menuOutputStudentGrades();
                 break;
-            case 17: // Output course grades
+            case 14: // Output course grades
                 menuOutputCourseGrades();
                 break;
-            case 18: // Compare gradebooks
+            case 15: // Compare gradebooks
                 menuCompareGradeBooks();
                 break;
-            case 19: // Quit PRISM
+            case 16: // Quit PRISM
                 running = false;
                 break;
             default: // throw exception?
