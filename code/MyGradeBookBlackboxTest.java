@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 import junit.framework.TestCase;
 import gradebook.MyGradeBook;
@@ -252,6 +253,8 @@ public class MyGradeBookBlackboxTest extends TestCase {
         assertTrue(Math.abs(mgb1.currentGrade("FBluver") - 100.0) < .01);
         assertTrue(Math.abs(mgb1.currentGrade("hgwrtz98") - 68.43) < .01);
 
+        assertFalse(mgb1.changeGrade("Test 24", "as15", 50.0));
+        assertFalse(mgb1.changeGrade("Test 2", "as151", 50.0));
 
         /**
          * Average Tests
@@ -291,6 +294,10 @@ public class MyGradeBookBlackboxTest extends TestCase {
         assertEquals(mgb1.min("Test 1"), 0.0);
         assertEquals(mgb1.min("Test 2"), 34.0);
         assertEquals(mgb1.min("Test 3"), 0.0);
+        
+        MyGradeBook testMin = MyGradeBook.initialize();
+        testMin.addAssignment("testMin", 40.0, 5.0);
+        assertEquals(testMin.min("testMin"), 0.0);
 
         try {
             mgb1.min("Test 15");
@@ -311,6 +318,10 @@ public class MyGradeBookBlackboxTest extends TestCase {
         assertEquals(mgb1.max("Test 1"), 100.0);
         assertEquals(mgb1.max("Test 2"), 100.0);
         assertEquals(mgb1.max("Test 3"), 100.0);
+
+        MyGradeBook testMax = MyGradeBook.initialize();
+        testMax.addAssignment("testMax", 40.0, 5.0);
+        assertEquals(testMax.max("testMax"), 0.0);
 
         try {
             mgb1.max("Test 15");
@@ -813,6 +824,39 @@ public class MyGradeBookBlackboxTest extends TestCase {
         
         assertEquals(test, mgb1.outputGradebook());    
         
+    }
+    
+    /**
+     * Test the Method listStudents
+     */
+    public void testListStudents() {
+        ArrayList<String> studentStrings = mgb1.listStudents();
+        assertEquals(studentStrings.get(0), 
+                "Astrid Scarlett (as15), 2015\n\tAdvisor: Phyllis");
+        assertEquals(studentStrings.get(1), 
+                "Caseo Dent (cd14), 2014\n\tAdvisor: Norphyllis");
+        assertEquals(studentStrings.get(2), 
+                "Norwood Bilder (FBluver), 2015\n\tAdvisor: Tim Snoo Roman");
+        assertEquals(studentStrings.get(3), 
+                "Abby Granger (hgwrtz98), 1999\n\tAdvisor: Comi Scans");
+        assertEquals(studentStrings.get(4), 
+                "Louis Carb (lou.car), 2014\n\tAdvisor: Comi Scans");
+    }
+    
+    /**
+     * Test the Method listAssignments
+     */
+    public void testListAssignments() {
+        ArrayList<String> assignmentStrings = mgb1.listAssignments();
+        assertEquals(assignmentStrings.get(0), "Quiz 1, 30.0, 6.0%");
+        assertEquals(assignmentStrings.get(1), "Quiz 2, 20.0, 6.0%");
+        assertEquals(assignmentStrings.get(2), "Quiz 3, 10.0, 6.0%");
+        assertEquals(assignmentStrings.get(3), "Quiz 4, 15.0, 6.0%");
+        assertEquals(assignmentStrings.get(4), "Assignment 1, 34.0, 8.0%");
+        assertEquals(assignmentStrings.get(5), "Assignment 2, 23.0, 8.0%");
+        assertEquals(assignmentStrings.get(6), "Test 1, 100.0, 20.0%");
+        assertEquals(assignmentStrings.get(7), "Test 2, 100.0, 20.0%");
+        assertEquals(assignmentStrings.get(8), "Test 3, 100.0, 20.0%");
     }
 
     /**
