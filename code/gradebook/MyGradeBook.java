@@ -56,18 +56,8 @@ public class MyGradeBook {
         File f = new File(filename);
         // Check if the file exists
         if (!f.exists() || !f.canRead()) {
-            // TODO: Find out if we can do better than returning
-            //  a null String
-            //throw new FileNotFoundException(filename + " not found");
             return "";
         }
-        // Check if the file is readable
-        /*if ( !f.canRead() ) {
-            // TODO: Find out if we can do better than returning
-            //  a null String
-            //throw new IOException(filename + " cannot be read");
-            return null;
-        }*/
 
         String ret = "";
         try {
@@ -92,17 +82,7 @@ public class MyGradeBook {
     public static MyGradeBook initializeWithFile(String filename) {
         // Get the file string
         String fileString = "";
-        //try {
         fileString = MyGradeBook.stringFromFile(filename);
-        /*}
-        catch(FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println(e.getMessage());
-        }*/
-        // I don't think it makes sense to catch the errors here. You still want
-        // them to occur. I think the UI should be responsible for the catch
 
         // Return a new gradebook based on the string
         return MyGradeBook.initializeWithString(fileString);
@@ -135,9 +115,6 @@ public class MyGradeBook {
                 "Contents are not valid GradeBook format");
         }
         
-        // TODO : What if header is correct but contents are not properly
-        // formatted?
-
         // The second line contains the assignment names
         ArrayList<String> assignmentNames =
             new ArrayList<String>(Arrays.asList(lines.get(1).split("\t")));
@@ -219,17 +196,8 @@ public class MyGradeBook {
     public void processFile(String filename) {
         // Get the file string
         String fileString = "";
-        //try {
         fileString = MyGradeBook.stringFromFile(filename);
-        /*}
-        catch(FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println(e.getMessage());
-        }*/
-        // TODO : I don't think exceptions should be caught here? (JE)
-
+        
         // Update the gradebook based on the string
         this.processString(fileString);
     }
@@ -420,8 +388,6 @@ public class MyGradeBook {
         assignments.add(newAssignment);
         for (Student student : students) {
             student.grades.put(newAssignment.name, new Double(0));
-            // TODO : Find some way to put this in the correct order?
-            // Do hashMaps have explicit order?
         }
     }
     
@@ -663,14 +629,13 @@ public class MyGradeBook {
      *         times the percent of semester.
      */
     public double currentGrade(String username) {
-        this.studentFound(username);
         // Find the Student in the ArrayList
         for (Student s : this.students) {
             if (s.username.equals(username)) {
                 return s.currentGrade(assignments);
             }
         }
-        throw new NoSuchElementException("Student now found");
+        throw new NoSuchElementException("Student not found");
     }
 
     /**

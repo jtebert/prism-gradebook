@@ -20,3 +20,6 @@ if [ -e gradebook/MyGradeBook.class ]
     else
         echo "Compiling failed."
 fi
+
+rm sources.txt
+rm old_class.txt

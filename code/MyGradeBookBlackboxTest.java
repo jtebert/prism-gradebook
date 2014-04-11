@@ -20,17 +20,11 @@ public class MyGradeBookBlackboxTest extends TestCase {
      * Type Declaration For Example Variables
      */
     private MyGradeBook mgb1;
-
     private MyGradeBook mgb2;
-
     private MyGradeBook mgb3;
-
     private MyGradeBook mgb4;
-
     private MyGradeBook mgb5;
-    //TODO
-    private String exampleFile = "exampleFile.txt";
-    //TODO
+    private String exampleFile = "exampleData/exampleFile.txt";
     private String exampleString = "GRADEBOOK\n\t\t\t\t" +
             "\t" + "Quiz 1" +
             "\t" + "Quiz 2" +
@@ -135,15 +129,16 @@ public class MyGradeBookBlackboxTest extends TestCase {
     private String exampleGradesForAssignment = "GRADES_FOR_ASSIGNMENT\nQuiz 1"
             + "\ncd14\n20.0\nhgwrtz98\n12.0";
 
-    private String exampleAssignmentFile = "exampleAssignmentFile.txt";
+    private String exampleAssignmentFile =
+        "exampleData/exampleAssignmentFile.txt";
 
-    private String exampleStudentFile = "exampleStudentFile.txt";
+    private String exampleStudentFile = "exampleData/exampleStudentFile.txt";
 
     private String exampleGradesForStudentFile = 
-            "exampleGradesForStudentFile.txt";
+            "exampleData/exampleGradesForStudentFile.txt";
 
     private String exampleGradesForAssignmentFile =
-            "exampleGradesForAssignmentFile.txt";
+            "exampleData/exampleGradesForAssignmentFile.txt";
 
 
 
@@ -4028,21 +4023,23 @@ public class MyGradeBookBlackboxTest extends TestCase {
      */
 
     public void testProcessMethods() {
-        String exampleErrorFile = "exampleErrorFile";
+        String exampleErrorFile = "exampleData/exampleErrorFile.txt";
         String exampleErrorString = "asdfgh\n";
 
         try {
             mgb4.processFile(exampleErrorFile);
             fail();
-        } catch (UnsupportedOperationException e) {
-            assertEquals("Invalid file header  ",
+        }
+        catch (UnsupportedOperationException e) {
+            assertEquals("Invalid file header  asdfgh",
                     e.getMessage());
         }
         
         try {
             mgb5.processString(exampleErrorString);
             fail();
-        } catch (UnsupportedOperationException e) {
+        }
+        catch (UnsupportedOperationException e) {
             assertEquals("Invalid file header  asdfgh",
                     e.getMessage());
         }

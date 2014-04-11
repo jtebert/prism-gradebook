@@ -64,10 +64,8 @@ public class PRISM {
             "| /  \\                                                      |\n" +
             "|/____\\ Portfolio of Records for Instructors' Student Marks |\n" +
             "+-----------------------------------------------------------+\n");
-        // TODO : Add back in try/catch once everything is working
         try {
             // Load file or start new Gradebook (depending on arguments)
-            // (loading and invalid/nonexistent file handled by initialize)
             MyGradeBook newGradebook;
             if (args.length >= 1) {
                 newGradebook = MyGradeBook.initializeWithFile(args[0]);
@@ -80,10 +78,6 @@ public class PRISM {
             PRISM prism = new PRISM(newGradebook);
             prism.runPRISM();
         }
-        /*catch (IOException e) {
-            // File not found
-            System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
-        }*/
         catch (UnsupportedOperationException e) {
             // Invalid contents format
             System.out.println("Error: " + e.getMessage() + "\nPRISM quitting");
@@ -451,7 +445,6 @@ public class PRISM {
                 username + ": " + assignmentGrade);
         }
         catch (NoSuchElementException e) {
-            // TODO : Adjust to catch the correct type of error
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -532,10 +525,8 @@ public class PRISM {
                 System.out.println("Grade books are not the same");
             }
         }
-        catch (Exception e) {
-            // TODO : Adjust to catch the correct type of error
-            System.out.println("Error: Student/assignment combination" +
-                " does not exist");
+        catch (UnsupportedOperationException e) {
+            System.out.println("Error: Invalid grade book for comparison");
         }
     }
     
