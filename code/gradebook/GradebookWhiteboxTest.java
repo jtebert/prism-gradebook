@@ -19,16 +19,6 @@ public class GradebookWhiteboxTest extends TestCase {
 
     /** instance of username comparator */
     private ByUsername comp;
-    /** grades for student1 */
-    private HashMap<String, Double> grades1;
-    /** grades for student2 */
-    private HashMap<String, Double> grades2;
-    /** grades for student3 */
-    private HashMap<String, Double> grades3;
-    /** grades for student4 */
-    private HashMap<String, Double> grades4;
-    /** grades for student5 */
-    private HashMap<String, Double> grades5;
     /** instance of student */
     private Student student1;
     /** instance of student */
@@ -63,31 +53,31 @@ public class GradebookWhiteboxTest extends TestCase {
     @Before
     public void setUp() {
         comp = new ByUsername();
-        grades1 = new HashMap<String, Double>();
+        HashMap<String, Double> grades1 = new HashMap<String, Double>();
+        HashMap<String, Double> grades2 = new HashMap<String, Double>();
+        HashMap<String, Double> grades3 = new HashMap<String, Double>();
+        HashMap<String, Double> grades4 = new HashMap<String, Double>();
+        HashMap<String, Double> grades5 = new HashMap<String, Double>();
         grades1.put("assignment1", new Double(8));
         grades1.put("assignment2", new Double(71));
         grades1.put("assignment3", new Double(82));
         grades1.put("assignment4", new Double(65));
         grades1.put("assignment5", new Double(20));
-        grades2 = new HashMap<String, Double>();
         grades2.put("assignment1", new Double(6));
         grades2.put("assignment2", new Double(90));
         grades2.put("assignment3", new Double(92));
         grades2.put("assignment4", new Double(88));
         grades2.put("assignment5", new Double(45));
-        grades3 = new HashMap<String, Double>();
         grades3.put("assignment1", new Double(8));
         grades3.put("assignment2", new Double(79));
         grades3.put("assignment3", new Double(122));
         grades3.put("assignment4", new Double(85));
         grades3.put("assignment5", new Double(37));
-        grades4 = new HashMap<String, Double>();
         grades4.put("assignment1", new Double(8));
         grades4.put("assignment2", new Double(85));
         grades4.put("assignment3", new Double(146));
         grades4.put("assignment4", new Double(57));
         grades4.put("assignment5", new Double(46));
-        grades5 = new HashMap<String, Double>();
         grades5.put("assignment1", new Double(5));
         grades5.put("assignment2", new Double(74));
         grades5.put("assignment3", new Double(100));
@@ -249,6 +239,30 @@ public class GradebookWhiteboxTest extends TestCase {
         assertEquals(assignment1.toString(), "assignment1: 10.0, 1.0%");
         assertEquals(assignment2.toString(), "assignment2: 100.0, 5.0%");
     }
+    
+    /**
+     * test the method equals for the Assignment class
+     */
+     public void testEqualsAssignment() {
+         assertFalse(assignment3.equals(assignment4));
+         assertFalse(assignment4.equals(assignment5));
+         Assignment testAssignment1 = Assignment.newAssignment("assignment1", new Double(10), new Double(1));
+         Assignment testAssignment2 = Assignment.newAssignment("assignment2", new Double(100), new Double(5));
+         assertTrue(testAssignment1.equals(assignment1));
+         assertTrue(testAssignment2.equals(assignment2));
+     }
+    
+     /**
+      * test the method hashCode for the Assignment class
+      */ 
+     public void testHashCodeAssignment() {
+         Assignment testAssignment1 = Assignment.newAssignment("assignment1",
+                 new Double(10), new Double(1));
+         Assignment testAssignment2 = Assignment.newAssignment("assignment2",
+                 new Double(100), new Double(5));
+         assertSame(testAssignment1.hashCode(), assignment1.hashCode());
+         assertSame(testAssignment2.hashCode(), assignment2.hashCode());
+     }
     
     /**
      * test the method compare for the ByUsername class
