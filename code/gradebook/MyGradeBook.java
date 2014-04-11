@@ -577,7 +577,10 @@ public class MyGradeBook {
         Collections.sort(grades);
         // Find the median of ArrayList
         int gradesCount = grades.size();
-        if (gradesCount % 2 == 0) {
+        if (gradesCount == 0) {
+            return 0;
+        }
+        else if (gradesCount % 2 == 0) {
             return (grades.get((gradesCount - 1) / 2) +
                 grades.get(gradesCount / 2)) / 2;
         }
