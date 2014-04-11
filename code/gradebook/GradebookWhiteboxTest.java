@@ -205,6 +205,33 @@ public class GradebookWhiteboxTest extends TestCase {
     }
     
     /**
+     * test the method equals for the Student class
+     */
+    public void testEqualsStudent() {
+        assertTrue(student1.equals(student1));
+        assertFalse(student1.equals(student2));
+        Student testStudent = Student.newStudent("enwilson", "Aiden",
+                "Wilson", "Nelson", 2014);
+        Student testStudent2 = Student.newStudent("enwilson", "Biden",
+                "Wilson", "Nelson", 2014);
+        Student testStudent3 = Student.newStudent("enwilson", "Biden",
+                "Wilson", "Nelson", 2014);
+        assertFalse(testStudent.equals(testStudent2));
+        assertTrue(testStudent2.equals(testStudent3));
+    }
+    
+    /**
+     * test the method hashCode for the Student class
+     */
+    public void testHashCodeStudent() {
+        Student testStudent2 = Student.newStudent("enwilson", "Biden",
+                "Wilson", "Nelson", 2014);
+        Student testStudent3 = Student.newStudent("enwilson", "Biden",
+                "Wilson", "Nelson", 2014);
+        assertSame(testStudent2.hashCode(), testStudent3.hashCode());
+    }
+    
+    /**
      * test the method newAssignment for the Assignment class
      */
     public void testNewAssignmentAssignment() {
@@ -219,8 +246,8 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method toString for the Assignment class
      */
     public void testToStringAssignment() {
-        assertEquals(assignment1.toString(), "assignment1: 10.0, 1.0%");
-        assertEquals(assignment2.toString(), "assignment2: 100.0, 5.0%");
+        assertEquals(assignment1.toString(), "assignment1, 10.0, 1.0%");
+        assertEquals(assignment2.toString(), "assignment2, 100.0, 5.0%");
     }
     
     /**
