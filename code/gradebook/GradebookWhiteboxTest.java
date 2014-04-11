@@ -228,7 +228,7 @@ public class GradebookWhiteboxTest extends TestCase {
                 "Wilson", "Nelson", 2014);
         Student testStudent3 = Student.newStudent("enwilson", "Biden",
                 "Wilson", "Nelson", 2014);
-        assertSame(testStudent2.hashCode(), testStudent3.hashCode());
+        assertEquals(testStudent2.hashCode(), testStudent3.hashCode());
     }
     
     /**
@@ -246,8 +246,8 @@ public class GradebookWhiteboxTest extends TestCase {
      * test the method toString for the Assignment class
      */
     public void testToStringAssignment() {
-        assertEquals(assignment1.toString(), "assignment1, 10.0, 1.0%");
-        assertEquals(assignment2.toString(), "assignment2, 100.0, 5.0%");
+        assertEquals(assignment1.toString(), "assignment1: 10.0, 1.0%");
+        assertEquals(assignment2.toString(), "assignment2: 100.0, 5.0%");
     }
     
     /**

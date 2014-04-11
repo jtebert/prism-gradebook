@@ -848,15 +848,15 @@ public class MyGradeBookBlackboxTest extends TestCase {
      */
     public void testListAssignments() {
         ArrayList<String> assignmentStrings = mgb1.listAssignments();
-        assertEquals(assignmentStrings.get(0), "Quiz 1, 30.0, 6.0%");
-        assertEquals(assignmentStrings.get(1), "Quiz 2, 20.0, 6.0%");
-        assertEquals(assignmentStrings.get(2), "Quiz 3, 10.0, 6.0%");
-        assertEquals(assignmentStrings.get(3), "Quiz 4, 15.0, 6.0%");
-        assertEquals(assignmentStrings.get(4), "Assignment 1, 34.0, 8.0%");
-        assertEquals(assignmentStrings.get(5), "Assignment 2, 23.0, 8.0%");
-        assertEquals(assignmentStrings.get(6), "Test 1, 100.0, 20.0%");
-        assertEquals(assignmentStrings.get(7), "Test 2, 100.0, 20.0%");
-        assertEquals(assignmentStrings.get(8), "Test 3, 100.0, 20.0%");
+        assertEquals(assignmentStrings.get(0), "Quiz 1: 30.0, 6.0%");
+        assertEquals(assignmentStrings.get(1), "Quiz 2: 20.0, 6.0%");
+        assertEquals(assignmentStrings.get(2), "Quiz 3: 10.0, 6.0%");
+        assertEquals(assignmentStrings.get(3), "Quiz 4: 15.0, 6.0%");
+        assertEquals(assignmentStrings.get(4), "Assignment 1: 34.0, 8.0%");
+        assertEquals(assignmentStrings.get(5), "Assignment 2: 23.0, 8.0%");
+        assertEquals(assignmentStrings.get(6), "Test 1: 100.0, 20.0%");
+        assertEquals(assignmentStrings.get(7), "Test 2: 100.0, 20.0%");
+        assertEquals(assignmentStrings.get(8), "Test 3: 100.0, 20.0%");
     }
 
     /**
