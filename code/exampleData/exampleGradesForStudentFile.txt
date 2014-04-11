@@ -1,0 +1,6 @@
+GRADES_FOR_STUDENT
+FBluver
+Quiz 1
+30.0
+Quiz 2
+20.0
