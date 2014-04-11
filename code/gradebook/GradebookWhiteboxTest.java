@@ -243,27 +243,29 @@ public class GradebookWhiteboxTest extends TestCase {
     /**
      * test the method equals for the Assignment class
      */
-     public void testEqualsAssignment() {
-         assertFalse(assignment3.equals(assignment4));
-         assertFalse(assignment4.equals(assignment5));
-         Assignment testAssignment1 = Assignment.newAssignment("assignment1", new Double(10), new Double(1));
-         Assignment testAssignment2 = Assignment.newAssignment("assignment2", new Double(100), new Double(5));
-         assertTrue(testAssignment1.equals(assignment1));
-         assertTrue(testAssignment2.equals(assignment2));
-     }
-    
-     /**
-      * test the method hashCode for the Assignment class
-      */ 
-     public void testHashCodeAssignment() {
-         Assignment testAssignment1 = Assignment.newAssignment("assignment1",
-                 new Double(10), new Double(1));
-         Assignment testAssignment2 = Assignment.newAssignment("assignment2",
-                 new Double(100), new Double(5));
-         assertEquals(testAssignment1.hashCode(), assignment1.hashCode());
-         assertEquals(testAssignment2.hashCode(), assignment2.hashCode());
-     }
-    
+    public void testEqualsAssignment() {
+        assertFalse(assignment3.equals(assignment4));
+        assertFalse(assignment4.equals(assignment5));
+        Assignment testAssignment1 = Assignment.newAssignment("assignment1", 
+                new Double(10), new Double(1));
+        Assignment testAssignment2 = Assignment.newAssignment("assignment2", 
+                new Double(100), new Double(5));
+        assertTrue(testAssignment1.equals(assignment1));
+        assertTrue(testAssignment2.equals(assignment2));
+    }
+
+    /**
+     * test the method hashCode for the Assignment class
+     */ 
+    public void testHashCodeAssignment() {
+        Assignment testAssignment1 = Assignment.newAssignment("assignment1",
+                new Double(10), new Double(1));
+        Assignment testAssignment2 = Assignment.newAssignment("assignment2",
+                new Double(100), new Double(5));
+        assertEquals(testAssignment1.hashCode(), assignment1.hashCode());
+        assertEquals(testAssignment2.hashCode(), assignment2.hashCode());
+    }
+
     /**
      * test the method compare for the ByUsername class
      */
