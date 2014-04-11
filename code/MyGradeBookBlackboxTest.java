@@ -330,6 +330,38 @@ public class MyGradeBookBlackboxTest extends TestCase {
     }
 
     /**
+     * Test for Method equals(MyGradeBook)
+     */
+    public void testEquals() {
+        assertTrue(MyGradeBook.initialize().equals(MyGradeBook.initialize()));
+
+        MyGradeBook m1 = MyGradeBook.initializeWithFile(exampleFile);
+        MyGradeBook m2 = MyGradeBook.initializeWithFile(exampleFile);
+        assertTrue(m1.equals(m2));
+
+        assertFalse(m1.equals(MyGradeBook.initialize()));
+        assertFalse(m1.equals(new Double(10)));
+    }
+
+    /**
+     * Test for Method hashCode()
+     */
+    public void testHashCode() {
+        assertEquals(
+            MyGradeBook.initialize().hashCode(),
+            MyGradeBook.initialize().hashCode()
+        );
+
+        MyGradeBook m1 = MyGradeBook.initializeWithFile(exampleFile);
+        MyGradeBook m2 = MyGradeBook.initializeWithFile(exampleFile);
+        assertEquals(m1.hashCode(), m2.hashCode());
+
+        Integer m1HashCode = new Integer(MyGradeBook.initialize().hashCode());
+        Integer mgb5HashCode = new Integer(mgb5.hashCode());
+        assertFalse(m1HashCode.equals(mgb5HashCode));
+    }
+
+    /**
      * Test for Method addStudent(String, String, String, String, int)
      */
     public void testAddStudent() {
