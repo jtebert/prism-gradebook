@@ -255,7 +255,7 @@ public class GradebookWhiteboxTest extends TestCase {
      */
     public void testCompareByUsername() {
         assertTrue(comp.compare(student1, student2) < 0);
-        assertTrue(comp.compare(student1, student1) == 0);
+        assertEquals(comp.compare(student1, student1), 0);
         assertTrue(comp.compare(student2, student1) > 0);
     }
     
