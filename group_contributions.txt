@@ -1,0 +1,9 @@
+What we all did:
+
+We set up a git repository for all of us to contribute to. We had a todo document where we divided up individual parts of the assignment.
+
+Each person took primary responsibility for certain aspects of the project as follows, but we also helped out with other aspects as necessary and if someone had more time.  Updating the requirements and design document was also distributed. Everyone had the task of use-testing the UI and trying to break it and find problems. We also met a couple of times as a group (especially at the beginning and end) to make sure that we were all on the same page and pull the pieces together.
+David Akodes: file input and string processing
+Julia Ebert: user interface
+Matthew Taylor: testing
+Jimmy Ly: other methods of MyGradeBook
