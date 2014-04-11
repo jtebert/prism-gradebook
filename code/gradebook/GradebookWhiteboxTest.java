@@ -260,8 +260,8 @@ public class GradebookWhiteboxTest extends TestCase {
                  new Double(10), new Double(1));
          Assignment testAssignment2 = Assignment.newAssignment("assignment2",
                  new Double(100), new Double(5));
-         assertSame(testAssignment1.hashCode(), assignment1.hashCode());
-         assertSame(testAssignment2.hashCode(), assignment2.hashCode());
+         assertEquals(testAssignment1.hashCode(), assignment1.hashCode());
+         assertEquals(testAssignment2.hashCode(), assignment2.hashCode());
      }
     
     /**
