@@ -42,7 +42,7 @@ if [ -e gradebook/MyGradeBook.class ]
         java -cp $CLASSPATH $JUNITMAIN $TEST1
         
         echo "\n**** $TEST2 ****"
-        java $TEST2
+        java $TEST2 $1
     else
         echo "\n---- Compiling failed. ----\n"
 fi

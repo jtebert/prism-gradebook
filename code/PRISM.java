@@ -367,7 +367,8 @@ public class PRISM {
             }
             catch (NumberFormatException e) {
                 System.out.println(
-                    "Error: Invalid graduation year. Student not added.");
+                    "Error: Invalid score. Student not added.");
+                in.nextLine();
             }
         }
     }
