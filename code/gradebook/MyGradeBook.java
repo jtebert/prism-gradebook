@@ -126,7 +126,7 @@ public class MyGradeBook {
             new ArrayList<String>(Arrays.asList(startingString.split("\n")));
         // Delete any "\r" characters that may be presents
         for (int i = 0; i < lines.size(); i++) {
-            lines.set(i, lines.get(i).replace("\r",""));
+            lines.set(i, lines.get(i).replace("\r", ""));
         }
 
         // The first line should just contain the string "GRADEBOOK"
@@ -252,7 +252,7 @@ public class MyGradeBook {
             new ArrayList<String>(Arrays.asList(additionalString.split("\n")));
         // Delete any "\r" characters that may be presents
         for (int i = 0; i < lines.size(); i++) {
-            lines.set(i, lines.get(i).replace("\r",""));
+            lines.set(i, lines.get(i).replace("\r", ""));
         }
 
         // Find out which type of file it is
